@@ -15,6 +15,7 @@ target 'ChannelizeUI' do
    pod 'MaterialComponents'
    pod 'DifferenceKit'
    pod 'AgoraRtcEngine_iOS', '2.9.0'
+   pod 'ChannelizeUI', :git => 'https://github.com/ChannelizeIO/Channelize-iOS-UI-SDK.git'
 
   # Pods for ChannelizeUI
 
