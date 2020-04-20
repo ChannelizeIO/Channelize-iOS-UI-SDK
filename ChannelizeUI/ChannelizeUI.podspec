@@ -17,5 +17,4 @@ Pod::Spec.new do |spec|
   spec.dependency "SDWebImageFLPlugin"
   spec.dependency "MaterialComponents"
   spec.dependency "DifferenceKit"
-  spec.dependency "ChannelizeAPI"
 end
