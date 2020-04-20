@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		186781F6244DF08E004213BE /* ChannelizeAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 186781F4244DF08C004213BE /* ChannelizeAPI.framework */; };
-		186781F7244DF08E004213BE /* ChannelizeCall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 186781F5244DF08E004213BE /* ChannelizeCall.framework */; };
+		186781F8244DF4BC004213BE /* ChannelizeAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 186781F4244DF08C004213BE /* ChannelizeAPI.framework */; };
+		186781F9244DF4BC004213BE /* ChannelizeAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 186781F4244DF08C004213BE /* ChannelizeAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		186781FA244DF4BE004213BE /* ChannelizeCall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 186781F5244DF08E004213BE /* ChannelizeCall.framework */; };
+		186781FB244DF4BE004213BE /* ChannelizeCall.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 186781F5244DF08E004213BE /* ChannelizeCall.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18B07DEC2449DCDD003D1610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEB2449DCDD003D1610 /* AppDelegate.swift */; };
 		18B07DEE2449DCDD003D1610 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DED2449DCDD003D1610 /* SceneDelegate.swift */; };
 		18B07DF02449DCDD003D1610 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEF2449DCDD003D1610 /* ViewController.swift */; };
@@ -187,6 +189,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				186781F9244DF4BC004213BE /* ChannelizeAPI.framework in Embed Frameworks */,
+				186781FB244DF4BE004213BE /* ChannelizeCall.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -377,9 +381,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				186781F6244DF08E004213BE /* ChannelizeAPI.framework in Frameworks */,
+				186781F8244DF4BC004213BE /* ChannelizeAPI.framework in Frameworks */,
 				527CE5FD14775297AB9FF59C /* Pods_ChannelizeUI.framework in Frameworks */,
-				186781F7244DF08E004213BE /* ChannelizeCall.framework in Frameworks */,
+				186781FA244DF4BE004213BE /* ChannelizeCall.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
