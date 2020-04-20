@@ -9,7 +9,6 @@
 import UIKit
 import ChannelizeAPI
 import SDWebImage
-import ChannelizeCall
 
 class UserProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 

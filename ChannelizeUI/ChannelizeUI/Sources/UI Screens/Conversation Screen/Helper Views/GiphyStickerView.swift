@@ -55,7 +55,7 @@ class GiphyStickerView: UIView, UICollectionViewDelegateFlowLayout, UICollection
         self.configureCollectionView()
         self.setUpViews()
         self.setUpViewsFrames()
-        CHGifyService.configureGiphy(with: "Hbj9gr7HtEv0QyE2REtUVa24WjvCsGdu")
+        CHGifyService.configureGiphy(with: ChannelizeUI.getGiphyKey())
     }
     
     required init?(coder aDecoder: NSCoder) {

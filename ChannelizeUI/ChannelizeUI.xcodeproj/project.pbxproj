@@ -175,10 +175,6 @@
 		18B07F612449EA9F003D1610 /* BlockedUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07EBD2449EA9C003D1610 /* BlockedUserViewController.swift */; };
 		18B07F622449EA9F003D1610 /* ChannelizeUIIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18B07EBE2449EA9E003D1610 /* ChannelizeUIIcons.xcassets */; };
 		18B07F632449EA9F003D1610 /* RealmMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07EC02449EA9E003D1610 /* RealmMessageModel.swift */; };
-		18B07F682449EBB1003D1610 /* ChannelizeAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B07F642449EBAB003D1610 /* ChannelizeAPI.framework */; };
-		18B07F692449EBB1003D1610 /* ChannelizeAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18B07F642449EBAB003D1610 /* ChannelizeAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		18B07F6B2449EBB3003D1610 /* ChannelizeCall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B07F652449EBAB003D1610 /* ChannelizeCall.framework */; };
-		18B07F6C2449EBB3003D1610 /* ChannelizeCall.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18B07F652449EBAB003D1610 /* ChannelizeCall.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		527CE5FD14775297AB9FF59C /* Pods_ChannelizeUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78173D39087F5201AFEFEF09 /* Pods_ChannelizeUI.framework */; };
 /* End PBXBuildFile section */
 
@@ -189,8 +185,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				18B07F692449EBB1003D1610 /* ChannelizeAPI.framework in Embed Frameworks */,
-				18B07F6C2449EBB3003D1610 /* ChannelizeCall.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,8 +363,6 @@
 		18B07EBD2449EA9C003D1610 /* BlockedUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockedUserViewController.swift; sourceTree = "<group>"; };
 		18B07EBE2449EA9E003D1610 /* ChannelizeUIIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChannelizeUIIcons.xcassets; sourceTree = "<group>"; };
 		18B07EC02449EA9E003D1610 /* RealmMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmMessageModel.swift; sourceTree = "<group>"; };
-		18B07F642449EBAB003D1610 /* ChannelizeAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ChannelizeAPI.framework; sourceTree = "<group>"; };
-		18B07F652449EBAB003D1610 /* ChannelizeCall.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ChannelizeCall.framework; sourceTree = "<group>"; };
 		78173D39087F5201AFEFEF09 /* Pods_ChannelizeUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChannelizeUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		798FEF3DE085F47FA3D54FBE /* Pods-ChannelizeUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelizeUI.debug.xcconfig"; path = "Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI.debug.xcconfig"; sourceTree = "<group>"; };
 		9F569F07C0898B73C5C89A4F /* Pods-ChannelizeUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelizeUI.release.xcconfig"; path = "Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI.release.xcconfig"; sourceTree = "<group>"; };
@@ -381,9 +373,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18B07F682449EBB1003D1610 /* ChannelizeAPI.framework in Frameworks */,
 				527CE5FD14775297AB9FF59C /* Pods_ChannelizeUI.framework in Frameworks */,
-				18B07F6B2449EBB3003D1610 /* ChannelizeCall.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,8 +391,6 @@
 		18B07DDF2449DCDD003D1610 = {
 			isa = PBXGroup;
 			children = (
-				18B07F642449EBAB003D1610 /* ChannelizeAPI.framework */,
-				18B07F652449EBAB003D1610 /* ChannelizeCall.framework */,
 				18B07DEA2449DCDD003D1610 /* ChannelizeUI */,
 				18B07DE92449DCDD003D1610 /* Products */,
 				E0078465EB47BB8C61346A69 /* Pods */,

@@ -15,6 +15,7 @@ public class ChannelizeUI {
     fileprivate var notificationData: [AnyHashable : Any]?
     open var chCurrentChatId: String?
     open var currentChatIdUserName: String = ""
+    internal var giphyKey: String?
     
     open var isCHOpen = false
     public static var instance: ChannelizeUI = {
@@ -24,6 +25,15 @@ public class ChannelizeUI {
     
     public static func launchChannelize(navigationController: UINavigationController?, data:[AnyHashable : Any]? = nil) {
         
+        
+        if let path = Bundle.main.path(forResource: "Channelize-Info", ofType: "plist") {
+            let dictRoot = NSDictionary(contentsOfFile: path)
+            if let dict = dictRoot {
+                if let giphyKey = dict["GIPHY_API_KEY"] as? String{
+                    self.instance.giphyKey = giphyKey
+                }
+            }
+        }
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.tabBarController?.tabBar.isHidden = true
@@ -45,6 +55,10 @@ public class ChannelizeUI {
     
     func getData()-> [AnyHashable : Any]? {
         return notificationData
+    }
+    
+    func getGiphyKey() -> String {
+        return self.giphyKey ?? ""
     }
     
 }
