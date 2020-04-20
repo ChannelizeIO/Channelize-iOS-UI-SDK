@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
   spec.swift_version = '4.2'
   spec.ios.deployment_target  = '11.0'
   spec.source_files = 'ChannelizeUI/ChannelizeUI/Sources/**/*.swift'
-  subspec.pod_target_xcconfig = {
+  spec.pod_target_xcconfig = {
       'ARCHS[sdk=iphoneos*]' => '${__iphoneos_archs}'
   }
   spec.dependency "InputBarAccessoryView", "4.2.2"
