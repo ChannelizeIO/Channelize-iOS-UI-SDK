@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		186781F6244DF08E004213BE /* ChannelizeAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 186781F4244DF08C004213BE /* ChannelizeAPI.framework */; };
+		186781F7244DF08E004213BE /* ChannelizeCall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 186781F5244DF08E004213BE /* ChannelizeCall.framework */; };
 		18B07DEC2449DCDD003D1610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEB2449DCDD003D1610 /* AppDelegate.swift */; };
 		18B07DEE2449DCDD003D1610 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DED2449DCDD003D1610 /* SceneDelegate.swift */; };
 		18B07DF02449DCDD003D1610 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEF2449DCDD003D1610 /* ViewController.swift */; };
@@ -192,6 +194,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		186781F4244DF08C004213BE /* ChannelizeAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ChannelizeAPI.framework; sourceTree = "<group>"; };
+		186781F5244DF08E004213BE /* ChannelizeCall.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ChannelizeCall.framework; sourceTree = "<group>"; };
 		18B07DE82449DCDD003D1610 /* ChannelizeUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChannelizeUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B07DEB2449DCDD003D1610 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18B07DED2449DCDD003D1610 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -373,7 +377,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				186781F6244DF08E004213BE /* ChannelizeAPI.framework in Frameworks */,
 				527CE5FD14775297AB9FF59C /* Pods_ChannelizeUI.framework in Frameworks */,
+				186781F7244DF08E004213BE /* ChannelizeCall.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,6 +397,8 @@
 		18B07DDF2449DCDD003D1610 = {
 			isa = PBXGroup;
 			children = (
+				186781F4244DF08C004213BE /* ChannelizeAPI.framework */,
+				186781F5244DF08E004213BE /* ChannelizeCall.framework */,
 				18B07DEA2449DCDD003D1610 /* ChannelizeUI */,
 				18B07DE92449DCDD003D1610 /* Products */,
 				E0078465EB47BB8C61346A69 /* Pods */,
@@ -1264,6 +1272,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ChannelizeUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1287,6 +1296,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ChannelizeUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
