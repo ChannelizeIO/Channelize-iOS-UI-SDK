@@ -125,7 +125,7 @@ class TextMessageModel: BaseMessageItemProtocol, Differentiable {
                 })
             }
             let newBody = taggedBodyString.replacingOccurrences(of: "```", with: "$")
-            let markDownMessage = MarkDown.shared.tranverseString(string: newBody, startingIndex: 0, textColor: self.isIncoming == true ? UIColor(hex: "#3A3C4C") : UIColor.white, withFont: UIFont(fontStyle: .robotoSlabRegualar, size: CHUIConstants.normalFontSize)!)
+            let markDownMessage = MarkDown.shared.tranverseString(string: newBody, startingIndex: 0, textColor: self.isIncoming == true ? CHCustomStyles.incomingMessageTextColor : UIColor.white, withFont: UIFont(fontStyle: .robotoSlabRegualar, size: CHUIConstants.normalFontSize)!)
             
             var attributedString: NSMutableAttributedString!
             attributedString = markDownMessage
@@ -137,7 +137,7 @@ class TextMessageModel: BaseMessageItemProtocol, Differentiable {
                         let nsRange = NSRange(range, in: attributedString.string)
                         attributedString.addAttribute(.font, value: UIFont(fontStyle: .robotoSlabMedium, size: CHUIConstants.normalFontSize)!, range: nsRange)
                         attributedString.addAttribute(
-                            .foregroundColor, value: self.isIncoming == true ? UIColor(hex: "#1c1c1c") : UIColor.white, range: nsRange)
+                            .foregroundColor, value: self.isIncoming == true ? CHCustomStyles.incomingMessageTextColor : UIColor.white, range: nsRange)
                     }
                 }
             }

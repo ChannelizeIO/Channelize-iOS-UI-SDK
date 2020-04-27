@@ -59,12 +59,12 @@ class CHTextMessageCell: BaseChatItemCollectionCell {
         if chatItem.isIncoming {
             self.textView.linkTextAttributes = [
                 NSAttributedString.Key.font: UIFont(fontStyle: .robotoSlabRegualar, size: CHUIConstants.normalFontSize)!,
-                NSAttributedString.Key.foregroundColor: UIColor(hex: "#3A3C4C")
+                NSAttributedString.Key.foregroundColor: CHCustomStyles.incomingMessageTextColor
             ]
         } else {
             self.textView.linkTextAttributes = [
                 NSAttributedString.Key.font: UIFont(fontStyle: .robotoSlabRegualar, size: CHUIConstants.normalFontSize)!,
-                NSAttributedString.Key.foregroundColor: UIColor.white
+                NSAttributedString.Key.foregroundColor: CHCustomStyles.outgoingMessageTextColor
             ]
         }
         self.textMessageModel = textMessageModel
@@ -74,7 +74,7 @@ class CHTextMessageCell: BaseChatItemCollectionCell {
         let containerWidth = frameSize.width + 26
         let containerHeight = frameSize.height + 24
         
-        self.textContainerView.backgroundColor = textMessageModel.isIncoming ? CHUIConstants.incomingTextMessageBackgroundColor : CHUIConstants.outgoingTextMessageBackgroundColor
+        self.textContainerView.backgroundColor = textMessageModel.isIncoming ? CHCustomStyles.baseMessageIncomingBackgroundColor : CHCustomStyles.baseMessageOutgoingBackgroundColor
         
         self.textContainerView.frame.origin.x = textMessageModel.isIncoming ? 15 : self.bubbleContainerView.frame.width - containerWidth - 15
         self.textContainerView.frame.origin.y = 0

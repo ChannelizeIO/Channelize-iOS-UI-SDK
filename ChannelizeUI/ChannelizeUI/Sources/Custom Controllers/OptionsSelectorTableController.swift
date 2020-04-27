@@ -8,7 +8,6 @@
 
 import Foundation
 import ChannelizeAPI
-import UIKit
 
 enum OptionScreenType {
     case videoQuality

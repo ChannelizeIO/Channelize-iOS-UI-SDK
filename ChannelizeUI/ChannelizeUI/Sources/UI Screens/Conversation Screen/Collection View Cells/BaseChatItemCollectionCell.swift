@@ -13,9 +13,9 @@ class BaseChatItemCollectionCell: UICollectionViewCell {
     var dateSeperatorLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor.clear
-        label.textColor = UIColor(hex: "#8a8a8a")
+        label.textColor = CHCustomStyles.messageDateSeperatorColor
         label.textAlignment = .center
-        label.font = UIFont(fontStyle: .robotoSlabRegualar, size: 16.0)
+        label.font = CHCustomStyles.messadeDateSeparatorFont
         return label
     }()
     

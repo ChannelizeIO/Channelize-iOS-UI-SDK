@@ -132,7 +132,7 @@ class GiphStickerViewController: UIViewController, UISearchBarDelegate, UICollec
                 self.view.frame.origin.y += notification.startFrame.height
             })
         })
-        CHGifyService.configureGiphy(with: ChannelizeUI.getGiphyKey())
+        CHGifyService.configureGiphy(with: "Hbj9gr7HtEv0QyE2REtUVa24WjvCsGdu")
         self.getInitialGiphModels()
         self.getInitialStickerModels()
         
