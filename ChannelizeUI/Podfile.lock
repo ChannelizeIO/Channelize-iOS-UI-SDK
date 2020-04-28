@@ -23,7 +23,6 @@ PODS:
   - DifferenceKit/UIKitExtension (1.1.5):
     - DifferenceKit/Core
   - FLAnimatedImage (1.0.12)
-  - IHProgressHUD (0.1.5)
   - InputBarAccessoryView (4.2.2)
   - MaterialComponents (107.3.0):
     - MaterialComponents/ActionSheet (= 107.3.0)
@@ -645,7 +644,6 @@ DEPENDENCIES:
   - AWSIoT (= 2.9.3)
   - AWSMobileClient (= 2.9.3)
   - DifferenceKit
-  - IHProgressHUD (from `https://github.com/Swiftify-Corp/IHProgressHUD.git`)
   - InputBarAccessoryView (= 4.2.2)
   - MaterialComponents
   - SDWebImageFLPlugin
@@ -673,15 +671,6 @@ SPEC REPOS:
     - SDWebImage
     - SDWebImageFLPlugin
 
-EXTERNAL SOURCES:
-  IHProgressHUD:
-    :git: https://github.com/Swiftify-Corp/IHProgressHUD.git
-
-CHECKOUT OPTIONS:
-  IHProgressHUD:
-    :commit: 894be798eb94e2b0b23806e50f6571407710b015
-    :git: https://github.com/Swiftify-Corp/IHProgressHUD.git
-
 SPEC CHECKSUMS:
   AgoraRtcEngine_iOS: b316f64bc07f7973f0239316b2b4f79ec369e25c
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
@@ -694,7 +683,6 @@ SPEC CHECKSUMS:
   AWSMobileClient: 57b907ae11832376a2d7cf07eba5fbe2c6b8cfa4
   DifferenceKit: 516f12e336ed65a3a0665847b5c3cb5cad4bd4ea
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
-  IHProgressHUD: 55de0cd62cd65832e0d0047324ab0ca59d0bba11
   InputBarAccessoryView: 2b937602598e2fab3149f37f51dd7ad795653812
   MaterialComponents: 74efa6d0c39d54850404c94352c163c6acd6cd39
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
@@ -705,6 +693,6 @@ SPEC CHECKSUMS:
   SDWebImage: 21b19f56b4226cdfe3aefe4e6848dc43ed129a86
   SDWebImageFLPlugin: 6c2295fb1242d44467c6c87dc5db6b0a13228fd8
 
-PODFILE CHECKSUM: 4678427bcae59d864597c9527d80c4fbade92dd8
+PODFILE CHECKSUM: 5cec8e38c6023f1144634785b88efa4ed2e9fdaf
 
 COCOAPODS: 1.9.1
