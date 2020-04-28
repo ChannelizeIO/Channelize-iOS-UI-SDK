@@ -13,10 +13,7 @@ Pod::Spec.new do |spec|
   spec.dependency "InputBarAccessoryView", "4.2.2"
   spec.dependency "Alamofire", "4.8.2"
   spec.dependency "AlamofireObjectMapper", "5.2.0"
-  spec.dependency "AlamofireObjectMapper", "5.2.0"
-  spec.dependency "IHProgressHUD", "0.1.4"
   spec.dependency "SDWebImageFLPlugin"
   spec.dependency "MaterialComponents"
   spec.dependency "DifferenceKit"
-  spec.dependency "ChannelizeAPI"
 end
