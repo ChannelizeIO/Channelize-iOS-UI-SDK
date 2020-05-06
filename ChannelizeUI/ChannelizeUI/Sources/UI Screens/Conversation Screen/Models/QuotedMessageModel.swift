@@ -142,8 +142,16 @@ class QuotedMessageModel: BaseMessageItemProtocol, Differentiable {
             imageUrl = recievedMessage.attachments?.first?.gifStickerStillUrl
         }
         
-        let textMessage = attributedString
+        var textMessage = attributedString
         let typeOfMessage: BaseMessageType = self.getMessageType(message: recievedMessage)
+        if typeOfMessage == .doc {
+            if let fileExtension = recievedMessage.attachments?.first?.attachmentExtension?.lowercased() {
+                imageUrl = mimeTypeIcon["\(fileExtension)"]
+            } else {
+                imageUrl = "chFileIcon"
+            }
+            textMessage = NSMutableAttributedString(string: recievedMessage.attachments?.first?.name ?? "", attributes: [ NSAttributedString.Key.font: UIFont(fontStyle: .robotoSlabRegualar, size: CHUIConstants.normalFontSize)!, NSAttributedString.Key.foregroundColor: isIncoming ? UIColor(hex: "#3A3C4C") : UIColor.white])
+        }
         self.quotedMessageModel = QuotedViewModel(parentId: parentMessageId, senderName: senderName, senderId: senderId, imageUrl: imageUrl, textMessage: textMessage, messageType: typeOfMessage, isIncoming: isIncoming)
     }
     
@@ -178,6 +186,8 @@ class QuotedMessageModel: BaseMessageItemProtocol, Differentiable {
                     return .video
                 case .gif, .sticker:
                     return .gifSticker
+                case .doc:
+                    return .doc
                 default:
                     return .location
                 }

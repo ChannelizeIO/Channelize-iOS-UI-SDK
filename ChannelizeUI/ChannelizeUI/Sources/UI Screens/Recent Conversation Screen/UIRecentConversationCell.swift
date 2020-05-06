@@ -404,6 +404,15 @@ class UIRecentConversationCell: UITableViewCell {
                 return "Photo".with(getImage("chPhotoIcon"))
             case .location:
                 return "Location".with(getImage("chLocationIcon"))
+            case .doc:
+                if let fileExtension = lastMessage.attachments?.first?.attachmentExtension {
+                    if let icon = mimeTypeIcon[fileExtension.lowercased()] {
+                        return "\(lastMessage.attachments?.first?.name ?? "")".with(getImage("\(icon)"))
+                    } else {
+                        return "\(lastMessage.attachments?.first?.name ?? "")".with(getImage("chFileIcon"))
+                    }
+                }
+                break
             default:
                 break
             }

@@ -11,7 +11,7 @@ import ChannelizeAPI
 import SDWebImage
 import AVFoundation
 
-class GroupProfileViewController: UIViewController, AddMembersToGroupControllerDelegate {
+class GroupProfileViewController: ChannelizeController, AddMembersToGroupControllerDelegate {
     
     var topHeaderView: UIView = {
         let view = UIView()
@@ -189,6 +189,15 @@ class GroupProfileViewController: UIViewController, AddMembersToGroupControllerD
         photoActionSheet.addAction(cameraAction)
         photoActionSheet.addAction(galleryAction)
         photoActionSheet.addAction(cancelAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            photoActionSheet.overrideUserInterfaceStyle = .light
+        }
+        #endif
+        if let popoverController = photoActionSheet.popoverPresentationController {
+            showIpadActionSheet(sourceView: self.view, popoverController: popoverController)
+        }
         self.present(photoActionSheet, animated: true, completion: nil)
     }
     
@@ -510,6 +519,15 @@ extension GroupProfileViewController: UITableViewDelegate, UITableViewDataSource
         }
         let cancelAction = UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .cancel, handler: nil)
         optionsController.addAction(cancelAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            optionsController.overrideUserInterfaceStyle = .light
+        }
+        #endif
+        if let popoverController = optionsController.popoverPresentationController {
+            showIpadActionSheet(sourceView: self.view, popoverController: popoverController)
+        }
         self.present(optionsController, animated: true, completion: nil)
     }
     
@@ -521,6 +539,12 @@ extension GroupProfileViewController: UITableViewDelegate, UITableViewDataSource
         let errorAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         errorAlert.addAction(okAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            errorAlert.overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.present(errorAlert, animated: true, completion: nil)
     }
     
@@ -537,6 +561,12 @@ extension GroupProfileViewController: UITableViewDelegate, UITableViewDataSource
         })
         changeTitleAlert.addAction(doneAction)
         changeTitleAlert.addAction(cancelAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            changeTitleAlert.overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.present(changeTitleAlert, animated: true, completion: nil)
     }
     
@@ -829,7 +859,12 @@ extension GroupProfileViewController: UINavigationControllerDelegate, UIImagePic
                 })
             }
         })
-        
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            alertController.overrideUserInterfaceStyle = .light
+        }
+        #endif
         present(alertController, animated: true)
     }
     

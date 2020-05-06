@@ -13,7 +13,7 @@ import AVKit
 import AVFoundation
 import ChannelizeAPI
 
-class PhotoViewerController: UIViewController {
+class PhotoViewerController: ChannelizeController {
     
     var images = [ChannelizeImages]()
     var initialIndex = 0

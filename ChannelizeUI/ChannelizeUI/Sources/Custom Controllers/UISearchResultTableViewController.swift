@@ -26,6 +26,12 @@ class UISearchResultTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.tableView.tableFooterView = UIView()
         self.tableView.backgroundColor = UIColor(hex: "#f2f2f7")
         self.tableView.register(UIContactTableCell.self, forCellReuseIdentifier: "searchResultCell")

@@ -17,6 +17,12 @@ class BlockedUserViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.title = "Blocked Users"
         self.screenIdentifier = UUID()
         ChannelizeAPI.addUserEventDelegate(delegate: self, identifier: self.screenIdentifier)
@@ -148,6 +154,15 @@ class BlockedUserViewController: UITableViewController {
         let cancelAction = UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .cancel, handler: nil)
         actionAlert.addAction(unblockAction)
         actionAlert.addAction(cancelAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            actionAlert.overrideUserInterfaceStyle = .light
+        }
+        #endif
+        if let popoverController = actionAlert.popoverPresentationController {
+            showIpadActionSheet(sourceView: self.tableView, popoverController: popoverController)
+        }
         self.present(actionAlert, animated: true, completion: nil)
     }
 }

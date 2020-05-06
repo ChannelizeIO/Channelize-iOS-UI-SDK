@@ -32,6 +32,12 @@ class SearchUsersController: UITableViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.searchBar.delegate = self
         let cancelButton = UIBarButtonItem(title: CHLocalized(key: "pmCancel"), style: .plain, target: self, action: #selector(didPressCanceButton(sender:)))
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didPressDoneButton(sender:)))

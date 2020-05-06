@@ -159,11 +159,13 @@ open class CHCustomOptions {
     public static var enableVideoMessages : Bool = true
     public static var enableLocationMessages : Bool = true
     public static var enableStickerAndGifMessages : Bool = true
+    public static var enableDocSharingMessage: Bool = true
     
     //MARK:- Variables for Attachments Limits In MB
     public static var maximumImageSize : CGFloat = 50.0
     public static var maximumVideoSize : CGFloat = 25.0
     public static var maximumAudioSize : CGFloat = 25.0
+    public static var maximumDocumentSize: CGFloat = 50.0
     
     //MARK:- Variables For Chat Screen
     public static var enableAttachments = true

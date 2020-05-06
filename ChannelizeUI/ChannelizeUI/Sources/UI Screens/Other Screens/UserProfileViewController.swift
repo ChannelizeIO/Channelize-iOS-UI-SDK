@@ -11,7 +11,7 @@ import ChannelizeAPI
 import SDWebImage
 import ChannelizeCall
 
-class UserProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class UserProfileViewController: ChannelizeController, UITableViewDelegate, UITableViewDataSource {
 
     private var userImageView: UIImageView = {
         let imageView = UIImageView()

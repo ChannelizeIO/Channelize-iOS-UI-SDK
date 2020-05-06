@@ -12,7 +12,7 @@ import AVFoundation
 import InputBarAccessoryView
 import ObjectMapper
 
-class UIConversationViewController: UIViewController {
+class UIConversationViewController: ChannelizeController {
 
     lazy var audioModel: AudioMessageModel? = nil
     lazy var audioPlayer: AVAudioPlayer? = nil
@@ -146,7 +146,7 @@ class UIConversationViewController: UIViewController {
     var user: CHUser?
     var chatItems = [BaseMessageItemProtocol]()
     
-    
+    var currentDocPreviewUrl: URL!
     var screenIdentifier: UUID!
     
     override func viewDidLoad() {
@@ -318,6 +318,7 @@ class UIConversationViewController: UIViewController {
         self.collectionView.register(CHQuotedMessageCell.self, forCellWithReuseIdentifier: "newQuotedMessageCell")
         self.collectionView.register(PhotoMessageShimmeringCell.self, forCellWithReuseIdentifier: "shimmeringMessageCell")
         self.collectionView.register(CHMissCallMessageCell.self, forCellWithReuseIdentifier: "missCallMessageCell")
+        self.collectionView.register(CHDocMessageCell.self, forCellWithReuseIdentifier: "docMessageCell")
         
         self.collectionView.register(
             UIImageMessageCollectionCell.self, forCellWithReuseIdentifier: "imageMessageCell")

@@ -101,6 +101,15 @@ class GroupedPhotosViewController: UICollectionViewController, UICollectionViewD
                 actionSheet.addAction(deleteForEveryOneAction)
             }
         }
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            actionSheet.overrideUserInterfaceStyle = .light
+        }
+        #endif
+        if let popoverController = actionSheet.popoverPresentationController {
+            showIpadActionSheet(sourceView: self.collectionView, popoverController: popoverController)
+        }
         self.present(actionSheet, animated: true, completion: nil)
     }
     

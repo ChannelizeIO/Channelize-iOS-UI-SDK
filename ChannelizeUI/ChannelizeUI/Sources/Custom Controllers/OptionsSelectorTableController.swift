@@ -8,7 +8,6 @@
 
 import Foundation
 import ChannelizeAPI
-import UIKit
 
 enum OptionScreenType {
     case videoQuality
@@ -30,6 +29,12 @@ class OptionsSelectorTableController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.view.backgroundColor = .black
         self.tableView.backgroundColor = .white
         self.tableView.tableFooterView = UIView()

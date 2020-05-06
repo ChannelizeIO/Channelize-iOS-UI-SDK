@@ -259,6 +259,12 @@ class TestController: UIViewController, UISearchBarDelegate {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(gifStickerAction)
         alertController.addAction(cancelAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            alertController.overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.present(alertController,animated: true, completion: nil)
         
         

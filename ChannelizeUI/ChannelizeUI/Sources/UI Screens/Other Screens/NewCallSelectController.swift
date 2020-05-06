@@ -39,6 +39,12 @@ class NewCallSelectController: UITableViewController, UISearchBarDelegate, CHAll
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.searchBar.delegate = self
         self.tableView.tableFooterView = UIView()
         self.navigationItem.titleView = self.searchBar

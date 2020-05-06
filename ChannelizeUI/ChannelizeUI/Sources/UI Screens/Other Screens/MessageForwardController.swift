@@ -11,7 +11,7 @@ import ChannelizeAPI
 import SDWebImage
 import Alamofire
 
-class MessageForwardController: UIViewController, UITableViewDelegate, UITableViewDataSource, ForwardScreenChatViewDelegates, UISearchBarDelegate {
+class MessageForwardController: ChannelizeController, UITableViewDelegate, UITableViewDataSource, ForwardScreenChatViewDelegates, UISearchBarDelegate {
     
     var allUsers = [CHUser]()
     private var searchedUsers = [CHUser]()

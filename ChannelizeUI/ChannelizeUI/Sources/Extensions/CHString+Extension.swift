@@ -13,7 +13,7 @@ public extension String {
     
     func with(_ icon : UIImage?)->NSMutableAttributedString{
         
-        let iconsSize = CGRect(x: 0, y: -2.5, width: 15, height: 15)
+        let iconsSize = CGRect(x: 0, y: -5, width: 20, height: 20)
         
         let fullString = NSMutableAttributedString()
         let attchment = NSTextAttachment()

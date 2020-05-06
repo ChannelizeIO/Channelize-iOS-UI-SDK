@@ -13,7 +13,7 @@ import InputBarAccessoryView
 
 
 
-class LocationSharingViewController: UIViewController,UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate, MKMapViewDelegate {
+class LocationSharingViewController: ChannelizeController,UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate, MKMapViewDelegate {
     
     var locationManager: CLLocationManager?
     var myLocationCoordinates: CLLocationCoordinate2D?

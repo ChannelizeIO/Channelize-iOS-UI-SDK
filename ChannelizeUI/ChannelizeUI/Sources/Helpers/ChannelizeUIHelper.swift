@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import AVFoundation
-//import IHProgressHUD
+import IHProgressHUD
 
 func getDateFromString(value: String?) -> Date? {
     let formatter = DateFormatter()
@@ -449,6 +449,13 @@ func timeAgoSinceDate(_ date:Date,currentDate:Date, numericDates:Bool) -> String
     }
     
     
+    
+}
+
+func showIpadActionSheet(sourceView: UIView, popoverController: UIPopoverPresentationController) {
+    popoverController.sourceView = sourceView
+    popoverController.sourceRect = CGRect(x: sourceView.bounds.midX, y: sourceView.bounds.midY, width: 0, height: 0)
+    popoverController.permittedArrowDirections = []
     
 }
 

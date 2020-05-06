@@ -527,6 +527,24 @@ extension UIConversationViewController {
             let recieverId = message.attachments?.first?.metaData?.subjectUser?.id
             let missCallModel = MissCallMessageModel(baseMessageModel: baseMessageData, callType: .voice, callerName: callerName, callerId: callerId, recieverName: recieverName, recieverId: recieverId)
             return missCallModel
+        case .doc:
+            let fileName = message.attachments?.first?.name
+            let docDownloadUrl = message.attachments?.first?.fileUrl
+            let fileType = message.attachments?.first?.attachmentExtension
+            let fileSize = message.attachments?.first?.attachMentSize
+            
+            let docMessageData = DocMessageData(fileName: fileName, downloadUrl: docDownloadUrl, fileType: fileType, fileSize: fileSize, mimeType: message.attachments?.first?.mimeType, fileExtension: message.attachments?.first?.attachmentExtension)
+            let docMessageModel = DocMessageModel(baseMessageModel: baseMessageData, messageData: docMessageData)
+            
+            if let fileUrl = URL(string: docMessageModel.docMessageData.downloadUrl ?? "") {
+                let fileName = fileUrl.lastPathComponent
+                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                let fileURL = documentsURL.appendingPathComponent(fileName)
+                if NSData(contentsOf: fileURL) != nil {
+                    docMessageModel.docStatus = .availableLocal
+                }
+            }
+            return docMessageModel
         default:
             return nil
         }
@@ -563,6 +581,8 @@ extension UIConversationViewController {
                     return .video
                 case .gif, .sticker:
                     return .gifSticker
+                case .doc:
+                    return .doc
                 default:
                     return .undefined
                 }
@@ -1015,10 +1035,34 @@ extension UIConversationViewController {
         }) {
             if let recievedMessage = message {
                 if let chatItem = self.createChatItemFromMessage(message: recievedMessage) {
-                    
                     switch chatItem.messageType {
                     case .image:
                         self.updateImageMessageData(chatItem: chatItem, messageIndex: messageIndex)
+                        break
+                    case .doc:
+                        if let docMessageModel = chatItem as? DocMessageModel {
+                            docMessageModel.messageStatus = .sent
+                            if let fileUrl = URL(string: docMessageModel.docMessageData.downloadUrl ?? "") {
+                                let newFileName = fileUrl.lastPathComponent
+                                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                                let newFileUrl = documentsURL.appendingPathComponent(newFileName)
+                                if FileManager.default.fileExists(atPath: newFileUrl.path) {
+                                    docMessageModel.docStatus = .availableLocal
+                                } else {
+                                    docMessageModel.docStatus = .notAvailableLocal
+                                }
+                            }
+                        }
+                        let oldChatItem = self.chatItems[messageIndex]
+                        chatItem.showSenderName = oldChatItem.showSenderName
+                        chatItem.showDataSeperator = oldChatItem.showDataSeperator
+                        chatItem.showMessageStatusView = oldChatItem.showMessageStatusView
+                        self.chatItems.remove(at: messageIndex)
+                        self.chatItems.insert(chatItem, at: messageIndex)
+                        let reloadedIndexPath = IndexPath(item: messageIndex, section: 0)
+                        self.collectionView.performBatchUpdates({
+                            self.collectionView.reloadItems(at: [reloadedIndexPath])
+                        }, completion: nil)
                         break
                     default:
                         let oldChatItem = self.chatItems[messageIndex]

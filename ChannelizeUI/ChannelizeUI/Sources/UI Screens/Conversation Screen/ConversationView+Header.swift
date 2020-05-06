@@ -8,7 +8,8 @@
 
 import Foundation
 import ChannelizeAPI
-import UIKit
+import Alamofire
+
 
 extension UIConversationViewController {
     
@@ -79,6 +80,15 @@ extension UIConversationViewController {
             let cancelAction = UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .cancel, handler: nil)
             alertController.addAction(deleteAction)
             alertController.addAction(cancelAction)
+            #if compiler(>=5.1)
+            if #available(iOS 13.0, *) {
+                // Always adopt a light interface style.
+                alertController.overrideUserInterfaceStyle = .light
+            }
+            #endif
+            if let popoverController = alertController.popoverPresentationController {
+                showIpadActionSheet(sourceView: self.view, popoverController: popoverController)
+            }
             self.present(alertController, animated: true, completion: nil)
         })
         let clearConversation = UIAlertAction(title: "Clear Conversation", style: .default, handler: {(action) in
@@ -89,6 +99,12 @@ extension UIConversationViewController {
             let cancelAction = UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .cancel, handler: nil)
             alertController.addAction(deleteAction)
             alertController.addAction(cancelAction)
+            #if compiler(>=5.1)
+            if #available(iOS 13.0, *) {
+                // Always adopt a light interface style.
+                alertController.overrideUserInterfaceStyle = .light
+            }
+            #endif
             self.present(alertController, animated: true, completion: nil)
         })
         let blockUserAction = UIAlertAction(title: "Block User", style: .default, handler: {(action) in
@@ -136,6 +152,12 @@ extension UIConversationViewController {
         }
         optionsSheet.addAction(viewProfileAction)
         optionsSheet.addAction(cancelAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            optionsSheet.overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.present(optionsSheet, animated: true, completion: nil)
     }
     

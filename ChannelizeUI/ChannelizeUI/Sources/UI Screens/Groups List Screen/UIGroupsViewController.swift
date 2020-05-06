@@ -265,6 +265,12 @@ class UIGroupsViewController: UICollectionViewController, UICollectionViewDelega
         let cancelAction = UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .cancel, handler: nil)
         alertController.addAction(okAction)
         alertController.addAction(cancelAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            alertController.overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.present(alertController, animated: true, completion: nil)
     }
     
@@ -286,6 +292,15 @@ class UIGroupsViewController: UICollectionViewController, UICollectionViewDelega
             alertController.addAction(newCallAction)
         }
         alertController.addAction(cancelAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            alertController.overrideUserInterfaceStyle = .light
+        }
+        #endif
+        if let popoverController = alertController.popoverPresentationController {
+            showIpadActionSheet(sourceView: self.collectionView, popoverController: popoverController)
+        }
         self.present(alertController, animated: true, completion: nil)
     }
 

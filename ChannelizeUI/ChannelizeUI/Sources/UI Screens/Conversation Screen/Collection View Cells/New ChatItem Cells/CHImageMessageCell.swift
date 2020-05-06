@@ -81,7 +81,7 @@ class CHImageMessageCell: BaseChatItemCollectionCell {
                 self.imageView.sd_imageIndicator = imageMessageModel.localImage == nil ? SDWebImageActivityIndicator.gray : .none
                 let imageUrl = URL(string: imageUrlString)
                 self.imageView.sd_setImage(with: imageUrl, placeholderImage: imageMessageModel.localImage, options: [.refreshCached,.continueInBackground], completed: {(image,error,cache,url) in
-                    if let _image = image {
+                    if image != nil {
                         imageMessageModel.localImage = nil
                     }
                 })

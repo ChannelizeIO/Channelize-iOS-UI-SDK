@@ -12,8 +12,10 @@ import MapKit
 import AVFoundation
 import ChannelizeAPI
 import Photos
+import MobileCoreServices
 
-extension UIConversationViewController: ConversationAttachmentViewDelegate, AssetListControllerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate, AudioCaptureViewDelegate, AVAudioRecorderDelegate, GiphyStickerSelectorDelegate, LocationSharingControllerDelegates {
+
+extension UIConversationViewController: ConversationAttachmentViewDelegate, AssetListControllerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate, AudioCaptureViewDelegate, AVAudioRecorderDelegate, GiphyStickerSelectorDelegate, LocationSharingControllerDelegates, UIDocumentPickerDelegate {
     
     func didPressCancelButton() {
         UIView.animate(withDuration: 0.3, animations: {
@@ -100,6 +102,157 @@ extension UIConversationViewController: ConversationAttachmentViewDelegate, Asse
         })
     }
     
+    // MARK:- Document Sharing Functions
+    func openDocumentPicker() {
+        let importMenu = UIDocumentPickerViewController(documentTypes: ["public.item"], in: .import)
+        importMenu.delegate = self
+        importMenu.modalPresentationStyle = .fullScreen
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            importMenu.overrideUserInterfaceStyle = .light
+        } else {
+        // Fallback on earlier versions
+        }
+        #endif
+        self.present(importMenu, animated: true, completion: nil)
+    }
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let myURL = urls.first else {
+             return
+        }
+        let fileName = myURL.lastPathComponent
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent(fileName)
+        
+        do {
+            if let fileData = try? Data(contentsOf: myURL, options: .uncached) {
+                if fileData.count > Int(CHCustomOptions.maximumDocumentSize * 1024 * 1024) {
+                    self.showDocFileSizeLimit()
+                    return
+                }
+                print(fileData.count)
+                print(myURL.mimeType())
+                print(myURL.lastPathComponent)
+                print(myURL.pathExtension)
+                
+                let fileName = myURL.lastPathComponent
+                let mimeType = myURL.mimeType()
+                let fileSize = fileData.count
+                let fileExtension = myURL.pathExtension
+                
+                let uniqueId = UUID()
+                let messageId = uniqueId.uuidString
+                let senderName = ChannelizeAPI.getCurrentUserDisplayName()
+                let senderId = ChannelizeAPI.getCurrentUserId()
+                let senderImageUrl = ChannelizeAPI.getCurrentUserProfileImageUrl()
+                let messageDate = Date()
+                let messageStatus = BaseMessageStatus.sending
+                
+                let baseMessageModel = BaseMessageModel(uid: messageId, senderId: senderId, senderName: senderName, senderImageUrl: senderImageUrl ?? "", messageDate: messageDate, status: messageStatus)
+                let docMessageData = DocMessageData(fileName: fileName, downloadUrl: nil, fileType: fileExtension, fileSize: fileSize, mimeType: mimeType, fileExtension: fileExtension)
+                let docMessageModel = DocMessageModel(baseMessageModel: baseMessageModel, messageData: docMessageData)
+                docMessageModel.docStatus = .uploading
+                self.insertNewChatItemAtBottom(chatItem: docMessageModel)
+                
+                print("Doc Message Check -> UUID \(uniqueId)")
+                let messageQueryBuilder = CHMessageQueryBuilder()
+                messageQueryBuilder.id = uniqueId.uuidString
+                print("Doc Message Check -> Message Id \(uniqueId.uuidString)")
+                messageQueryBuilder.conversationId = self.conversation?.id
+                messageQueryBuilder.messageType = .normal
+                messageQueryBuilder.ownerId = ChannelizeAPI.getCurrentUserId()
+                
+                let docAttachment = CHDocAttachmentQueryBuilder()
+                docAttachment.fileName = fileName
+                docAttachment.mimeType = mimeType
+                docAttachment.size = fileSize
+                docAttachment.fileExtension = fileExtension
+                docAttachment.attachMentIdentifier = uniqueId
+                docAttachment.fileData = fileData
+                
+                messageQueryBuilder.attachments = [docAttachment]
+                
+                ChannelizeAPIService.sendMessage(queryBuilder: messageQueryBuilder, uploadProgress: {(identifier,progress) in
+                    docMessageModel.uploadProgress = progress ?? 0.0
+                    
+                    if let index = self.chatItems.firstIndex(where: {
+                        $0.messageId == docMessageModel.messageId
+                    }) {
+                        let cellIndexPath = IndexPath(item: index, section: 0)
+                        if let docMessageCell = self.collectionView.cellForItem(at: cellIndexPath) as? CHDocMessageCell {
+                            docMessageCell.updateProgress(fromValue: docMessageModel.uploadProgress, toValue: progress ?? 0.0)
+                        }
+                    }
+                    print("Progress for \(identifier ?? UUID()) is \(progress ?? 0.0)")
+                }, completion: {(message,errorString) in
+                    guard errorString == nil else {
+                        return
+                    }
+                    if let recievedMessage = message {
+                        if let newDocMessageModel = self.createChatItemFromMessage(message: recievedMessage) as? DocMessageModel {
+                            if let fileUrl = URL(string: newDocMessageModel.docMessageData.downloadUrl ?? "") {
+                                let newFileName = fileUrl.lastPathComponent
+                                let newFileUrl = documentsURL.appendingPathComponent(newFileName)
+                                print(newFileUrl.path)
+                                print(newFileUrl.absoluteString)
+                                if let firstIndex = self.chatItems.firstIndex(where: {
+                                    $0.messageId == newDocMessageModel.messageId
+                                }) {
+                                    do {
+                                        try FileManager.default.moveItem(at: myURL, to: newFileUrl)
+                                        let oldChatItem = self.chatItems[firstIndex]
+                                        newDocMessageModel.showSenderName = oldChatItem.showSenderName
+                                        newDocMessageModel.showDataSeperator = oldChatItem.showDataSeperator
+                                        newDocMessageModel.showMessageStatusView = oldChatItem.showMessageStatusView
+                                        newDocMessageModel.messageStatus = .sent
+                                        newDocMessageModel.docStatus = .availableLocal
+                                        let modifyingIndexPath = IndexPath(item: firstIndex, section: 0)
+                                        self.chatItems.remove(at: firstIndex)
+                                        self.chatItems.insert(newDocMessageModel, at: firstIndex)
+                                        self.collectionView.performBatchUpdates({
+                                            self.collectionView.deleteItems(at: [modifyingIndexPath])
+                                            self.collectionView.insertItems(at: [modifyingIndexPath])
+                                        }, completion: nil)
+                                    } catch {
+                                        let oldChatItem = self.chatItems[firstIndex]
+                                        docMessageModel.showSenderName = oldChatItem.showSenderName
+                                        docMessageModel.showDataSeperator = oldChatItem.showDataSeperator
+                                        docMessageModel.showMessageStatusView = oldChatItem.showMessageStatusView
+                                        docMessageModel.messageStatus = .sent
+                                        let modifyingIndexPath = IndexPath(item: firstIndex, section: 0)
+                                        self.chatItems.remove(at: firstIndex)
+                                        self.chatItems.insert(docMessageModel, at: firstIndex)
+                                        self.collectionView.performBatchUpdates({
+                                            self.collectionView.deleteItems(at: [modifyingIndexPath])
+                                            self.collectionView.insertItems(at: [modifyingIndexPath])
+                                        }, completion: nil)
+                                        print("Failed to move file at new Location")
+                                        print("Error: \(error.localizedDescription)")
+                                    }
+                                }
+                            }
+                        }
+                        //Modify Existing File
+                        print(recievedMessage.toJSON())
+                    }
+                })
+            }
+        }
+    }
+    
+    private func showDocFileSizeLimit() {
+        let errorController = UIAlertController(title: "Error", message: "You can upload document of size less than 50 MB", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        errorController.addAction(okAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            errorController.overrideUserInterfaceStyle = .light
+        }
+        #endif
+        self.present(errorController, animated: true, completion: nil)
+    }
     
     // MARK:- Media Functions
     func openImageSelector() {
@@ -390,6 +543,12 @@ extension UIConversationViewController: ConversationAttachmentViewDelegate, Asse
         })
         alert.addAction(cancelAlert)
         alert.addAction(openSetingsAlert)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            alert.overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.present(alert, animated:true, completion:nil)
     }
     
@@ -503,6 +662,12 @@ extension UIConversationViewController: ConversationAttachmentViewDelegate, Asse
                 
             })
             alert.addAction(okAction)
+            #if compiler(>=5.1)
+            if #available(iOS 13.0, *) {
+                // Always adopt a light interface style.
+                alert.overrideUserInterfaceStyle = .light
+            }
+            #endif
             self.present(alert,animated: true,completion: nil)
             return
         }

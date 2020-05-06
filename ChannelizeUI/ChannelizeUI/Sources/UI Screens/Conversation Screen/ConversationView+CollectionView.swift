@@ -10,6 +10,8 @@ import Foundation
 import ChannelizeAPI
 import AVFoundation
 import MapKit
+import Alamofire
+import QuickLook
 
 extension UIConversationViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, AVAudioPlayerDelegate, LongPressMessageBlurViewDelegate, QuotedMessageViewDelegate {
     func didPressCloseQuotedViewButton() {
@@ -97,6 +99,8 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
                     return cell
                 case .missedVideoCall, .missedVoiceCall:
                     return self.configureMissCallCellItem(collectionView: collectionView, indexPath: indexPath, chatItem: chatItem)
+                case .doc:
+                    return self.configureDocMessageCell(collectionView: collectionView, indexPath: indexPath, chatItem: chatItem)
                 default:
                     let cell = collectionView.dequeueReusableCell(
                         withReuseIdentifier: "blankCell", for: indexPath)
@@ -153,6 +157,8 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
                 case .missedVoiceCall, .missedVideoCall:
                     return self.getMissedCallItemHeight(chatItem: chatItem)
                     //return CGSize(width: self.view.frame.width, height: 100)
+                case .doc:
+                    return self.getDocMessageCellSize(chatItem: chatItem)
                 default:
                     return .zero
                 }
@@ -379,6 +385,17 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
                 case .text:
                     textMessage = (chatItem as? TextMessageModel)?.attributedString
                     break
+                case .doc:
+                    if let docModel = chatItem as? DocMessageModel {
+                        if let fileExtension = docModel.docMessageData.fileExtension {
+                            if let icon = mimeTypeIcon[fileExtension.lowercased()] {
+                                textMessage = "\(docModel.docMessageData.fileName ?? "")".with(getImage("\(icon)"))
+                            } else {
+                                textMessage = "\(docModel.docMessageData.fileName ?? "")".with(getImage("chFileIcon"))
+                            }
+                        }
+                    }
+                    break
                 default:
                     break
                 }
@@ -448,10 +465,40 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         controller.addAction(deleteAction)
         controller.addAction(moreAction)
         controller.addAction(cancelAction)
-        
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            controller.overrideUserInterfaceStyle = .light
+        }
+        #endif
+        if let popoverController = controller.popoverPresentationController {
+            showIpadActionSheet(sourceView: self.view, popoverController: popoverController)
+        }
         self.present(controller, animated: true, completion: nil)
     }
     
+    private func configureDocMessageCell(collectionView: UICollectionView, indexPath: IndexPath, chatItem: BaseMessageItemProtocol) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "docMessageCell", for: indexPath) as! CHDocMessageCell
+        cell.assignChatItem(chatItem: chatItem)
+        cell.onDownloadButtonPressed = {[weak self] (cell) in
+            self?.downloadDocFile(docMessage: cell.docMessageModel)
+        }
+        cell.onOpenButtonPressed = {[weak self] (cell) in
+            self?.openDocFile(docMessage: cell.docMessageModel)
+        }
+        cell.onLongPressedBubble = {[weak self] (cell) in
+            if let docMessageCell = cell as? CHDocMessageCell {
+                let model = docMessageCell.docMessageModel
+                    self?.showMessageOptions(messageId: model?.messageId ?? "", senderId: model?.senderId ?? "")
+                }
+            }
+        cell.onCellTapped = {[weak self] (cell) in
+            if let docMessageCell = cell as? CHDocMessageCell {
+                self?.performMessageSelectDeSelect(messageModel: docMessageCell.docMessageModel)
+            }
+        }
+        return cell
+    }
     
     private func configureGroupedImagesCell(collectionView: UICollectionView, indexPath: IndexPath, chatItem: BaseMessageItemProtocol) -> UICollectionViewCell{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "newGroupedImageCell", for: indexPath) as! CHGroupedPhotosCell
@@ -513,6 +560,15 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         controller.addAction(deleteAllAction)
         controller.addAction(moreAction)
         controller.addAction(cancelAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            controller.overrideUserInterfaceStyle = .light
+        }
+        #endif
+        if let popoverController = controller.popoverPresentationController {
+            showIpadActionSheet(sourceView: self.view, popoverController: popoverController)
+        }
         self.present(controller, animated: true, completion: nil)
     }
     
@@ -708,6 +764,15 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         let totalHeight = dateSeperatorHeight + senderNameHeight + 80 + statusViewHeight
         return CGSize(width: self.view.frame.width, height: totalHeight)
     }
+    
+    func getDocMessageCellSize(chatItem: BaseMessageItemProtocol) -> CGSize {
+        let dateSeperatorHeight: CGFloat = chatItem.showDataSeperator ? 30 : 0
+        let senderNameHeight: CGFloat = chatItem.showSenderName ? 25 : 0
+        let statusViewHeight: CGFloat = chatItem.showMessageStatusView ? 25 : 0
+        let totalHeight = dateSeperatorHeight + senderNameHeight + 109.5 + statusViewHeight
+        return CGSize(width: self.view.frame.width, height: totalHeight)
+    }
+    
     
     // MARK:- Cells Functions
     func didSelectLongPressAction(messageId: String, actionType: LongPressOptionActionType) {
@@ -1138,6 +1203,17 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
             case .text:
                 textMessage = (chatItem as? TextMessageModel)?.attributedString
                 break
+            case .doc:
+                if let docModel = chatItem as? DocMessageModel {
+                    if let fileExtension = docModel.docMessageData.fileExtension {
+                        if let icon = mimeTypeIcon[fileExtension.lowercased()] {
+                            textMessage = "\(docModel.docMessageData.fileName ?? "")".with(getImage("\(icon)"))
+                        } else {
+                            textMessage = "\(docModel.docMessageData.fileName ?? "")".with(getImage("chFileIcon"))
+                        }
+                    }
+                }
+                break
             default:
                 break
             }
@@ -1196,6 +1272,15 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
             if chatItem.senderId == ChannelizeAPI.getCurrentUserId() {
                 actionSheet.addAction(deleteForEveryOneAction)
             }
+        }
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            actionSheet.overrideUserInterfaceStyle = .light
+        }
+        #endif
+        if let popoverController = actionSheet.popoverPresentationController {
+            showIpadActionSheet(sourceView: self.view, popoverController: popoverController)
         }
         self.present(actionSheet, animated: true, completion: nil)
     }
@@ -1290,7 +1375,15 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
             actionSheet.addAction(deleteForEveryOneAction)
         }
         actionSheet.addAction(cancelAction)
-            
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            actionSheet.overrideUserInterfaceStyle = .light
+        }
+        #endif
+        if let popoverController = actionSheet.popoverPresentationController {
+            showIpadActionSheet(sourceView: self.view, popoverController: popoverController)
+        }
         self.present(actionSheet, animated: true, completion: nil)
     }
         
@@ -1397,6 +1490,12 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
             }
         }
         alertController.addAction(cancelAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            alertController.overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.present(alertController, animated: true, completion: nil)
     }
     
@@ -1424,8 +1523,89 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
             alertController.addAction(voiceCallOption)
             alertController.addAction(videoCallOption)
             alertController.addAction(cancelAction)
+            #if compiler(>=5.1)
+            if #available(iOS 13.0, *) {
+                // Always adopt a light interface style.
+                alertController.overrideUserInterfaceStyle = .light
+            }
+            #endif
+            if let popoverController = alertController.popoverPresentationController {
+                showIpadActionSheet(sourceView: self.view, popoverController: popoverController)
+            }
             self.present(alertController, animated: true, completion: nil)
         }
+    }
+    
+    // MARK:- Document Message Related Functions
+    private func downloadDocFile(docMessage: DocMessageModel?) {
+        guard let docMessageModel = docMessage else {
+            return
+        }
+        if let index = self.chatItems.firstIndex(where: {
+            $0.messageId == docMessageModel.messageId
+        }) {
+            let cellIndexPath = IndexPath(item: index, section: 0)
+            docMessageModel.docStatus = .downloading
+            self.collectionView.performBatchUpdates({
+                self.collectionView.reloadItems(at: [cellIndexPath])
+            }, completion: nil)
+            if let fileUrl = URL(string: docMessageModel.docMessageData.downloadUrl ?? "") {
+                let fileName = fileUrl.lastPathComponent
+                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                let fileURL = documentsURL.appendingPathComponent(fileName)
+                let destination: DownloadRequest.DownloadFileDestination = {_,_ in
+                    return(fileURL,[])
+                }
+                
+                Alamofire.download(fileUrl, to: destination).downloadProgress(closure: { progress  in
+                    docMessageModel.uploadProgress = progress.fractionCompleted
+                    if let docMessageCell = self.collectionView.cellForItem(at: cellIndexPath) as? CHDocMessageCell {
+                        docMessageCell.updateProgress(fromValue: docMessageModel.uploadProgress, toValue: progress.fractionCompleted)
+                    }
+                    //print(progress.fractionCompleted)
+                    }).response(completionHandler: { (downloadResponse) in
+                        print(downloadResponse.destinationURL?.absoluteString ?? "")
+                        docMessageModel.docStatus = .availableLocal
+                        self.collectionView.performBatchUpdates({
+                            self.collectionView.reloadItems(at: [cellIndexPath])
+                        }, completion: nil)
+//                        let previewController = QLPreviewController()
+//                        previewController.dataSource = self
+//                        print(downloadResponse.destinationURL?.absoluteString ?? "")
+//                        self.previewItem = downloadResponse.destinationURL
+//                        self.present(previewController, animated: true, completion: nil)
+                    })
+            }
+            
+        }
+    }
+    
+    private func openDocFile(docMessage: DocMessageModel?) {
+        guard let docMessageModel = docMessage else {
+            return
+        }
+        if let fileUrl = URL(string: docMessageModel.docMessageData.downloadUrl ?? "") {
+            let fileName = fileUrl.lastPathComponent
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let fileURL = documentsURL.appendingPathComponent(fileName)
+            if NSData(contentsOf: fileURL) != nil {
+                let previewController = QLPreviewController()
+                previewController.dataSource = self
+                self.currentDocPreviewUrl = fileURL
+                self.navigationController?.pushViewController(previewController, animated: true)
+                //self.present(previewController, animated: true, completion: nil)
+            }
+        }
+    }
+}
+
+extension UIConversationViewController: QLPreviewControllerDataSource {
+    func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
+        return 1
+    }
+    
+    func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
+        return self.currentDocPreviewUrl as QLPreviewItem
     }
     
     

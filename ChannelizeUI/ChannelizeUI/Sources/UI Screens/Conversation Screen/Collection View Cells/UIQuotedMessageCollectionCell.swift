@@ -104,18 +104,24 @@ class QuotedMessageContainerView: UIView {
                 self.imageView.frame.size = CGSize(width: 40, height: 40)
             }
         } else {
-            self.imageView.frame.origin.y = 5
-            self.imageView.contentMode = .scaleAspectFill
-            self.imageView.frame.size = CGSize(width: 50, height: 50)
+            if quotedViewModel.typeOfMessage == .doc {
+                self.imageView.frame.origin.y = 15
+                self.imageView.frame.size = CGSize(width: 30, height: 30)
+                self.imageView.contentMode = .scaleAspectFit
+            } else {
+                self.imageView.frame.origin.y = 10
+                self.imageView.contentMode = .scaleAspectFill
+                self.imageView.frame.size = CGSize(width: 40, height: 40)
+            }
         }
         
         self.senderNameLabel.frame.origin.x = getViewOriginXEnd(view: self.imageView) + 5
-        self.senderNameLabel.frame.origin.y = 5
-        self.senderNameLabel.frame.size.height = 25
+        self.senderNameLabel.frame.origin.y = 10
+        self.senderNameLabel.frame.size.height = 20
         self.senderNameLabel.frame.size.width = self.containerView.frame.width - self.senderNameLabel.frame.origin.x - 10
         
         self.typeOfMessageLabel.frame.origin.x = getViewOriginXEnd(view: self.imageView) + 5
-        self.typeOfMessageLabel.frame.origin.y = getViewOriginYEnd(view: self.senderNameLabel) + 5
+        self.typeOfMessageLabel.frame.origin.y = getViewOriginYEnd(view: self.senderNameLabel)
         self.typeOfMessageLabel.frame.size.height = 20
         self.typeOfMessageLabel.frame.size.width = self.containerView.frame.width - self.typeOfMessageLabel.frame.origin.x - 10
         
@@ -160,30 +166,38 @@ class QuotedMessageContainerView: UIView {
                 }
             }
         } else {
-            let imageUrl = URL(string: data.imageUrl ?? "")
-            self.imageView.sd_imageTransition = .fade
-            self.imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            self.imageView.sd_setImage(with: imageUrl, placeholderImage: nil, options: [.highPriority, .continueInBackground], completed: nil)
-            
-            self.typeOfMessageLabel.textColor = data.isIncoming ? UIColor(hex: "#3A3C4C") : .white
-            switch data.typeOfMessage {
-            case .image:
-                self.typeOfMessageLabel.text = "Image"
-                break
-            case .video:
-                self.typeOfMessageLabel.text = "Video"
-                break
-            case .location:
-                self.typeOfMessageLabel.text = "Location"
-                break
-            case .gifSticker:
-                self.typeOfMessageLabel.text = "GIF"
-                break
-            case .audio:
-                self.typeOfMessageLabel.text = "Audio"
-                break
-            default:
-                break
+            if data.typeOfMessage == .doc {
+                self.imageView.backgroundColor = .clear
+                self.typeOfMessageLabel.attributedText = data.textMessage
+                self.imageView.image = getImage(data.imageUrl ?? "")
+                self.typeOfMessageLabel.attributedText = data.textMessage
+            } else {
+                self.imageView.backgroundColor = .lightGray
+                let imageUrl = URL(string: data.imageUrl ?? "")
+                self.imageView.sd_imageTransition = .fade
+                self.imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+                self.imageView.sd_setImage(with: imageUrl, placeholderImage: nil, options: [.highPriority, .continueInBackground], completed: nil)
+                
+                self.typeOfMessageLabel.textColor = data.isIncoming ? UIColor(hex: "#3A3C4C") : .white
+                switch data.typeOfMessage {
+                case .image:
+                    self.typeOfMessageLabel.text = "Image"
+                    break
+                case .video:
+                    self.typeOfMessageLabel.text = "Video"
+                    break
+                case .location:
+                    self.typeOfMessageLabel.text = "Location"
+                    break
+                case .gifSticker:
+                    self.typeOfMessageLabel.text = "GIF"
+                    break
+                case .audio:
+                    self.typeOfMessageLabel.text = "Audio"
+                    break
+                default:
+                    break
+                }
             }
         }
     }

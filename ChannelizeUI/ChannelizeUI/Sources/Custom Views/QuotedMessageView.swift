@@ -145,6 +145,8 @@ class QuotedMessageView: UIView {
         if data.imageUrl == nil {
             if data.typeOfMessage == .text || data.typeOfMessage == .quotedMessage {
                 self.typeOfMessageLabel.text = data.textMessage?.string
+            } else if data.typeOfMessage == .doc {
+                self.typeOfMessageLabel.attributedText = data.textMessage
             } else {
                 switch data.typeOfMessage {
                 case .image:
@@ -161,6 +163,9 @@ class QuotedMessageView: UIView {
                     break
                 case .audio:
                     self.typeOfMessageLabel.text = "Audio"
+                    break
+                case .doc:
+                    self.typeOfMessageLabel.text = ""
                     break
                 default:
                     break

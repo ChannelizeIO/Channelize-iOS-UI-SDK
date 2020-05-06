@@ -145,6 +145,12 @@ class AssetListController: UICollectionViewController {
 //        if let popoverController = alertController.popoverPresentationController {
 //            showIpadActionSheet(sourceView: self.view, popoverController: popoverController)
 //        }
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            alertController.overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.present(alertController,animated: true,completion: nil)
     }
     
@@ -154,6 +160,12 @@ class AssetListController: UICollectionViewController {
             let alert = UIAlertController(title: nil, message: "Camera Error", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
             alert.addAction(okAction)
+            #if compiler(>=5.1)
+            if #available(iOS 13.0, *) {
+                // Always adopt a light interface style.
+                alert.overrideUserInterfaceStyle = .light
+            }
+            #endif
             self.present(alert,animated: true,completion: nil)
             return
         }
@@ -307,6 +319,12 @@ class AssetListController: UICollectionViewController {
             let alert = UIAlertController(title: nil, message: "Maximum Image Selected", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
             alert.addAction(okAction)
+            #if compiler(>=5.1)
+            if #available(iOS 13.0, *) {
+                // Always adopt a light interface style.
+                alert.overrideUserInterfaceStyle = .light
+            }
+            #endif
             self.present(alert,animated: true,completion: nil)
             if let cell = collectionView.cellForItem(at: indexPath) as? CollectionPhotoListCell{
                 cell.isSelected = false
@@ -354,6 +372,12 @@ class AssetListController: UICollectionViewController {
             let alert = UIAlertController(title: nil, message: "Maximum Image Selected!!", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
             alert.addAction(okAction)
+            #if compiler(>=5.1)
+            if #available(iOS 13.0, *) {
+                // Always adopt a light interface style.
+                alert.overrideUserInterfaceStyle = .light
+            }
+            #endif
             present(alert,animated: true,completion: nil)
             return false
         }

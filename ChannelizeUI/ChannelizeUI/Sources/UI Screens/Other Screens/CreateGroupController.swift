@@ -9,7 +9,7 @@
 import UIKit
 import ChannelizeAPI
 
-class CreateGroupController: UIViewController, CHAllContactsDelegates {
+class CreateGroupController: ChannelizeController, CHAllContactsDelegates {
 
     private var allFriends = [CHUser]()
     private var isApiLoading = false
@@ -169,6 +169,12 @@ class CreateGroupController: UIViewController, CHAllContactsDelegates {
         let alertViewController = UIAlertController(title: withTitle, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alertViewController.addAction(okAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            alertViewController.overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.present(alertViewController,animated: true,completion: nil)
     }
     
@@ -366,7 +372,15 @@ extension CreateGroupController: UIImagePickerControllerDelegate, UINavigationCo
         alert.addAction(action1)
         alert.addAction(deletePhotoAction)
         alert.addAction(cancelAction)
-        
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            alert.overrideUserInterfaceStyle = .light
+        }
+        #endif
+        if let popoverController = alert.popoverPresentationController {
+            showIpadActionSheet(sourceView: self.view, popoverController: popoverController)
+        }
         self.present(alert,animated: true,completion: nil)
     }
     

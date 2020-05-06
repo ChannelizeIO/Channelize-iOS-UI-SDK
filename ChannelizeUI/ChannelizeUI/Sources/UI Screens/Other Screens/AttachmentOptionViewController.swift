@@ -29,7 +29,7 @@ class AttachmentOptionModel {
     
 }
 
-class AttachmentOptionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class AttachmentOptionViewController: ChannelizeController, UITableViewDelegate, UITableViewDataSource {
     
     var options = [AttachmentOptionModel]()
     

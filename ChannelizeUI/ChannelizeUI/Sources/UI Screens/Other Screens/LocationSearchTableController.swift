@@ -108,6 +108,12 @@ class LocationSearchTableController: UITableViewController, UISearchBarDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.view.backgroundColor = UIColor(hex: "#f2f2f7")
         self.locationSearchBar.delegate = self
         self.navigationItem.titleView = self.locationSearchBar

@@ -14,7 +14,7 @@ protocol GiphyStickerSelectorDelegate {
     func didSelectMedia(type: GiphType, model: CHGiphImageModel)
 }
 
-class GiphStickerViewController: UIViewController, UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class GiphStickerViewController: ChannelizeController, UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var keyBoardManager: KeyboardManager?
     var lastSearchedWord: String?

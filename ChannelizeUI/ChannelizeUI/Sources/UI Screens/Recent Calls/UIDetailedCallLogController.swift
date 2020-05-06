@@ -83,6 +83,12 @@ class UIDetailedCallLogController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            overrideUserInterfaceStyle = .light
+        }
+        #endif
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.titleView = self.headerView
         self.headerView.onBackButtonTapped = {[weak self](sender) in

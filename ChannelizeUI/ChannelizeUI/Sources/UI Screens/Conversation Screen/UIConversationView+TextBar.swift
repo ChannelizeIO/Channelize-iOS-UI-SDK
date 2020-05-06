@@ -31,6 +31,9 @@ extension UIConversationViewController: InputBarAccessoryViewDelegate, CHInputTe
             self?.openLocationShareController()
         })
         
+        let documentAction = UIAlertAction(title: "Send Document", style: .default, handler: {[weak self](action) in
+            self?.openDocumentPicker()
+        })
         
         let gifAction = UIAlertAction(title: "Send Gifs and Stickers", style: .default, handler: {[weak self] (action) in
             self?.openGifStickerSelectorView(type: .gif)
@@ -44,11 +47,24 @@ extension UIConversationViewController: InputBarAccessoryViewDelegate, CHInputTe
         attachmentActionSheet.addAction(videoOption)
         attachmentActionSheet.addAction(audioOption)
         attachmentActionSheet.addAction(locationAction)
+        if CHConstants.isDocumentMessageEnabled {
+            attachmentActionSheet.addAction(documentAction)
+        }
         if CHConstants.isGifStickerMessageEnabled {
             attachmentActionSheet.addAction(gifAction)
         }
+        
         //attachmentActionSheet.addAction(stickerAction)
         attachmentActionSheet.addAction(cancelAction)
+        #if compiler(>=5.1)
+        if #available(iOS 13.0, *) {
+            // Always adopt a light interface style.
+            attachmentActionSheet.overrideUserInterfaceStyle = .light
+        }
+        #endif
+        if let popoverController = attachmentActionSheet.popoverPresentationController {
+            showIpadActionSheet(sourceView: self.view, popoverController: popoverController)
+        }
         self.present(attachmentActionSheet, animated: true, completion: nil)
         
         /*

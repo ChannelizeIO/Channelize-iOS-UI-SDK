@@ -39,6 +39,7 @@ enum BaseMessageType {
     case groupedImages
     case unReadMessage
     case quotedMessage
+    case doc
 }
 
 //protocol NormalMessageItemProtocol: BaseMessageItemProtocol {
