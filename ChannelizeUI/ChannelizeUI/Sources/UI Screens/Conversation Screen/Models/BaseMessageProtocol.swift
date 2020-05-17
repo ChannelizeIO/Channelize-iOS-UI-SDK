@@ -42,13 +42,13 @@ enum BaseMessageType {
     case doc
 }
 
-//protocol NormalMessageItemProtocol: BaseMessageItemProtocol {
+protocol NormalMessageItemProtocol: BaseMessageItemProtocol {
 //    var senderId: String { get }
 //    var isIncoming: Bool { get }
 //    var senderName: String { get }
 //    var senderImageUrl: String { get }
 //    var messageDate: Date { get }
-//}
+}
 
 
 protocol BaseMessageItemProtocol: class {
@@ -67,6 +67,9 @@ protocol BaseMessageItemProtocol: class {
     var isMessageSelected: Bool { get set }
     var uploadProgress: Double { get set }
     var showMessageStatusView: Bool { get set }
+    var myMessageReactions: [String] { get set }
+    var reactionCountsInfo: [String:Int] { get set }
+    var reactions: [ReactionModel] { get set }
 }
 
 

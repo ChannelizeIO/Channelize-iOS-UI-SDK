@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+
+public var emojiCodes = [
+"like":"\u{1f44d}", "dislike":"\u{1f44e}", "laughing":"\u{1f606}", "angry":"\u{1f621}", "crying":"\u{1f622}", "smile eyes":"\u{1f60a}", "star":"\u{1f31f}", "party":"\u{1f389}", "gift":"\u{1f381}"]
+
 open class CHCustomStyles {
     static var main : CHCustomStyles {
         let style = CHCustomStyles()
@@ -36,13 +40,15 @@ open class CHCustomStyles {
     
     //MARK:- Variables For Photo and Video Message Bubble
     
-    public static var photoBubbleSize : CGSize = CGSize(width: 210, height: 136)
+    public static var photoBubbleSize : CGSize = CGSize(width: 260, height: 240)
+    public static var videoMessageSize : CGSize = CGSize(width: 220, height: 270)
+    public static var gifStickerMessageSize: CGSize = CGSize(width: 220, height: 175)
     public static var stickerMessageSize : CGSize = CGSize(width: 100, height: 100)
     public static var gifMessageSize : CGSize = CGSize(width: 210, height: 136)
     public static var locationMessageSize : CGSize = CGSize(width: 210, height: 136)
-    public static var videoMessageSize : CGSize = CGSize(width: 210, height: 136)
     public static var squarePhotoSize : CGSize = CGSize(width: 210, height: 210)
-    
+    public static var audioMessageSize: CGSize = CGSize(width: 280, height: 80)
+    public static var docMessageSize: CGSize = CGSize(width: 230, height: 110)
     //MARK:- Varibles For Base Message Bubble
     
     /// Default hex color #E6ECF2
@@ -98,49 +104,27 @@ open class CHCustomStyles {
     
     //MARK:- Variables to Set Custom text and Images for Tab Bar Controllers
     /// Default True
-    public static var showTabNames : Bool = true
     public static var recentScreenTabTitle = CHLocalized(key: "pmRecent")
     public static var contactScreenTabTitle = CHLocalized(key: "pmContacts")
     public static var groupScreenTabTitle = CHLocalized(key: "pmGroups")
     public static var settingsScreenTabTitle = CHLocalized(key: "pmSettings")
     
-    public static var recentScreenTabImage = getImage("recent")
-    public static var contactScreenTabImage = getImage("contacts")
-    public static var groupsScreenTabImage = getImage("groups")
-    public static var settingsScreenTabImage = getImage("settings")
+    public static var recentScreenTabImage = getImage("chTabBarChatIcon")
+    public static var contactScreenTabImage = getImage("chTabBarContactsIcon")
+    public static var groupsScreenTabImage = getImage("chTabBarGroupIcon")
+    public static var settingsScreenTabImage = getImage("chTabBarSettingIcon")
     
-    public static var recentScreenSelectedTabImage = getImage("recent_filled")
-    public static var contactScreenSelectedTabImage = getImage("contacts_filled")
-    public static var groupsScreenSelectedTabImage = getImage("groups_filled")
-    public static var settingsScreenSelectedTabImage = getImage("settings_filled")
-    
-    /// Default White
-    public static var tabBarBgColor : UIColor = .white
-    /// Defult AppColor
-    public static var tabBarTintColor : UIColor = CHUIConstants.appDefaultColor
-    /// Default False
-    public static var isTabBarSolid : Bool = false
-    /// Default Gray
-    public static var tabBarItemImageColor : UIColor = .gray
-    /// Default Gray
-    public static var tabBarItemTextColor : UIColor = .gray
-    
-    //MARK:- Variables for NavigationBar
-    /// Default app Default Color
-    public static var navigationBarTintColor : UIColor = CHUIConstants.appDefaultColor
-    /// Default White
-    public static var navigationBarBarTintColor : UIColor = UIColor.white
-    /// Default False
-    public static var isNavigationBarSolid : Bool = false
-    /// Default Dark or .default
-    public static var navigationBarStatusStyle : UIStatusBarStyle = UIStatusBarStyle.default
+    public static var recentScreenSelectedTabImage: UIImage? = nil
+    public static var contactScreenSelectedTabImage: UIImage? = nil
+    public static var groupsScreenSelectedTabImage: UIImage? = nil
+    public static var settingsScreenSelectedTabImage: UIImage? = nil
     
     //MARK:- Variables for Seachbar
     
     /// Default Clear
-    public static var searchBarBackgroundColor : UIColor = UIColor.clear
+    public static var searchBarBackgroundColor : UIColor = UIColor.white
     /// Default White
-    public static var searchBarTextColor : UIColor = UIColor.white
+    public static var searchBarTextColor : UIColor = UIColor.black
     /// Default White
     public static var searchBarTintColor : UIColor = UIColor.white
     
@@ -151,19 +135,17 @@ open class CHCustomOptions {
     //MARK:- Variables for Message Options
     public static var enableMessageForwarding : Bool = true
     public static var enableMessageQuoting : Bool = true
-    public static var enableSearching : Bool = true
-    public static var enableUserLastSeen : Bool = true
-    public static var enableUserOnlineIndicator : Bool = true
     public static var enableAudioMessages : Bool = true
     public static var enableImageMessages : Bool = true
     public static var enableVideoMessages : Bool = true
     public static var enableLocationMessages : Bool = true
     public static var enableStickerAndGifMessages : Bool = true
     public static var enableDocSharingMessage: Bool = true
+    public static var enableMessageReactions: Bool = true
     
     //MARK:- Variables for Attachments Limits In MB
     public static var maximumImageSize : CGFloat = 50.0
-    public static var maximumVideoSize : CGFloat = 25.0
+    public static var maximumVideoSize : CGFloat = 50.0
     public static var maximumAudioSize : CGFloat = 25.0
     public static var maximumDocumentSize: CGFloat = 50.0
     
@@ -188,10 +170,7 @@ open class CHCustomOptions {
     public static var keyboardAppearance : UIKeyboardAppearance = .light
     
     //MARK:- Global Functionalaties
-    public static var allowSearching : Bool = true
-    
-    // MARK:- Call SKD Module Enabled or Not
-    public static var enableCallModule : Bool = false
+    public static var enableSearching : Bool = true
     
     // MARK:- Show View Profile Button on user Profile
     public static var enableViewProfileButton : Bool = true

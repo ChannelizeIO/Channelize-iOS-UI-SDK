@@ -464,6 +464,11 @@ extension UIConversationViewController {
             let stillUrl = message.attachments?.first?.gifStickerStillUrl
             let originalUrl = message.attachments?.first?.gifStickerOriginalUrl
             let gifStickerModel = GifStickerMessageModel(baseMessageModel: baseMessageData, downSampledUrl: downSampledUrl, stillUrl: stillUrl, originalUrl: originalUrl)
+            if CHCustomOptions.enableMessageReactions {
+                gifStickerModel.myMessageReactions = message.myReactions ?? []
+                gifStickerModel.reactionCountsInfo = message.reactionsCount ?? [:]
+                gifStickerModel.reactions = createReactionModels(chatItem: gifStickerModel)
+            }
             return gifStickerModel
         case .deletedMessage:
             let deletedMessageModel = TextMessageModel(messageBody: nil, mentionedUsers: nil, baseMessageModel: baseMessageData, isDeleted: true)
@@ -471,20 +476,40 @@ extension UIConversationViewController {
         case .text:
             let messageBody = message.body
             let textMessageModel = TextMessageModel(messageBody: messageBody, mentionedUsers: message.mentionedUser, baseMessageModel: baseMessageData)
+            if CHCustomOptions.enableMessageReactions {
+                textMessageModel.myMessageReactions = message.myReactions ?? []
+                textMessageModel.reactionCountsInfo = message.reactionsCount ?? [:]
+                textMessageModel.reactions = createReactionModels(chatItem: textMessageModel)
+            }
             return textMessageModel
         case .image:
             let imageUrl = message.attachments?.first?.fileUrl
             let imageMessageModel = ImageMessageModel(baseMessageModel: baseMessageData, fileImageUrl: imageUrl)
+            if CHCustomOptions.enableMessageReactions {
+                imageMessageModel.myMessageReactions = message.myReactions ?? []
+                imageMessageModel.reactionCountsInfo = message.reactionsCount ?? [:]
+                imageMessageModel.reactions = createReactionModels(chatItem: imageMessageModel)
+            }
             return imageMessageModel
         case .video:
             let videoUrl = message.attachments?.first?.fileUrl
             let thumbnailUrl = message.attachments?.first?.thumbnailUrl
             let videoMessageModel = VideoMessageModel(baseMessageModel: baseMessageData, videoUrl: videoUrl, thumbnailUrl: thumbnailUrl)
+            if CHCustomOptions.enableMessageReactions {
+                videoMessageModel.myMessageReactions = message.myReactions ?? []
+                videoMessageModel.reactionCountsInfo = message.reactionsCount ?? [:]
+                videoMessageModel.reactions = createReactionModels(chatItem: videoMessageModel)
+            }
             return videoMessageModel
         case .audio:
             let audioUrl = message.attachments?.first?.fileUrl
             let audioDuration = message.attachments?.first?.audioDuration
             let audioMessageModel = AudioMessageModel(baseMessageModel: baseMessageData, audioUrl: audioUrl, audioDuration: audioDuration)
+            if CHCustomOptions.enableMessageReactions {
+                audioMessageModel.myMessageReactions = message.myReactions ?? []
+                audioMessageModel.reactionCountsInfo = message.reactionsCount ?? [:]
+                audioMessageModel.reactions = createReactionModels(chatItem: audioMessageModel)
+            }
             return audioMessageModel
         case .location:
             let locationName = message.attachments?.first?.locationTitle
@@ -492,6 +517,11 @@ extension UIConversationViewController {
             let locationLatitude = message.attachments?.first?.locationLatitude
             let locationLongitude = message.attachments?.first?.locationLongitude
             let locationMessageModel = LocationMessageModel(baseMessageModel: baseMessageData, locationName: locationName, locationAddress: locationAddress, locationLatitude: locationLatitude, locationLongitude: locationLongitude)
+            if CHCustomOptions.enableMessageReactions {
+                locationMessageModel.myMessageReactions = message.myReactions ?? []
+                locationMessageModel.reactionCountsInfo = message.reactionsCount ?? [:]
+                locationMessageModel.reactions = createReactionModels(chatItem: locationMessageModel)
+            }
             return locationMessageModel
         case .metaMessage:
             if let firstAttachment = message.attachments?.first {
@@ -512,6 +542,11 @@ extension UIConversationViewController {
         case .quotedMessage:
             let messageBody = message.body
             let quotedMessageModel = QuotedMessageModel(messageBody: messageBody, mentionedUsers: message.mentionedUser, baseMessageModel: baseMessageData, parentMessage: message.parentMessage)
+            if CHCustomOptions.enableMessageReactions {
+                quotedMessageModel.myMessageReactions = message.myReactions ?? []
+                quotedMessageModel.reactionCountsInfo = message.reactionsCount ?? [:]
+                quotedMessageModel.reactions = createReactionModels(chatItem: quotedMessageModel)
+            }
             return quotedMessageModel
         case .missedVideoCall:
             let callerName = message.attachments?.first?.metaData?.objectUser?.displayName?.capitalized
@@ -535,7 +570,11 @@ extension UIConversationViewController {
             
             let docMessageData = DocMessageData(fileName: fileName, downloadUrl: docDownloadUrl, fileType: fileType, fileSize: fileSize, mimeType: message.attachments?.first?.mimeType, fileExtension: message.attachments?.first?.attachmentExtension)
             let docMessageModel = DocMessageModel(baseMessageModel: baseMessageData, messageData: docMessageData)
-            
+            if CHCustomOptions.enableMessageReactions {
+                docMessageModel.myMessageReactions = message.myReactions ?? []
+                docMessageModel.reactionCountsInfo = message.reactionsCount ?? [:]
+                docMessageModel.reactions = createReactionModels(chatItem: docMessageModel)
+            }
             if let fileUrl = URL(string: docMessageModel.docMessageData.downloadUrl ?? "") {
                 let fileName = fileUrl.lastPathComponent
                 let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -1086,4 +1125,18 @@ extension UIConversationViewController {
             }
         }
     }
+}
+
+func createReactionModels(chatItem: BaseMessageItemProtocol) -> [ReactionModel] {
+    var reactionsModels = [ReactionModel]()
+    let reactionCountInfo = chatItem.reactionCountsInfo.sorted(by: { $0.value > $1.value })
+    reactionCountInfo.forEach({
+        let model = ReactionModel()
+        model.counts = $0.value
+        model.unicode = emojiCodes[$0.key]
+        if model.counts ?? 0 > 0 {
+            reactionsModels.append(model)
+        }
+    })
+    return reactionsModels
 }

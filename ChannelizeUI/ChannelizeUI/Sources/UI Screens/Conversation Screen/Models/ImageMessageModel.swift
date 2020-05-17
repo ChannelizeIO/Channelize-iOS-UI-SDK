@@ -58,6 +58,11 @@ class ImageMessageModel: BaseMessageItemProtocol, Differentiable {
         return .image
     }
     
+    var myMessageReactions: [String] = []
+    var reactionCountsInfo: [String : Int] = [:]
+    
+    var reactions: [ReactionModel] = []
+    
     var showMessageStatusView: Bool = false
     
     var messageStatus: BaseMessageStatus

@@ -12,6 +12,11 @@ import SDWebImageFLPlugin
 
 class CHGifStickerMessageCell: BaseChatItemCollectionCell {
     
+    private var messageContainerView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     private var imageView: FLAnimatedImageView = {
         let imageView = FLAnimatedImageView()
         imageView.runLoopMode = RunLoop.Mode.default.rawValue
@@ -24,11 +29,42 @@ class CHGifStickerMessageCell: BaseChatItemCollectionCell {
         return imageView
     }()
     
+    var reactionButton: UIButton = {
+        let button = UIButton()
+        //button.layer.masksToBounds = true
+        button.setImage(getImage("chReactionIcon"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.tintColor = UIColor(hex: "#c5c5c5")
+        button.imageView?.layer.masksToBounds = true
+        button.isUserInteractionEnabled = true
+        button.isEnabled = true
+        return button
+    }()
+    
+    private var smileIconView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.tintColor = UIColor(hex: "#1c1c1c")
+        imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .clear
+        imageView.layer.masksToBounds = true
+        imageView.isUserInteractionEnabled = true
+        imageView.image = getImage("chReactionIcon")
+        return imageView
+    }()
+    
     var gifStickerModel: GifStickerMessageModel?
+    
+    var onReactionButtonPressed: ((_ model: CHGifStickerMessageCell?) -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.bubbleContainerView.addSubview(imageView)
+        self.bubbleContainerView.addSubview(messageContainerView)
+        self.messageContainerView.addSubview(imageView)
+        self.messageContainerView.addSubview(reactionButton)
+        self.messageContainerView.addSubview(reactionsContainerView)
+        //self.messageContainerView.addSubview(self.smileIconView)
+        self.reactionButton.addTarget(self, action: #selector(didTapOnReactionButton(sender:)), for: .touchUpInside)
+        //self.bubbleContainerView.addSubview(imageView)
     }
     
     required init?(coder: NSCoder) {
@@ -40,14 +76,50 @@ class CHGifStickerMessageCell: BaseChatItemCollectionCell {
         guard let gifStickerModel = chatItem as? GifStickerMessageModel else {
             return
         }
+        //self.bubbleTapGesture.isEnabled = false
+        self.cellTapGesture.isEnabled = false
+        self.longPressTapGesture.isEnabled = false
         self.gifStickerModel = gifStickerModel
-        let imageViewSize = CGSize(width: 220, height: self.bubbleContainerView.frame.height)
-        self.imageView.frame.size = imageViewSize
+        
+        let containerSize = CGSize(width: CHCustomStyles.gifStickerMessageSize.width, height: self.bubbleContainerView.frame.height)
+        let containerYOrigin: CGFloat = 0
+        self.messageContainerView.frame.size = containerSize
+        self.messageContainerView.frame.origin.y = containerYOrigin
+        
         if gifStickerModel.isIncoming {
-            self.imageView.frame.origin.x = 15
+            self.messageContainerView.frame.origin.x = 15
         } else {
-            self.imageView.frame.origin.x = self.bubbleContainerView.frame.width - imageViewSize.width - 15
+            self.messageContainerView.frame.origin.x = self.bubbleContainerView.frame.width - containerSize.width - 15
         }
+        
+        let imageViewSize = CHCustomStyles.gifStickerMessageSize
+        self.imageView.frame.size = imageViewSize
+        self.imageView.frame.origin = .zero
+        
+        
+        self.reactionButton.frame.size = CGSize(width: 22, height: 22)
+        self.reactionButton.frame.origin.x = getViewOriginXEnd(view: self.imageView) + 2.5
+        self.reactionButton.frame.origin.y = self.imageView.frame.origin.y
+        
+        if gifStickerModel.isIncoming {
+            if CHCustomOptions.enableMessageReactions {
+                self.reactionButton.isHidden = false
+            } else {
+                self.reactionButton.isHidden = true
+            }
+        } else {
+            self.reactionButton.isHidden = true
+        }
+        
+        let reactionViewHeight = super.calculateReactionViewHeight(chatItem: chatItem)
+        let reactionViewWidth = CHCustomStyles.gifStickerMessageSize.width
+        
+        self.reactionsContainerView.frame.size = CGSize(width: reactionViewWidth, height: reactionViewHeight)
+        self.reactionsContainerView.frame.origin.x = 0
+        self.reactionsContainerView.frame.origin.y = getViewOriginYEnd(view: self.imageView) - 15
+        
+        self.reactionsContainerView.assignReactions(reactions: chatItem.reactions)
+        //self.reactionsContainerView.assignReactions(reactions: super.createReactionModels(chatItem: chatItem))
         
         if let downSampledUrl = gifStickerModel.downSampledUrl {
             if let gifUrl = URL(string: downSampledUrl) {
@@ -59,7 +131,8 @@ class CHGifStickerMessageCell: BaseChatItemCollectionCell {
     }
     
     override func didTapOnBubble(tapGesture: UITapGestureRecognizer) {
-        self.onBubbleTapped?(self)
+        self.onReactionButtonPressed?(self)
+        //self.onBubbleTapped?(self)
     }
     
     override func didLongPressBubble(longPressGesture: UILongPressGestureRecognizer) {
@@ -70,6 +143,27 @@ class CHGifStickerMessageCell: BaseChatItemCollectionCell {
     
     override func didSelectDeSelectCell(tapGesture: UITapGestureRecognizer) {
         self.onCellTapped?(self)
+    }
+    
+    @objc private func didTapOnReactionButton(sender: UIButton) {
+        self.onReactionButtonPressed?(self)
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        var view = reactionButton.hitTest(reactionButton.convert(point, from: self), with: event)
+        if view == nil {
+            view = super.hitTest(point, with: event)
+        }
+
+        return view
+    }
+
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if super.point(inside: point, with: event) {
+            return true
+        }
+
+        return !reactionButton.isHidden && reactionButton.point(inside: reactionButton.convert(point, from: self), with: event)
     }
     
 }

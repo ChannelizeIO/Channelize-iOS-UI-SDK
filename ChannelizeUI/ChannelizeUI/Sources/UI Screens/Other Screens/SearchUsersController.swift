@@ -25,8 +25,8 @@ class SearchUsersController: UITableViewController, UISearchBarDelegate {
     private var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.showsCancelButton = false
-        searchBar.textField?.tintColor = .black
-        searchBar.setTextFieldBackgroundColor(color: .white)
+        searchBar.textField?.tintColor = CHCustomStyles.searchBarTextColor
+        searchBar.setTextFieldBackgroundColor(color: CHCustomStyles.searchBarBackgroundColor)
         return searchBar
     }()
     

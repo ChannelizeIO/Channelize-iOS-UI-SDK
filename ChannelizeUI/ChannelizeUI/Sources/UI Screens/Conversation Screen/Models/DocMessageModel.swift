@@ -46,6 +46,12 @@ class DocMessageModel: BaseMessageItemProtocol {
         return true
     }
     
+    var myMessageReactions: [String] = []
+    
+    var reactionCountsInfo: [String : Int] = [:]
+    
+    var reactions: [ReactionModel] = []
+    
     var showSenderName: Bool = false
     
     var showDataSeperator: Bool = false

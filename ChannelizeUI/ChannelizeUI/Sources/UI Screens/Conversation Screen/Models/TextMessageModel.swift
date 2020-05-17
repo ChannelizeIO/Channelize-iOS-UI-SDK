@@ -60,6 +60,12 @@ class TextMessageModel: BaseMessageItemProtocol, Differentiable {
         }
     }
     
+    var myMessageReactions: [String] = []
+    
+    var reactionCountsInfo: [String : Int] = [:]
+    
+    var reactions: [ReactionModel] = []
+    
     var isMessageSelectorOn: Bool = false
     
     var isMessageSelected: Bool = false

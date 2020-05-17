@@ -36,6 +36,12 @@ class LinkPreviewModel : BaseMessageItemProtocol, Differentiable{
         return self.showMessageStatusView == source.showMessageStatusView && self.showSenderName == source.showSenderName && self.showDataSeperator == source.showDataSeperator
     }
     
+    var myMessageReactions: [String] = []
+    
+    var reactionCountsInfo: [String : Int] = [:]
+    
+    var reactions: [ReactionModel] = []
+    
     var showSenderName: Bool = false
     
     var showMessageStatusView: Bool = false

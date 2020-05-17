@@ -51,6 +51,12 @@ class MissCallMessageModel: BaseMessageItemProtocol, Differentiable {
         return self.baseMessageModel.messageDate
     }
     
+    var myMessageReactions: [String] = []
+    
+    var reactionCountsInfo: [String : Int] = [:]
+    
+    var reactions: [ReactionModel] = []
+    
     var messageStatus: BaseMessageStatus
     
     var messageType: BaseMessageType {

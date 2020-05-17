@@ -43,14 +43,22 @@ extension UIConversationViewController: InputBarAccessoryViewDelegate, CHInputTe
 //        })
         let cancelAction = UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .cancel, handler: nil)
         
-        attachmentActionSheet.addAction(imageOption)
-        attachmentActionSheet.addAction(videoOption)
-        attachmentActionSheet.addAction(audioOption)
-        attachmentActionSheet.addAction(locationAction)
-        if CHConstants.isDocumentMessageEnabled {
+        if CHCustomOptions.enableImageMessages {
+            attachmentActionSheet.addAction(imageOption)
+        }
+        if CHCustomOptions.enableVideoMessages {
+            attachmentActionSheet.addAction(videoOption)
+        }
+        if CHCustomOptions.enableAudioMessages {
+            attachmentActionSheet.addAction(audioOption)
+        }
+        if CHCustomOptions.enableLocationMessages {
+            attachmentActionSheet.addAction(locationAction)
+        }
+        if CHCustomOptions.enableDocSharingMessage {
             attachmentActionSheet.addAction(documentAction)
         }
-        if CHConstants.isGifStickerMessageEnabled {
+        if CHCustomOptions.enableStickerAndGifMessages {
             attachmentActionSheet.addAction(gifAction)
         }
         

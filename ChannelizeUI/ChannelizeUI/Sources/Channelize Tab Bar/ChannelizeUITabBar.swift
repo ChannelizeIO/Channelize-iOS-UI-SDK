@@ -73,60 +73,63 @@ class ChannelizeUITabBar: UITabBarController {
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         #endif
         
+        
+        let recentTabTitle = CHCustomStyles.recentScreenTabTitle
+        let contactTabTitle = CHCustomStyles.contactScreenTabTitle
+        let groupTabTitle = CHCustomStyles.groupScreenTabTitle
+        let settingsTabTitle = CHCustomStyles.settingsScreenTabTitle
+        
+        let recentTabImage = CHCustomStyles.recentScreenTabImage
+        
+        let contactTabImage = CHCustomStyles.contactScreenTabImage
+        
+        let groupsTabImage = CHCustomStyles.groupsScreenTabImage
+        
+        let settingsTabImage = CHCustomStyles.settingsScreenTabImage
+        
+        let recentTabSelectedImage = CHCustomStyles.recentScreenSelectedTabImage
+        let contactTabSelectedImage = CHCustomStyles.contactScreenSelectedTabImage
+        let groupsTabSelectedImage = CHCustomStyles.groupsScreenSelectedTabImage
+        let settingsTabSelectedImage = CHCustomStyles.settingsScreenSelectedTabImage
+        
+        
+        
+        
         let recentConversationController = UIRecentConversationController()
         let recentNavigationController = UINavigationController(rootViewController: recentConversationController)
-        recentNavigationController.tabBarItem.image = getImage("chTabBarChatIcon")
-        recentNavigationController.tabBarItem.selectedImage = nil
-        recentNavigationController.tabBarItem.title = "Recent"
+        recentNavigationController.tabBarItem.image = recentTabImage
+        recentNavigationController.tabBarItem.selectedImage = recentTabSelectedImage
+        recentNavigationController.tabBarItem.title = recentTabTitle
+        //recentNavigationController.tabBarItem.imageInsets = imageInsets
         
         let contactsViewController = UIContactsViewController()
         let contactsNavigationController = UINavigationController(rootViewController: contactsViewController)
-        contactsNavigationController.tabBarItem.image = getImage("chTabBarContactsIcon")
-        contactsNavigationController.tabBarItem.selectedImage = nil
-        contactsNavigationController.tabBarItem.title = "Contacts"
+        contactsNavigationController.tabBarItem.image = contactTabImage
+        contactsNavigationController.tabBarItem.selectedImage = contactTabSelectedImage
+        contactsNavigationController.tabBarItem.title = contactTabTitle
+        //contactsNavigationController.tabBarItem.imageInsets = imageInsets
         
         let layout = UICollectionViewFlowLayout()
         let groupListViewController = UIGroupsViewController(collectionViewLayout: layout)
         let groupNavigationController = UINavigationController(rootViewController: groupListViewController)
-        groupNavigationController.tabBarItem.image = getImage("chTabBarGroupIcon")
-        groupNavigationController.tabBarItem.selectedImage = nil
-        groupNavigationController.tabBarItem.title = "Groups"
+        groupNavigationController.tabBarItem.image = groupsTabImage
+        groupNavigationController.tabBarItem.selectedImage = groupsTabSelectedImage
+        groupNavigationController.tabBarItem.title = groupTabTitle
+        //groupNavigationController.tabBarItem.imageInsets = imageInsets
         
         let settingsViewController = UISettingsViewController()
         let settingNavigationController = UINavigationController(rootViewController: settingsViewController)
-        settingNavigationController.tabBarItem.image = getImage("chTabBarSettingIcon")
-        settingNavigationController.tabBarItem.selectedImage = nil
-        settingNavigationController.tabBarItem.title = "Settings"
+        settingNavigationController.tabBarItem.image = settingsTabImage
+        settingNavigationController.tabBarItem.selectedImage = settingsTabSelectedImage
+        settingNavigationController.tabBarItem.title = settingsTabTitle
+        //settingNavigationController.tabBarItem.imageInsets = imageInsets
         
         let recentCallViewController = UIRecentCallsViewController()
         let recentCallNavigationController = UINavigationController(rootViewController: recentCallViewController)
         recentCallNavigationController.tabBarItem.image = getImage("chTabBarCallIcon")
         recentCallNavigationController.tabBarItem.selectedImage = nil
         recentCallNavigationController.tabBarItem.title = "Calls"
-        
-        /*
-        let contactsViewController = UIContactsViewController2()
-        let contactsNavigationController = UINavigationController(rootViewController: contactsViewController)
-        contactsNavigationController.tabBarItem.image = getImage("chTabBarContactsIcon")
-        contactsNavigationController.tabBarItem.selectedImage = nil
-        contactsNavigationController.tabBarItem.title = "Contacts"
-        
-        let layout = UICollectionViewFlowLayout()
-        let groupListViewController = UIGroupsViewController(collectionViewLayout: layout)
-        let groupNavigationController = UINavigationController(rootViewController: groupListViewController)
-        groupNavigationController.tabBarItem.image = getImage("chTabBarGroupIcon")
-        groupNavigationController.tabBarItem.selectedImage = nil
-        groupNavigationController.tabBarItem.title = "Groups"
-        
-        let settingsViewController = UISettingsViewController()
-        let settingNavigationController = UINavigationController(rootViewController: settingsViewController)
-        settingNavigationController.tabBarItem.image = getImage("chTabBarSettingIcon")
-        settingNavigationController.tabBarItem.selectedImage = nil
-        settingNavigationController.tabBarItem.title = "Settings"
-        
-        viewControllers = [recentNavigationController, contactsNavigationController, groupNavigationController, settingNavigationController]
-    */
-        //AllFriends.getInitialContacts()
+        //recentCallNavigationController.tabBarItem.imageInsets = imageInsets
         if CHConstants.isChannelizeCallAvailable {
             viewControllers = [recentNavigationController,contactsNavigationController,groupNavigationController,recentCallNavigationController,
             settingNavigationController]
@@ -138,3 +141,23 @@ class ChannelizeUITabBar: UITabBarController {
     }
 }
 
+//extension UITabBar {
+//    override open func sizeThatFits(_ size: CGSize) -> CGSize {
+//        super.sizeThatFits(size)
+//        guard let window = UIApplication.shared.keyWindow else {
+//            return super.sizeThatFits(size)
+//        }
+//        var sizeThatFits = super.sizeThatFits(size)
+//        if #available(iOS 11.0, *) {
+//            if CHCustomStyles.showTabNames {
+//                sizeThatFits.height = window.safeAreaInsets.bottom + 55
+//            } else {
+//                sizeThatFits.height = window.safeAreaInsets.bottom + 42
+//            }
+//            //sizeThatFits.height = window.safeAreaInsets.bottom + 55
+//        }else{
+//            sizeThatFits.height = 55
+//        }
+//        return sizeThatFits
+//    }
+//}

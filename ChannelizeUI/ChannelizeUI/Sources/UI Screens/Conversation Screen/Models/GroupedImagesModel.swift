@@ -87,5 +87,9 @@ class GroupedImagesModel: BaseMessageItemProtocol, Differentiable {
         self.imagesModel = models
     }
     
+    var myMessageReactions: [String] = []
+    var reactionCountsInfo: [String : Int] = [:]
+    var reactions: [ReactionModel] = []
+    
 }
 

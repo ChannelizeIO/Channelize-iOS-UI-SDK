@@ -22,7 +22,7 @@ extension UIConversationViewController {
                 return
             }
             if let recievedMessages = messages {
-                
+                print(recievedMessages.first?.myReactions ?? [])
                 // Convert Them to realm Model
 
                 
@@ -157,6 +157,10 @@ extension UIConversationViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
+        
+        
+        self.view.viewWithTag(2056)?.removeFromSuperview()
+        
         if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0{
 //            print("============================")
 //            print(scrollView.contentOffset.y)
@@ -186,11 +190,11 @@ extension UIConversationViewController {
                 plusButton.isHidden = true
             }
         } else {
-            print("============================")
-            print(scrollView.contentOffset.y)
-            print(scrollView.contentSize.height)
-            print(scrollView.bounds.height)
-            print("############################")
+//            print("============================")
+//            print(scrollView.contentOffset.y)
+//            print(scrollView.contentSize.height)
+//            print(scrollView.bounds.height)
+//            print("############################")
             let contentOffset = scrollView.contentOffset.y
             let contentSize = scrollView.contentSize.height
             let collectionViewHeight = scrollView.bounds.height

@@ -37,9 +37,9 @@ class LocationSearchTableController: UITableViewController, UISearchBarDelegate,
     //private var mapView: MKMapView?
     private var locationSearchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.tintColor = .white
-        searchBar.textField?.tintColor = .black
-        searchBar.setTextFieldBackgroundColor(color: .white)
+        searchBar.tintColor = CHCustomStyles.searchBarTintColor
+        searchBar.textField?.tintColor = CHCustomStyles.searchBarTextColor
+        searchBar.setTextFieldBackgroundColor(color: CHCustomStyles.searchBarBackgroundColor)
         return searchBar
     }()
     

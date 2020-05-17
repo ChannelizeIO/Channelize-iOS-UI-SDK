@@ -79,10 +79,21 @@ class CHDocMessageCell: BaseChatItemCollectionCell {
         return button
     }()
     
+    var reactionButton: UIButton = {
+        let button = UIButton()
+        button.layer.masksToBounds = true
+        button.setImage(getImage("chReactionIcon"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.tintColor = UIColor(hex: "#c5c5c5")
+        button.imageView?.layer.masksToBounds = true
+        return button
+    }()
+    
     var docMessageModel: DocMessageModel?
     
     var onDownloadButtonPressed: ((_ cell: CHDocMessageCell) -> Void)?
     var onOpenButtonPressed: ((_ cell: CHDocMessageCell) -> Void)?
+    var onReactionButtonPressed: ((_ model: CHDocMessageCell?) -> Void)?
     
     //var onPlayButtonPressed: ((_ cell: CHDocMessageCell) -> Void)?
     //var onPauseButtonPressed: ((_ cell: CHDocMessageCell) -> Void)?
@@ -98,6 +109,8 @@ class CHDocMessageCell: BaseChatItemCollectionCell {
     
     private func setUpViews() {
         self.bubbleContainerView.addSubview(containerView)
+        self.bubbleContainerView.addSubview(reactionButton)
+        self.bubbleContainerView.addSubview(self.reactionsContainerView)
         self.containerView.addSubview(fileIconView)
         self.containerView.addSubview(fileNameLabel)
         self.containerView.addSubview(dividerLine)
@@ -108,6 +121,7 @@ class CHDocMessageCell: BaseChatItemCollectionCell {
         
         self.downloadButton.addTarget(self, action: #selector(onDownloadButtonPressed(sender:)), for: .touchUpInside)
         self.openFileButton.addTarget(self, action: #selector(onOpenButtonPressed(sender:)), for: .touchUpInside)
+        self.reactionButton.addTarget(self, action: #selector(didTapOnReactionButton(sender:)), for: .touchUpInside)
     }
     
     override func assignChatItem(chatItem: BaseMessageItemProtocol) {
@@ -117,12 +131,31 @@ class CHDocMessageCell: BaseChatItemCollectionCell {
         }
         self.docMessageModel = docMessageModel
         
-        let containerHeight = self.bubbleContainerView.frame.height
-        let containerWidth: CGFloat = 230
+        var containerHeight = CHCustomStyles.docMessageSize.height
+        let containerWidth = CHCustomStyles.docMessageSize.width
+        
+//        let nonZeroCountReactions = self.docMessageModel?.reactionCountsInfo.filter({
+//            $0.value > 0
+//        })
+        containerHeight = chatItem.reactions.count > 0 ? CHCustomStyles.docMessageSize.height + 15 : CHCustomStyles.docMessageSize.height
         
         self.containerView.frame.size = CGSize(width: containerWidth, height: containerHeight)
         self.containerView.frame.origin.y = 0
         self.containerView.frame.origin.x = docMessageModel.isIncoming ? 15 : self.bubbleContainerView.frame.width - containerWidth - 15
+        
+        self.reactionButton.frame.size = CGSize(width: 22, height: 22)
+        self.reactionButton.frame.origin.x = getViewOriginXEnd(view: self.containerView) + 2.5
+        self.reactionButton.frame.origin.y = self.containerView.frame.origin.y
+        
+        if docMessageModel.isIncoming {
+            if CHCustomOptions.enableMessageReactions {
+                self.reactionButton.isHidden = false
+            } else {
+                self.reactionButton.isHidden = true
+            }
+        } else {
+            self.reactionButton.isHidden = true
+        }
         
         self.fileIconView.frame.origin.x = 7.5
         self.fileIconView.frame.origin.y = 20
@@ -155,6 +188,17 @@ class CHDocMessageCell: BaseChatItemCollectionCell {
         self.fileTypeLabel.frame.size.height = 20
         self.fileTypeLabel.frame.origin.x = 7.5
         self.fileTypeLabel.center.y = self.downloadButton.center.y
+        
+        let reactionViewHeight = super.calculateReactionViewHeight(chatItem: chatItem)
+        let reactionViewWidth = CHCustomStyles.docMessageSize.width
+        
+        self.reactionsContainerView.frame.size = CGSize(width: reactionViewWidth, height: reactionViewHeight)
+        self.reactionsContainerView.frame.origin.x = self.containerView.frame.origin.x
+        self.reactionsContainerView.frame.origin.y = getViewOriginYEnd(view: self.containerView) - 15
+        
+        //self.reactionsContainerView.assignReactions(reactions: super.createReactionModels(chatItem: chatItem))
+        
+        self.reactionsContainerView.assignReactions(reactions: docMessageModel.reactions)
         
         self.assignData(data: docMessageModel)
     }
@@ -245,6 +289,9 @@ class CHDocMessageCell: BaseChatItemCollectionCell {
 //        }
 //        self.onBubbleTapped?(self)
 //    }
+    @objc private func didTapOnReactionButton(sender: UIButton) {
+        self.onReactionButtonPressed?(self)
+    }
     
     override func didLongPressBubble(longPressGesture: UILongPressGestureRecognizer) {
         guard self.docMessageModel?.messageStatus != .sending else {
@@ -279,5 +326,22 @@ class CHDocMessageCell: BaseChatItemCollectionCell {
             self.loadingIndicator.setIndicatorMode(.indeterminate, animated: true)
             self.loadingIndicator.startAnimating()
         }
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        var view = reactionButton.hitTest(reactionButton.convert(point, from: self), with: event)
+        if view == nil {
+            view = super.hitTest(point, with: event)
+        }
+
+        return view
+    }
+
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if super.point(inside: point, with: event) {
+            return true
+        }
+
+        return !reactionButton.isHidden && reactionButton.point(inside: reactionButton.convert(point, from: self), with: event)
     }
 }

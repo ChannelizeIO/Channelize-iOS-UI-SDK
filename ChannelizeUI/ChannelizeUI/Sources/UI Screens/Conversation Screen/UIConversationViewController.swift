@@ -207,6 +207,7 @@ class UIConversationViewController: ChannelizeController {
         self.setUpViews()
         if self.conversation != nil {
             ChannelizeUI.instance.chCurrentChatId = self.conversation?.id
+            ChannelizeAPIService.joinReactionsSubscribers(conversationId: self.conversation?.id ?? "")
 //            self.configureCollectionView()
 //            self.setUpViews()
             self.configureTextInputBar()
@@ -218,6 +219,7 @@ class UIConversationViewController: ChannelizeController {
             ChannelizeAPIService.getConversationWithId(conversationId: chatId, completion: {(conversation,errorString) in
                 if let recievedConversation = conversation {
                     self.conversation = recievedConversation
+                    ChannelizeAPIService.joinReactionsSubscribers(conversationId: self.conversation?.id ?? "")
                     self.user = recievedConversation.conversationPartner
                     self.configureHeaderView()
                     self.configureTextInputBar()
@@ -249,6 +251,7 @@ class UIConversationViewController: ChannelizeController {
             self.tabBarController?.tabBar.isHidden = false
             ChannelizeAPI.removeUserEventDelegate(identifier: self.screenIdentifier)
             ChannelizeAPI.removeConversationDelegate(identifier: self.screenIdentifier)
+            ChannelizeAPIService.leaveReactionsSubscribers(conversationId: self.conversation?.id ?? "")
         }
         self.navigationController?.setToolbarHidden(true, animated: true)
     }
@@ -273,11 +276,13 @@ class UIConversationViewController: ChannelizeController {
                         if let recievedConversation = conversation {
                             ChannelizeUI.instance.chCurrentChatId = recievedConversation.id
                             self.conversation = recievedConversation
+                            ChannelizeAPIService.joinReactionsSubscribers(conversationId: self.conversation?.id ?? "")
                             self.configureTextInputBar()
                             self.configureKeyBoardManager()
                             self.setupTapGestureRecognizer()
                             self.getConversationMessages(offset: 0)
                             self.updateBlockViewStatus()
+                            
                         }
                     })
                 } else {
@@ -319,25 +324,11 @@ class UIConversationViewController: ChannelizeController {
         self.collectionView.register(PhotoMessageShimmeringCell.self, forCellWithReuseIdentifier: "shimmeringMessageCell")
         self.collectionView.register(CHMissCallMessageCell.self, forCellWithReuseIdentifier: "missCallMessageCell")
         self.collectionView.register(CHDocMessageCell.self, forCellWithReuseIdentifier: "docMessageCell")
-        
-        self.collectionView.register(
-            UIImageMessageCollectionCell.self, forCellWithReuseIdentifier: "imageMessageCell")
-        self.collectionView.register(
-            UIVideoMessageCollectionCell.self, forCellWithReuseIdentifier: "videoMessageCell")
-        self.collectionView.register(
-            UIAudioMessageCollectionCell.self, forCellWithReuseIdentifier: "audioMessageCell")
-        self.collectionView.register(
-            UIGifStickerMessageCollectionCell.self, forCellWithReuseIdentifier: "gifStickerMessageCell")
-        self.collectionView.register(UILocationMessageCell.self, forCellWithReuseIdentifier: "locationMessageCell")
-        self.collectionView.register(
-            UITextMessageCollectionCell.self, forCellWithReuseIdentifier: "textMessageCell")
         self.collectionView.register(UIMetaMessageCell.self, forCellWithReuseIdentifier: "metaMessageCell")
+        self.collectionView.register(LinkPreviewCollectionCell.self, forCellWithReuseIdentifier: "linkPreviewCell")
+       
         self.collectionView.register(
             LinkPreviewCollectionCell.self, forCellWithReuseIdentifier: "linkPreviewCell")
-        self.collectionView.register(
-        UIQuotedMessageCollectionCell.self, forCellWithReuseIdentifier: "quotedMessageCell")
-        self.collectionView.register(
-            UIGroupedImageCollectionCell.self, forCellWithReuseIdentifier: "groupedImageCell")
     }
     
     private func setUpViews() {

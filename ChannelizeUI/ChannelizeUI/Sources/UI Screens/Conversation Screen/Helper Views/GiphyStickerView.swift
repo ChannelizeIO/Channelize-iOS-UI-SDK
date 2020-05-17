@@ -20,9 +20,9 @@ class GiphyStickerView: UIView, UICollectionViewDelegateFlowLayout, UICollection
     private var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.barTintColor = CHUIConstants.appDefaultColor
-        searchBar.tintColor = .white
-        searchBar.setTextFieldBackgroundColor(color: .white)
-        searchBar.textField?.tintColor = .black
+        searchBar.tintColor = CHCustomStyles.searchBarTintColor
+        searchBar.setTextFieldBackgroundColor(color: CHCustomStyles.searchBarBackgroundColor)
+        searchBar.textField?.tintColor = CHCustomStyles.searchBarTextColor
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
     }()
@@ -55,7 +55,6 @@ class GiphyStickerView: UIView, UICollectionViewDelegateFlowLayout, UICollection
         self.configureCollectionView()
         self.setUpViews()
         self.setUpViewsFrames()
-        CHGifyService.configureGiphy(with: "Hbj9gr7HtEv0QyE2REtUVa24WjvCsGdu")
     }
     
     required init?(coder aDecoder: NSCoder) {

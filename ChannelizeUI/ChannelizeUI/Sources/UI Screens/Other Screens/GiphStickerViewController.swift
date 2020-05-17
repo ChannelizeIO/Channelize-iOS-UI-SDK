@@ -24,14 +24,14 @@ class GiphStickerViewController: ChannelizeController, UISearchBarDelegate, UICo
     var searchBar: UISearchBar = {
         let bar = UISearchBar()
         bar.barTintColor = CHUIConstants.appDefaultColor
-        bar.textField?.tintColor = .black
+        bar.textField?.tintColor = CHCustomStyles.searchBarTextColor
         bar.textField?.borderStyle = .roundedRect
         bar.textField?.layer.borderWidth = 0.0
         bar.setBackgroundImage(UIImage(), for: .any, barMetrics: UIBarMetrics.default)
-        bar.setTextFieldBackgroundColor(color: .white)
+        bar.setTextFieldBackgroundColor(color: CHCustomStyles.searchBarBackgroundColor)
         //bar.searchBarStyle = .minimal
         //bar.showsCancelButton = true
-        bar.tintColor = .white
+        bar.tintColor = CHCustomStyles.searchBarTintColor
        bar.showsScopeBar = false
         bar.scopeButtonTitles = ["GIFs","Stickers"]
         bar.setScopeBarButtonTitleTextAttributes([
@@ -132,7 +132,6 @@ class GiphStickerViewController: ChannelizeController, UISearchBarDelegate, UICo
                 self.view.frame.origin.y += notification.startFrame.height
             })
         })
-        CHGifyService.configureGiphy(with: "Hbj9gr7HtEv0QyE2REtUVa24WjvCsGdu")
         self.getInitialGiphModels()
         self.getInitialStickerModels()
         

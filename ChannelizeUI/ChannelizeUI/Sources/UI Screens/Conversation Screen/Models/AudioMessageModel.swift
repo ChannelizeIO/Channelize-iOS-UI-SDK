@@ -67,6 +67,10 @@ class AudioMessageModel: BaseMessageItemProtocol, Differentiable {
         return .audio
     }
     
+    var myMessageReactions: [String] = []
+    var reactionCountsInfo: [String : Int] = [:]
+    var reactions: [ReactionModel] = []
+    
     var messageStatus: BaseMessageStatus
     var messageSource: MessageSource?
     var baseMessageModel: BaseMessageModel

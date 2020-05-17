@@ -61,6 +61,10 @@ class VideoMessageModel: BaseMessageItemProtocol, Differentiable {
         return .video
     }
     
+    var myMessageReactions: [String] = []
+    var reactionCountsInfo: [String : Int] = [:]
+    var reactions: [ReactionModel] = []
+    
     var messageStatus: BaseMessageStatus
     var messageSource: MessageSource?
     var baseMessageModel: BaseMessageModel

@@ -25,9 +25,9 @@ class AddMembersToGroupViewController: ChannelizeController, UISearchBarDelegate
     private var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.showsCancelButton = false
-        searchBar.tintColor = .white
-        searchBar.textField?.tintColor = .black
-        searchBar.setTextFieldBackgroundColor(color: .white)
+        searchBar.tintColor = CHCustomStyles.searchBarTintColor
+        searchBar.textField?.tintColor = CHCustomStyles.searchBarTextColor
+        searchBar.setTextFieldBackgroundColor(color: CHCustomStyles.searchBarBackgroundColor)
         return searchBar
     }()
     
@@ -407,9 +407,9 @@ class AddMembersToGroupController: UITableViewController, UISearchBarDelegate {
     private var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.showsCancelButton = false
-        searchBar.tintColor = .white
-        searchBar.textField?.tintColor = .black
-        searchBar.setTextFieldBackgroundColor(color: .white)
+        searchBar.tintColor = CHCustomStyles.searchBarTintColor
+        searchBar.textField?.tintColor = CHCustomStyles.searchBarTextColor
+        searchBar.setTextFieldBackgroundColor(color: CHCustomStyles.searchBarBackgroundColor)
         return searchBar
     }()
     

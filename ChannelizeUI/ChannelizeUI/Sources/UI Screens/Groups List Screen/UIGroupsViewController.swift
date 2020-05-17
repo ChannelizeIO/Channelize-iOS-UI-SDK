@@ -43,7 +43,9 @@ class UIGroupsViewController: UICollectionViewController, UICollectionViewDelega
         
         self.setUpHomeButton()
         self.setUpCreateButton()
-        self.configureSearchController()
+        if CHCustomOptions.enableSearching {
+            self.configureSearchController()
+        }
         self.collectionView.backgroundColor = UIColor(hex: "#f2f2f7") //CHConstants.groupScreenBackGroundColor
         self.collectionView.register(UIGroupCollectionViewCell.self, forCellWithReuseIdentifier: "groupListCell")
         self.collectionView.register(GroupsListShimmeringCell.self, forCellWithReuseIdentifier: "groupShimmeringCell")
@@ -66,7 +68,7 @@ class UIGroupsViewController: UICollectionViewController, UICollectionViewDelega
         searchController.dimsBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
-        searchController.searchBar.setTextFieldBackgroundColor(color: .white)
+        searchController.searchBar.setTextFieldBackgroundColor(color: CHCustomStyles.searchBarBackgroundColor)
         searchController.searchBar.tintColor = .white
         
         searchController.searchBar.textField?.tintColor = .black

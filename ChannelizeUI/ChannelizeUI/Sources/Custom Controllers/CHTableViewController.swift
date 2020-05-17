@@ -33,7 +33,9 @@ class CHTableViewController: UITableViewController, UISearchBarDelegate, UISearc
         }
         #endif
         self.superView = self.navigationController?.view
-        self.configureSearchController()
+        if CHCustomOptions.enableSearching {
+            self.configureSearchController()
+        }
         self.setUpHomeButton()
         self.setUpCreateButton()
         // Uncomment the following line to preserve selection between presentations
@@ -53,10 +55,10 @@ class CHTableViewController: UITableViewController, UISearchBarDelegate, UISearc
         searchController.dimsBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
-        searchController.searchBar.setTextFieldBackgroundColor(color: .white)
-        searchController.searchBar.tintColor = .white
+        searchController.searchBar.setTextFieldBackgroundColor(color: CHCustomStyles.searchBarBackgroundColor)
+        searchController.searchBar.tintColor = CHCustomStyles.searchBarTintColor
         
-        searchController.searchBar.textField?.tintColor = .black
+        searchController.searchBar.textField?.tintColor = CHCustomStyles.searchBarTextColor
         searchController.delegate = self
         searchController.searchResultsUpdater = self
         
@@ -289,41 +291,37 @@ class CHTableViewController: UITableViewController, UISearchBarDelegate, UISearc
 //    }
     
     @objc func homeButtonPressed(sender: Any) {
-        
-//        ChannelizeAPI.removeUserEventDelegate(identifier: CHAllContacts.identifier)
-//        ChannelizeAPI.removeConversationDelegate(identifier: CHAllContacts.identifier)
-//        CHAllConversations.allConversations.removeAll()
-//        CHAllConversations.allGroupsConversations.removeAll()
-//        CHAllConversations.allConversationCurrentOffset = 0
-//        CHAllConversations.groupsConversationCurrentOffset = 0
-//        CHAllConversations.isAllConversationsLoaded = false
-//        CHAllConversations.isAllGroupsConversationLoaded = false
-//        CHAllConversations.removeConversationEventDelegates()
-//        CHAllContacts.contactsList.removeAll()
-//        CHAllContacts.currentOffset = 0
-//        CHAllContacts.isAllContactsLoaded = false
-//        ChannelizeUI.instance.isCHOpen = false
-//        self.navigationController?
-//            .parent?.navigationController?.popViewController(
-//                animated: true)
-        
-        
-        
-        
-        let alertController = UIAlertController(title: nil, message: "Logout?", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Logout", style: .destructive, handler: {(action) in
-            self.logout()
-        })
-        let cancelAction = UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .cancel, handler: nil)
-        alertController.addAction(okAction)
-        alertController.addAction(cancelAction)
-        #if compiler(>=5.1)
-        if #available(iOS 13.0, *) {
-            // Always adopt a light interface style.
-            alertController.overrideUserInterfaceStyle = .light
+        if CHCustomOptions.showLogoutButton {
+            let alertController = UIAlertController(title: nil, message: "Logout?", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Logout", style: .destructive, handler: {(action) in
+                self.logout()
+            })
+            let cancelAction = UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .cancel, handler: nil)
+            alertController.addAction(okAction)
+            alertController.addAction(cancelAction)
+            #if compiler(>=5.1)
+            if #available(iOS 13.0, *) {
+                // Always adopt a light interface style.
+                alertController.overrideUserInterfaceStyle = .light
+            }
+            #endif
+            self.present(alertController, animated: true, completion: nil)
+        } else {
+            ChannelizeAPI.removeUserEventDelegate(identifier: CHAllContacts.identifier)
+            ChannelizeAPI.removeConversationDelegate(identifier: CHAllContacts.identifier)
+            CHAllConversations.allConversations.removeAll()
+            CHAllConversations.allGroupsConversations.removeAll()
+            CHAllConversations.allConversationCurrentOffset = 0
+            CHAllConversations.groupsConversationCurrentOffset = 0
+            CHAllConversations.isAllConversationsLoaded = false
+            CHAllConversations.isAllGroupsConversationLoaded = false
+            CHAllConversations.removeConversationEventDelegates()
+            CHAllContacts.contactsList.removeAll()
+            CHAllContacts.currentOffset = 0
+            CHAllContacts.isAllContactsLoaded = false
+            ChannelizeUI.instance.isCHOpen = false
+            self.navigationController?.parent?.navigationController?.popViewController(animated: true)
         }
-        #endif
-        self.present(alertController, animated: true, completion: nil)
     }
     
     @objc func createButtonPressed(sender: Any) {

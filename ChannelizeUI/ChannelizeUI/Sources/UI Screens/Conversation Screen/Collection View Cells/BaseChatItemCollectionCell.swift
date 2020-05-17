@@ -48,7 +48,7 @@ class BaseChatItemCollectionCell: UICollectionViewCell {
     var bubbleContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.clear
-        view.layer.masksToBounds = true
+        //view.layer.masksToBounds = true
         view.layer.cornerRadius = 7.5
         //view.layer.borderColor = UIColor(hex: "#f1f1f1").cgColor
         //view.layer.borderWidth = 1.0
@@ -74,6 +74,12 @@ class BaseChatItemCollectionCell: UICollectionViewCell {
         label.textColor = UIColor(hex: "#8a8a8a")
         label.font = UIFont(fontStyle: .robotoSlabRegualar, size: CHUIConstants.smallFontSize)
         return label
+    }()
+    
+    var reactionsContainerView: ReactionView = {
+        let view = ReactionView()
+        //view.backgroundColor = .black
+        return view
     }()
     
     private var messageStatusImageView: UIImageView = {
@@ -102,10 +108,8 @@ class BaseChatItemCollectionCell: UICollectionViewCell {
         longPressTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(didLongPressBubble(longPressGesture:)))
         cellTapGesture = UITapGestureRecognizer(target: self, action: #selector(didSelectDeSelectCell(tapGesture:)))
         
-        self.bubbleContainerView.addGestureRecognizer(
-        longPressTapGesture)
-        self.bubbleContainerView.addGestureRecognizer(
-            bubbleTapGesture)
+        self.bubbleContainerView.addGestureRecognizer(longPressTapGesture)
+        self.bubbleContainerView.addGestureRecognizer(bubbleTapGesture)
         self.addGestureRecognizer(cellTapGesture)
         self.cellTapGesture.isEnabled = false
         self.bubbleTapGesture.isEnabled = false
@@ -130,6 +134,7 @@ class BaseChatItemCollectionCell: UICollectionViewCell {
         self.contentView.addSubview(dateSeperatorLabel)
         self.contentView.addSubview(senderNameLabel)
         self.contentView.addSubview(bubbleContainerView)
+        //self.contentView.addSubview(reactionsContainerView)
         self.contentView.addSubview(messageStatusView)
         self.contentView.addSubview(allMessageTimeLabel)
         self.contentView.addSubview(selectedCirlceImageView)
@@ -175,7 +180,9 @@ class BaseChatItemCollectionCell: UICollectionViewCell {
         let messageStatusViewHeight: CGFloat = chatItem.showMessageStatusView ? 25 : 0
         let messageStatusViewWidth = self.frame.width
         
-        let bubbleContainerHeight = self.frame.height - dateSeperatorHeight - senderNameHeight - messageStatusViewHeight
+        let reactionViewHeigth: CGFloat = 0
+        
+        let bubbleContainerHeight = self.frame.height - dateSeperatorHeight - senderNameHeight - messageStatusViewHeight - reactionViewHeigth
         let bubbleContainerWidth = self.frame.width
         
         let senderNameOriginX: CGFloat = chatItem.isMessageSelectorOn && chatItem.isIncoming ? 60 : 15
@@ -189,6 +196,9 @@ class BaseChatItemCollectionCell: UICollectionViewCell {
         
         self.bubbleContainerView.frame.origin = CGPoint(x: messageBubbleOriginX, y: getViewOriginYEnd(view: self.senderNameLabel))
         self.bubbleContainerView.frame.size = CGSize(width: bubbleContainerWidth, height: bubbleContainerHeight)
+        
+//        self.reactionsContainerView.frame.origin = CGPoint(x: messageBubbleOriginX + 15, y: getViewOriginYEnd(view: self.bubbleContainerView) - 15)
+//        self.reactionsContainerView.frame.size = CGSize(width: CHCustomStyles.photoBubbleSize.width, height: reactionViewHeigth)
         
         self.messageStatusView.frame.origin = CGPoint(x: 0, y: getViewOriginYEnd(view: self.bubbleContainerView))
         self.messageStatusView.frame.size = CGSize(width: messageStatusViewWidth, height: messageStatusViewHeight)
@@ -246,6 +256,7 @@ class BaseChatItemCollectionCell: UICollectionViewCell {
         } else {
             self.messageStatusView.isHidden = true
         }
+        //self.reactionsContainerView.assignReactions(reactions: self.createReactionModels(chatItem: chatItem))
         
         switch chatItem.messageStatus {
         case .sending:
@@ -260,6 +271,82 @@ class BaseChatItemCollectionCell: UICollectionViewCell {
             self.messageStatusImageView.tintColor = CHUIConstants.appDefaultColor
             self.messageStatusImageView.image = getImage("chDoubleTickIcon")
             break
+        }
+    }
+    
+    func createReactionModels(chatItem: BaseMessageItemProtocol) -> [ReactionModel] {
+        var reactionsModels = [ReactionModel]()
+        let reactionCountInfo = chatItem.reactionCountsInfo.sorted(by: { $0.value > $1.value })
+        reactionCountInfo.forEach({
+            let model = ReactionModel()
+            model.counts = $0.value
+            model.unicode = emojiCodes[$0.key]
+            if model.counts ?? 0 > 0 {
+                reactionsModels.append(model)
+            }
+        })
+        return reactionsModels
+    }
+    
+    func calculateReactionViewHeight(chatItem: BaseMessageItemProtocol) -> CGFloat{
+        let reactionsModels = chatItem.reactions
+        
+//        var reactionsModels = [ReactionModel]()
+//        let reactionCountInfo = chatItem.reactionCountsInfo.sorted(by: { $0.value > $1.value })
+//        reactionCountInfo.forEach({
+//            let model = ReactionModel()
+//            model.counts = $0.value
+//            model.unicode = emojiCodes[$0.key]
+//            if model.counts ?? 0 > 0 {
+//                reactionsModels.append(model)
+//            }
+//        })
+        
+        guard reactionsModels.count > 0 else {
+            return 0
+        }
+        var initialOriginX: CGFloat = 5
+        var initialOriginY: CGFloat = 2.5
+        //let selfWidth = self.view.frame.width
+        var currentItemWidth: CGFloat = 0
+        reactionsModels.forEach({
+            let reaction = $0
+            if reaction.counts == 1 {
+                currentItemWidth = 30
+            } else {
+                let emojiString = reaction.unicode ?? ""
+                let emojiWidth = emojiString.width(withConstrainedHeight: 30, font: UIFont.systemFont(ofSize: 20.0, weight: .medium))
+                let count = reaction.counts ?? 0
+                let countsWidth = "\(count)".width(withConstrainedHeight: 30, font: UIFont.systemFont(ofSize: 20.0, weight: .regular))
+                let totalWidth = 2.5 + emojiWidth + 2.5 + countsWidth + 2.5
+                currentItemWidth = totalWidth
+            }
+            if initialOriginX + currentItemWidth < getReactionViewMaxWidth(chatItemType: chatItem.messageType) - 5 {
+                initialOriginX = initialOriginX + currentItemWidth + 5
+            } else {
+                initialOriginY += 32.5
+                initialOriginX = 5 + currentItemWidth + 2.5
+            }
+        })
+        return initialOriginY + 30 + 2.5
+    }
+    
+    private func getReactionViewMaxWidth(chatItemType: BaseMessageType) -> CGFloat {
+        switch chatItemType {
+        case .image:
+            return CHCustomStyles.photoBubbleSize.width
+        case .gifSticker:
+            return CHCustomStyles.gifStickerMessageSize.width
+        case .video:
+            return CHCustomStyles.videoMessageSize.width
+        case .audio:
+            return CHCustomStyles.audioMessageSize.width
+        case .location:
+            return 280
+        case .quotedMessage:
+            return 280
+        default:
+            return 0
         }
     }
     

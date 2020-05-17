@@ -69,8 +69,10 @@ class CHInputTextBarView: InputBarAccessoryView {
         inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         //setStackViewItems([attachmentButton], forStack: .left, animated: false)
         //setLeftStackViewWidthConstant(to: 40, animated: false)
-        setStackViewItems([attachmentButton], forStack: .right, animated: false)
-        setRightStackViewWidthConstant(to: 40, animated: false)
+        if CHCustomOptions.enableAttachments {
+            setStackViewItems([attachmentButton], forStack: .right, animated: false)
+            setRightStackViewWidthConstant(to: 40, animated: false)
+        }
         middleContentViewPadding.left = 5
         middleContentViewPadding.top = 0
         middleContentViewPadding.bottom = 0
@@ -85,7 +87,9 @@ class CHInputTextBarView: InputBarAccessoryView {
         let trimmedText = inputTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if trimmedText.isEmpty == true {
-            setStackViewItems([attachmentButton], forStack: .right, animated: true)
+            if CHCustomOptions.enableAttachments {
+                setStackViewItems([attachmentButton], forStack: .right, animated: true)
+            }
         } else {
             setStackViewItems([sendButton], forStack: .right, animated: true)
         }

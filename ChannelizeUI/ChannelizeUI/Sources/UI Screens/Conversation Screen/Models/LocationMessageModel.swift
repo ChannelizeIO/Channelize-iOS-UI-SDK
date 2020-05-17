@@ -62,6 +62,10 @@ class LocationMessageModel: BaseMessageItemProtocol, Differentiable {
     var messageType: BaseMessageType {
         return .location
     }
+    
+    var myMessageReactions: [String] = []
+    var reactionCountsInfo: [String : Int] = [:]
+    var reactions: [ReactionModel] = []
 
     var baseMessageModel: BaseMessageModel
     var locationName: String?

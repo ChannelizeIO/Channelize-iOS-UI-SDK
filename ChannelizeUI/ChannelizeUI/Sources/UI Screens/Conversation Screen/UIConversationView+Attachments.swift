@@ -316,6 +316,10 @@ extension UIConversationViewController: ConversationAttachmentViewDelegate, Asse
         //let thumbnailData: Data?
         let imageData = image.jpegData(compressionQuality: 1.0)
         
+        if imageData?.count ?? 0 > Int(CHCustomOptions.maximumImageSize * 1024 * 1024) {
+            
+        }
+        
         let messageId = UUID().uuidString
         let senderName = ChannelizeAPI.getCurrentUserDisplayName()
         let senderId = ChannelizeAPI.getCurrentUserId()
@@ -368,6 +372,9 @@ extension UIConversationViewController: ConversationAttachmentViewDelegate, Asse
         let thumbData = thumbnailImage.pngData()!
         do {
             let videoData = try Data(contentsOf: url)
+            if videoData.count > Int(CHCustomOptions.maximumVideoSize * 1024 * 1024) {
+                return
+            }
             let messageId = UUID().uuidString
             let senderName = ChannelizeAPI.getCurrentUserDisplayName()
             let senderId = ChannelizeAPI.getCurrentUserId()
@@ -673,6 +680,10 @@ extension UIConversationViewController: ConversationAttachmentViewDelegate, Asse
         }
         do {
             let audioData = try Data(contentsOf: audioUrl)
+            if audioData.count > Int(CHCustomOptions.maximumAudioSize * 1024 * 1024) {
+                return
+            }
+            
             let messageId = UUID().uuidString
             let senderName = ChannelizeAPI.getCurrentUserDisplayName()
             let senderId = ChannelizeAPI.getCurrentUserId()

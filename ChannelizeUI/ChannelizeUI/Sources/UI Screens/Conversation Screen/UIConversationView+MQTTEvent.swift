@@ -628,7 +628,98 @@ extension UIConversationViewController: CHConversationEventDelegate {
  */
     }
     
+    func didMessageReactionAdded(model: CHReactionEventModel?) {
+        guard let reactionModel = model else {
+            return
+        }
+        if let messageIndex = self.chatItems.firstIndex(where: {
+            $0.messageId == reactionModel.message?.id
+        }) {
+            let chatItem = self.chatItems[messageIndex]
+            
+            if let existingReaction = chatItem.reactions.first(where: {
+                $0.unicode == emojiCodes["\(reactionModel.reactionKey ?? "")"]
+            }) {
+                if reactionModel.reactingUserId == ChannelizeAPI.getCurrentUserId() {
+                    if !chatItem.myMessageReactions.contains(reactionModel.reactionKey ?? "") {
+                        existingReaction.counts = (existingReaction.counts ?? 0) + 1
+                        chatItem.reactions.sort(by: {
+                            $0.counts ?? 0 > $1.counts ?? 0
+                        })
+                    }
+                }
+            } else {
+                let model = ReactionModel()
+                model.counts = 1
+                model.unicode = emojiCodes["\(reactionModel.reactionKey ?? "")"]
+                chatItem.reactions.append(model)
+            }
+            chatItem.reactions.sort(by: {
+                $0.counts ?? 0 > $1.counts ?? 0
+            })
+            
+            //chatItem.reactionCountsInfo = reactionModel.message?.reactionsCount ?? [:]
+            
+            if reactionModel.reactingUserId == ChannelizeAPI.getCurrentUserId() {
+                if let myReactionKey = reactionModel.reactionKey {
+                    if chatItem.myMessageReactions.filter({
+                        $0 == myReactionKey
+                    }).count == 0 {
+                        chatItem.myMessageReactions.append(myReactionKey)
+                    }
+                }
+            }
+            let indexPath = IndexPath(item: messageIndex, section: 0)
+            self.collectionView.performBatchUpdates({
+                self.collectionView.reloadItems(at: [indexPath])
+            }, completion: nil)
+        }
+    }
     
-    
+    func didMessageReactionRemoved(model: CHReactionEventModel?) {
+        guard let reactionModel = model else {
+            return
+        }
+        if let messageIndex = self.chatItems.firstIndex(where: {
+            $0.messageId == reactionModel.message?.id
+        }) {
+            let chatItem = self.chatItems[messageIndex]
+            if let existingReactionIndex = chatItem.reactions.firstIndex(where: {
+                $0.unicode == emojiCodes["\(reactionModel.reactionKey ?? "")"]
+            }) {
+                let existingReaction = chatItem.reactions[existingReactionIndex]
+                if reactionModel.reactingUserId == ChannelizeAPI.getCurrentUserId() {
+                    if chatItem.myMessageReactions.contains(reactionModel.reactionKey ?? "") {
+                        if existingReaction.counts ?? 0 > 1 {
+                            existingReaction.counts = (existingReaction.counts ?? 0) - 1
+                        } else {
+                            chatItem.reactions.remove(at: existingReactionIndex)
+                        }
+                    }
+                } else {
+                    if existingReaction.counts ?? 0 > 1 {
+                        existingReaction.counts = (existingReaction.counts ?? 0) - 1
+                    } else {
+                        chatItem.reactions.remove(at: existingReactionIndex)
+                    }
+                }
+                chatItem.reactions.sort(by: {
+                    $0.counts ?? 0 > $1.counts ?? 0
+                })
+            }
+//            chatItem.reactionCountsInfo = reactionModel.message?.reactionsCount ?? [:]
+            if reactionModel.reactingUserId == ChannelizeAPI.getCurrentUserId() {
+                if let myReactionKey = reactionModel.reactionKey {
+                    chatItem.myMessageReactions.removeAll(where: {
+                        $0 == myReactionKey
+                    })
+                }
+            }
+            let indexPath = IndexPath(item: messageIndex, section: 0)
+            self.collectionView.performBatchUpdates({
+                self.collectionView.reloadItems(at: [indexPath])
+            }, completion: nil)
+        }
+    }
 }
 

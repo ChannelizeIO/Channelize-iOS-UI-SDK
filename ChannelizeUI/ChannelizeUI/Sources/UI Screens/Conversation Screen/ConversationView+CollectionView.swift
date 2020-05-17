@@ -13,7 +13,22 @@ import MapKit
 import Alamofire
 import QuickLook
 
-extension UIConversationViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, AVAudioPlayerDelegate, LongPressMessageBlurViewDelegate, QuotedMessageViewDelegate {
+extension UIConversationViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, AVAudioPlayerDelegate, LongPressMessageBlurViewDelegate, QuotedMessageViewDelegate, UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+     
+    //UIPopoverPresentationControllerDelegate
+    func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+     
+    }
+     
+    func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+        return true
+    }
+    
+    
     func didPressCloseQuotedViewButton() {
         self.quotedMessageViewContainer.subviews.forEach({
             $0.removeFromSuperview()
@@ -208,6 +223,24 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
                 self?.collectionView.scrollToItem(at: parentMessageIndex, at: .centeredVertically, animated: false)
             }
         }
+        cell.onReactionButtonPressed = {[weak self](cell) in
+            if let strongSelf = self {
+                if let quotedMessageCell = cell {
+                    //strongSelf.view.viewWithTag(2056)?.removeFromSuperview()
+                    let viewPoint = strongSelf.getConvertedPoint(quotedMessageCell.reactionButton, baseView: strongSelf.view)
+                    guard let chatItem = quotedMessageCell.quotedMessageModel else {
+                       return
+                    }
+                    var arrowDirection: UIPopoverArrowDirection = .up
+                    if viewPoint.y < strongSelf.view.frame.height/2 {
+                        arrowDirection = .up
+                    } else {
+                        arrowDirection = .down
+                    }
+                    self?.showPopOverForItem(chatItem: chatItem, sourcePoint: viewPoint, sourceFrameSize: quotedMessageCell.reactionButton.frame.size, arrowDirection: arrowDirection)
+                }
+            }
+        }
         return cell
     }
     
@@ -231,6 +264,24 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
                 self?.showMessageOptions(messageId: messageModel?.messageId ?? "", senderId: messageModel?.senderId ?? "")
             }
         }
+        cell.onReactionButtonPressed = {[weak self](cell) in
+            if let strongSelf = self {
+                if let audioMessageCell = cell {
+                    //strongSelf.view.viewWithTag(2056)?.removeFromSuperview()
+                    let viewPoint = strongSelf.getConvertedPoint(audioMessageCell.reactionButton, baseView: strongSelf.view)
+                    guard let chatItem = audioMessageCell.audioMessageModel else {
+                       return
+                    }
+                    var arrowDirection: UIPopoverArrowDirection = .up
+                    if viewPoint.y < strongSelf.view.frame.height/2 {
+                        arrowDirection = .up
+                    } else {
+                        arrowDirection = .down
+                    }
+                    self?.showPopOverForItem(chatItem: chatItem, sourcePoint: viewPoint, sourceFrameSize: audioMessageCell.reactionButton.frame.size, arrowDirection: arrowDirection)
+                }
+            }
+        }
         return cell
     }
     
@@ -251,6 +302,24 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
             if let locationCell = cell as? CHLocationMessageCell {
                 let messageModel = locationCell.locationMessageModel
                 self?.showMessageOptions(messageId: messageModel?.messageId ?? "", senderId: messageModel?.senderId ?? "")
+            }
+        }
+        cell.onReactionButtonPressed = {[weak self](cell) in
+            if let strongSelf = self {
+                if let locationMessageCell = cell {
+                    //strongSelf.view.viewWithTag(2056)?.removeFromSuperview()
+                    let viewPoint = strongSelf.getConvertedPoint(locationMessageCell.reactionButton, baseView: strongSelf.view)
+                    guard let chatItem = locationMessageCell.locationMessageModel else {
+                       return
+                    }
+                    var arrowDirection: UIPopoverArrowDirection = .up
+                    if viewPoint.y < strongSelf.view.frame.height/2 {
+                        arrowDirection = .up
+                    } else {
+                        arrowDirection = .down
+                    }
+                    self?.showPopOverForItem(chatItem: chatItem, sourcePoint: viewPoint, sourceFrameSize: locationMessageCell.reactionButton.frame.size, arrowDirection: arrowDirection)
+                }
             }
         }
         return cell
@@ -276,6 +345,24 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
                 self?.openImageViewer(with: videoMessageCell.videoMessageModel)
             }
         }
+        cell.onReactionButtonPressed = {[weak self](cell) in
+            if let strongSelf = self {
+                if let videoMessageCell = cell {
+                    //strongSelf.view.viewWithTag(2056)?.removeFromSuperview()
+                    let viewPoint = strongSelf.getConvertedPoint(videoMessageCell.reactionButton, baseView: strongSelf.view)
+                    guard let chatItem = videoMessageCell.videoMessageModel else {
+                       return
+                    }
+                    var arrowDirection: UIPopoverArrowDirection = .up
+                    if viewPoint.y < strongSelf.view.frame.height/2 {
+                        arrowDirection = .up
+                    } else {
+                        arrowDirection = .down
+                    }
+                    self?.showPopOverForItem(chatItem: chatItem, sourcePoint: viewPoint, sourceFrameSize: videoMessageCell.reactionButton.frame.size, arrowDirection: arrowDirection)
+                }
+            }
+        }
         return cell
     }
     
@@ -293,6 +380,25 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
                 self?.showMessageOptions(messageId: model?.messageId ?? "", senderId: model?.senderId ?? "", isDeleted: model?.isDeletedMessage ?? false)
             }
         }
+        cell.onReactionButtonPressed = {[weak self](cell) in
+            if let strongSelf = self {
+                if let textMessageCell = cell {
+                    //strongSelf.view.viewWithTag(2056)?.removeFromSuperview()
+                    let viewPoint = strongSelf.getConvertedPoint(textMessageCell.reactionButton, baseView: strongSelf.view)
+                    guard let chatItem = textMessageCell.textMessageModel else {
+                        return
+                    }
+                    var arrowDirection: UIPopoverArrowDirection = .up
+                    if viewPoint.y < strongSelf.view.frame.height/2 {
+                        arrowDirection = .up
+                    } else {
+                        arrowDirection = .down
+                    }
+                    self?.showPopOverForItem(chatItem: chatItem, sourcePoint: viewPoint, sourceFrameSize: textMessageCell.reactionButton.frame.size, arrowDirection: arrowDirection)
+                }
+            }
+            
+        }
         return cell
     }
     
@@ -309,6 +415,25 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
                 let model = gifStickerCell.gifStickerModel
                 self?.showMessageOptions(messageId: model?.messageId ?? "", senderId: model?.senderId ?? "")
             }
+        }
+        cell.onReactionButtonPressed = {[weak self](cell) in
+            if let strongSelf = self {
+                if let gifStickerCell = cell {
+                    //strongSelf.view.viewWithTag(2056)?.removeFromSuperview()
+                    let viewPoint = strongSelf.getConvertedPoint(gifStickerCell.reactionButton, baseView: strongSelf.view)
+                    guard let chatItem = gifStickerCell.gifStickerModel else {
+                        return
+                    }
+                    var arrowDirection: UIPopoverArrowDirection = .up
+                    if viewPoint.y < strongSelf.view.frame.height/2 {
+                        arrowDirection = .up
+                    } else {
+                        arrowDirection = .down
+                    }
+                    self?.showPopOverForItem(chatItem: chatItem, sourcePoint: viewPoint, sourceFrameSize: gifStickerCell.reactionButton.frame.size, arrowDirection: arrowDirection)
+                }
+            }
+            
         }
         return cell
     }
@@ -335,7 +460,43 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
                 self?.openImageViewer(with: imageMessageCell.imageMessageModel)
             }
         }
+        cell.onReactionButtonPressed = {[weak self](cell) in
+            if let strongSelf = self {
+                if let imageMessageCell = cell {
+                    //strongSelf.view.viewWithTag(2056)?.removeFromSuperview()
+                    let viewPoint = strongSelf.getConvertedPoint(imageMessageCell.reactionButton, baseView: strongSelf.view)
+                    guard let chatItem = imageMessageCell.imageMessageModel else {
+                       return
+                    }
+                    var arrowDirection: UIPopoverArrowDirection = .up
+                    if viewPoint.y < strongSelf.view.frame.height/2 {
+                        arrowDirection = .up
+                    } else {
+                        arrowDirection = .down
+                    }
+                    self?.showPopOverForItem(chatItem: chatItem, sourcePoint: viewPoint, sourceFrameSize: imageMessageCell.reactionButton.frame.size, arrowDirection: arrowDirection)
+                }
+            }
+            
+        }
         return cell
+    }
+    
+    func getConvertedPoint(_ targetView: UIView, baseView: UIView)->CGPoint{
+        var pnt = targetView.frame.origin
+        if nil == targetView.superview{
+            return pnt
+        }
+        var superView = targetView.superview
+        while superView != baseView{
+            pnt = superView!.convert(pnt, to: superView!.superview)
+            if nil == superView!.superview{
+                break
+            }else{
+                superView = superView!.superview
+            }
+        }
+        return superView!.convert(pnt, to: baseView)
     }
     
     
@@ -447,19 +608,25 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         if self.conversation?.isGroup == true {
             if self.conversation?.canReplyToConversation == true {
                 if isDeleted == false {
-                    controller.addAction(replyAction)
+                    if CHCustomOptions.enableMessageQuoting {
+                        controller.addAction(replyAction)
+                    }
+                    
                 }
             }
         } else {
             if self.conversation?.isPartnerIsBlocked == false && self.conversation?.isPartenerHasBlocked == false {
                 if isDeleted == false {
-                    controller.addAction(replyAction)
+                    if CHCustomOptions.enableMessageQuoting {
+                        controller.addAction(replyAction)
+                    }
                 }
             }
         }
         if isDeleted == false {
-            controller.addAction(forwardAction)
-            
+            if CHCustomOptions.enableMessageForwarding {
+                controller.addAction(forwardAction)
+            }
         }
         //controller.addAction(forwardAction)
         controller.addAction(deleteAction)
@@ -496,6 +663,25 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
             if let docMessageCell = cell as? CHDocMessageCell {
                 self?.performMessageSelectDeSelect(messageModel: docMessageCell.docMessageModel)
             }
+        }
+        cell.onReactionButtonPressed = {[weak self](cell) in
+            if let strongSelf = self {
+                if let docMessageCell = cell {
+                    //strongSelf.view.viewWithTag(2056)?.removeFromSuperview()
+                    let viewPoint = strongSelf.getConvertedPoint(docMessageCell.reactionButton, baseView: strongSelf.view)
+                    guard let chatItem = docMessageCell.docMessageModel else {
+                        return
+                    }
+                    var arrowDirection: UIPopoverArrowDirection = .up
+                    if viewPoint.y < strongSelf.view.frame.height/2 {
+                        arrowDirection = .up
+                    } else {
+                        arrowDirection = .down
+                    }
+                    self?.showPopOverForItem(chatItem: chatItem, sourcePoint: viewPoint, sourceFrameSize: docMessageCell.reactionButton.frame.size, arrowDirection: arrowDirection)
+                }
+            }
+            
         }
         return cell
     }
@@ -638,6 +824,8 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         if chatItem.showMessageStatusView == true {
             totalHeight += 25
         }
+        let reactionsViewHeight = self.calculateReactionViewHeight(chatItem: chatItem, maxWidth: 280)
+        totalHeight = totalHeight + ( reactionsViewHeight > 0 ? reactionsViewHeight : 0)
         return CGSize(width: self.view.frame.width, height: totalHeight+67.5)
     }
     func getLinkPreviewMessageHeight(chatItem: BaseMessageItemProtocol) -> CGSize {
@@ -687,6 +875,8 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         if chatItem.showMessageStatusView == true {
             totalHeight += 25
         }
+        let reactionsViewHeight = self.calculateReactionViewHeight(chatItem: chatItem, maxWidth: 280)
+        totalHeight = totalHeight + ( reactionsViewHeight > 0 ? reactionsViewHeight - 10 : 0)
         return CGSize(width: self.view.frame.width, height: totalHeight)
     }
     func getLocationCellheight(chatItem: BaseMessageItemProtocol) -> CGSize {
@@ -696,7 +886,7 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         let attributedAddress = locationModel?.locationAddressAttributedString ?? NSAttributedString()
         let height = getAttributedLabelHeight(attributedString: attributedAddress, maximumWidth: 265, numberOfLines: 2)
         
-        var totalHeight = imageViewHeight + nameLableHeight + (height == 0 ? 0 : height + 12.5)
+        var totalHeight = imageViewHeight + nameLableHeight + (height == 0 ? 0 : height + 10)
         if chatItem.showDataSeperator == true {
             totalHeight += 30
         }
@@ -706,12 +896,14 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         if chatItem.showMessageStatusView == true {
             totalHeight += 25
         }
+        let reactionsViewHeight = self.calculateReactionViewHeight(chatItem: chatItem, maxWidth: 280)
+        totalHeight = totalHeight + ( reactionsViewHeight > 0 ? reactionsViewHeight : 0)
         return CGSize(width: self.view.frame.width, height: totalHeight)
     }
     
     func getGifStickerCellSize(chatItem: BaseMessageItemProtocol) -> CGSize {
         var totalHeight: CGFloat = 0
-        let imageViewHeight: CGFloat = 175
+        let imageViewHeight: CGFloat = CHCustomStyles.gifStickerMessageSize.height
         totalHeight = totalHeight + imageViewHeight
         if chatItem.showDataSeperator == true {
             totalHeight += 30
@@ -722,12 +914,15 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         if chatItem.showMessageStatusView == true {
             totalHeight += 25
         }
+        let reactionsViewHeight = self.calculateReactionViewHeight(chatItem: chatItem, maxWidth: CHCustomStyles.gifStickerMessageSize.width)
+        totalHeight = totalHeight + ( reactionsViewHeight > 0 ? reactionsViewHeight - 15 : 0)
+        
         return CGSize(width: self.view.frame.width, height: totalHeight)
     }
     
     func getImageMessageSize(chatItem: BaseMessageItemProtocol) -> CGSize {
         var totalHeight: CGFloat = 0
-        let imageViewHeight: CGFloat = 240
+        let imageViewHeight: CGFloat = CHCustomStyles.photoBubbleSize.height
         totalHeight = totalHeight + imageViewHeight
         if chatItem.showDataSeperator == true {
             totalHeight += 30
@@ -738,12 +933,15 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         if chatItem.showMessageStatusView == true {
             totalHeight += 25
         }
+        let reactionsViewHeight = self.calculateReactionViewHeight(chatItem: chatItem, maxWidth: CHCustomStyles.photoBubbleSize.width)
+        totalHeight = totalHeight + ( reactionsViewHeight > 0 ? reactionsViewHeight - 15 : 0)
+        
         return CGSize(width: self.view.frame.width, height: totalHeight)
     }
     
     func getVideoMessageSize(chatItem: BaseMessageItemProtocol) -> CGSize {
         var totalHeight: CGFloat = 0
-        let imageViewHeight: CGFloat = 270
+        let imageViewHeight: CGFloat = CHCustomStyles.videoMessageSize.height
         totalHeight = totalHeight + imageViewHeight
         if chatItem.showDataSeperator == true {
             totalHeight += 30
@@ -754,6 +952,8 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         if chatItem.showMessageStatusView == true {
             totalHeight += 25
         }
+        let reactionsViewHeight = self.calculateReactionViewHeight(chatItem: chatItem, maxWidth: CHCustomStyles.videoMessageSize.width)
+        totalHeight = totalHeight + ( reactionsViewHeight > 0 ? reactionsViewHeight - 15 : 0)
         return CGSize(width: self.view.frame.width, height: totalHeight)
     }
     
@@ -761,7 +961,9 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         let dateSeperatorHeight: CGFloat = chatItem.showDataSeperator ? 30 : 0
         let senderNameHeight: CGFloat = chatItem.showSenderName ? 25 : 0
         let statusViewHeight: CGFloat = chatItem.showMessageStatusView ? 25 : 0
-        let totalHeight = dateSeperatorHeight + senderNameHeight + 80 + statusViewHeight
+        var totalHeight = dateSeperatorHeight + senderNameHeight + CHCustomStyles.audioMessageSize.height + statusViewHeight
+        let reactionsViewHeight = self.calculateReactionViewHeight(chatItem: chatItem, maxWidth: CHCustomStyles.audioMessageSize.width)
+        totalHeight = totalHeight + ( reactionsViewHeight > 0 ? reactionsViewHeight : 0)
         return CGSize(width: self.view.frame.width, height: totalHeight)
     }
     
@@ -769,7 +971,9 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         let dateSeperatorHeight: CGFloat = chatItem.showDataSeperator ? 30 : 0
         let senderNameHeight: CGFloat = chatItem.showSenderName ? 25 : 0
         let statusViewHeight: CGFloat = chatItem.showMessageStatusView ? 25 : 0
-        let totalHeight = dateSeperatorHeight + senderNameHeight + 109.5 + statusViewHeight
+        var totalHeight = dateSeperatorHeight + senderNameHeight + 109.5 + statusViewHeight
+        let reactionsViewHeight = self.calculateReactionViewHeight(chatItem: chatItem, maxWidth: CHCustomStyles.docMessageSize.width)
+        totalHeight = totalHeight + ( reactionsViewHeight > 0 ? reactionsViewHeight : 0)
         return CGSize(width: self.view.frame.width, height: totalHeight)
     }
     
@@ -837,183 +1041,47 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         }
     }
     
-    
-    func showBlurViewWithSelectedMessage(for cell: UICollectionViewCell, messageId: String, cellType: BaseMessageType) {
-        self.view.endEditing(true)
-        let blurView = LongPressMessageBlurView()
-        blurView.messageId = messageId
-        blurView.delegate = self
-        blurView.frame.origin = .zero
-        blurView.frame.size = self.view.frame.size
-        self.view.addSubview(blurView)
-        let deleteAction = LongPressOptionModel(label: "Delete", action: .delete)
-        let replyAction = LongPressOptionModel(label: "Reply", action: .reply)
-        let forwardAction = LongPressOptionModel(label: "Forward", action: .forward)
-        let moreAction = LongPressOptionModel(label: "More", action: .more)
-        let deleteAllAction = LongPressOptionModel(label: "Delete All", action: .deleteAll)
-        let forwardAllAction = LongPressOptionModel(label: "Forward All", action: .forwardAll)
+    private func calculateReactionViewHeight(chatItem: BaseMessageItemProtocol, maxWidth: CGFloat) -> CGFloat{
+//        var reactionsModels = [ReactionModel]()
+//        let reactionCountInfo = chatItem.reactionCountsInfo.sorted(by: { $0.value > $1.value })
+//        reactionCountInfo.forEach({
+//            let model = ReactionModel()
+//            model.counts = $0.value
+//            model.unicode = emojiCodes[$0.key]
+//            if model.counts ?? 0 > 0 {
+//                reactionsModels.append(model)
+//            }
+//        })
+        let reactionsModels = chatItem.reactions
         
-        
-        if let indexPath = collectionView.indexPath(for: cell) {
-            if let theAttributes = collectionView.layoutAttributesForItem(at: indexPath) {
-                let cellFrameInSuperview = collectionView.convert(theAttributes.frame, to: collectionView.superview)
-                var viewCell: UICollectionViewCell?
-                switch cellType {
-                case .quotedMessage:
-                    let selectedCell = UIQuotedMessageCollectionCell()
-                    selectedCell.frame = cellFrameInSuperview
-                    selectedCell.textMessageModel = (cell as? UIQuotedMessageCollectionCell)?.textMessageModel
-                    viewCell = selectedCell
-                    if self.conversation?.isGroup == true {
-                        if self.conversation?.canReplyToConversation == true {
-                             blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                             blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    } else {
-                        if self.conversation?.isPartnerIsBlocked == false && self.conversation?.isPartenerHasBlocked == false {
-                            blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                            blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    }
-                    break
-                case .gifSticker:
-                    let selectedCell = UIGifStickerMessageCollectionCell()
-                    selectedCell.frame = cellFrameInSuperview
-                    selectedCell.gifStickerMessageModel = (cell as? UIGifStickerMessageCollectionCell)?.gifStickerMessageModel
-                    viewCell = selectedCell
-                    if self.conversation?.isGroup == true {
-                        if self.conversation?.canReplyToConversation == true {
-                             blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                             blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    } else {
-                        if self.conversation?.isPartnerIsBlocked == false && self.conversation?.isPartenerHasBlocked == false {
-                            blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                            blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    }
-                    break
-                case .deletedMessage:
-                    let selectedCell = UITextMessageCollectionCell()
-                    selectedCell.frame = cellFrameInSuperview
-                    selectedCell.textMessageModel = (cell as? UITextMessageCollectionCell)?.textMessageModel
-                    viewCell = selectedCell
-                    blurView.assignActions(actions: [deleteAction])
-                    break
-                case .text:
-                    let selectedCell = UITextMessageCollectionCell()
-                    selectedCell.frame = cellFrameInSuperview
-                    selectedCell.textMessageModel = (cell as? UITextMessageCollectionCell)?.textMessageModel
-                    viewCell = selectedCell
-                    if self.conversation?.isGroup == true {
-                        if self.conversation?.canReplyToConversation == true {
-                             blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                             blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    } else {
-                        if self.conversation?.isPartnerIsBlocked == false && self.conversation?.isPartenerHasBlocked == false {
-                            blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                            blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    }
-                    break
-                case .video:
-                    let selectedCell = UIVideoMessageCollectionCell()
-                    selectedCell.frame = cellFrameInSuperview
-                    selectedCell.videoMessageModel = (cell as? UIVideoMessageCollectionCell)?.videoMessageModel
-                    viewCell = selectedCell
-                    if self.conversation?.isGroup == true {
-                        if self.conversation?.canReplyToConversation == true {
-                             blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                             blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    } else {
-                        if self.conversation?.isPartnerIsBlocked == false && self.conversation?.isPartenerHasBlocked == false {
-                            blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                            blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    }
-                    break
-                case .image:
-                    let selectedCell = CHImageMessageCell()
-                    selectedCell.frame = cellFrameInSuperview
-                    selectedCell.imageMessageModel = (cell as? UIImageMessageCollectionCell)?.imageMessageModel
-                    viewCell = selectedCell
-                    if self.conversation?.isGroup == true {
-                        if self.conversation?.canReplyToConversation == true {
-                             blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                             blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    } else {
-                        if self.conversation?.isPartnerIsBlocked == false && self.conversation?.isPartenerHasBlocked == false {
-                            blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                            blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    }
-                    break
-                case .groupedImages:
-                    let selectedCell = UIGroupedImageCollectionCell()
-                    selectedCell.frame = cellFrameInSuperview
-                    selectedCell.groupedImagesModel = (cell as? UIGroupedImageCollectionCell)?.groupedImagesModel
-                    viewCell = selectedCell
-                    blurView.assignActions(actions: [forwardAllAction,deleteAllAction])
-                    break
-                case .location:
-                    let selectedCell = UILocationMessageCell()
-                    selectedCell.frame = cellFrameInSuperview
-                    selectedCell.locationMessageModel = (cell as? UILocationMessageCell)?.locationMessageModel
-                    viewCell = selectedCell
-                    if self.conversation?.isGroup == true {
-                        if self.conversation?.canReplyToConversation == true {
-                             blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                             blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    } else {
-                        if self.conversation?.isPartnerIsBlocked == false && self.conversation?.isPartenerHasBlocked == false {
-                            blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                            blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    }
-                    break
-                case .audio:
-                    let selectedCell = UIAudioMessageCollectionCell()
-                    selectedCell.frame = cellFrameInSuperview
-                    selectedCell.audioMessageModel = (cell as? UIAudioMessageCollectionCell)?.audioMessageModel
-                    viewCell = selectedCell
-                    if self.conversation?.isGroup == true {
-                        if self.conversation?.canReplyToConversation == true {
-                             blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                             blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    } else {
-                        if self.conversation?.isPartnerIsBlocked == false && self.conversation?.isPartenerHasBlocked == false {
-                            blurView.assignActions(actions: [replyAction,forwardAction,deleteAction,moreAction])
-                        } else {
-                            blurView.assignActions(actions: [forwardAction,deleteAction,moreAction])
-                        }
-                    }
-                    break
-                default:
-                    break
-                }
-                if viewCell != nil {
-                    blurView.insertSelectedMessage(view: viewCell!, viewHeight: cellFrameInSuperview.height)
-                }
-            }
+        print("Total Reactions are \(reactionsModels.count)")
+        guard reactionsModels.count > 0 else {
+            return 0
         }
+        var initialOriginX: CGFloat = 5
+        var initialOriginY: CGFloat = 2.5
+        //let selfWidth = self.view.frame.width
+        var currentItemWidth: CGFloat = 0
+        reactionsModels.forEach({
+            let reaction = $0
+            if reaction.counts == 1 {
+                currentItemWidth = 30
+            } else {
+                let emojiString = reaction.unicode ?? ""
+                let emojiWidth = emojiString.width(withConstrainedHeight: 30, font: UIFont.systemFont(ofSize: 20.0, weight: .medium))
+                let count = reaction.counts ?? 0
+                let countsWidth = "\(count)".width(withConstrainedHeight: 30, font: UIFont.systemFont(ofSize: 20.0, weight: .regular))
+                let totalWidth = 2.5 + emojiWidth + 2.5 + countsWidth + 2.5
+                currentItemWidth = totalWidth
+            }
+            if initialOriginX + currentItemWidth < maxWidth - 5{
+                initialOriginX = initialOriginX + currentItemWidth + 5
+            } else {
+                initialOriginY += 32.5
+                initialOriginX = 5 + currentItemWidth + 2.5
+            }
+        })
+        return initialOriginY + 30 + 2.5
     }
     
     private func playAudioMessage(model: AudioMessageModel?) {
@@ -1608,5 +1676,125 @@ extension UIConversationViewController: QLPreviewControllerDataSource {
         return self.currentDocPreviewUrl as QLPreviewItem
     }
     
+}
+
+
+// MARK: - Message Reaction Feature Related Work
+
+extension UIConversationViewController: ReactionPopOverControllerDelegate {
     
+    func showPopOverForItem(chatItem: BaseMessageItemProtocol, sourcePoint: CGPoint, sourceFrameSize: CGSize, arrowDirection: UIPopoverArrowDirection) {
+        let controller = ReactionPopOverController()
+        controller.messageId = chatItem.messageId
+        controller.delegate = self
+        controller.myReactions = chatItem.myMessageReactions
+        controller.preferredContentSize = CGSize(width: self.view.frame.width - 30, height: 60)
+        controller.modalPresentationStyle = .popover
+        if let popoverPresentationController = controller.popoverPresentationController {
+            popoverPresentationController.permittedArrowDirections = arrowDirection
+            popoverPresentationController.sourceView = self.view
+            popoverPresentationController.sourceRect = CGRect(origin: sourcePoint, size: sourceFrameSize)
+            popoverPresentationController.delegate = self
+            self.present(controller, animated: true, completion: nil)
+        }
+    }
+    
+    func didRemoveReaction(reaction: EmojiReactionModel, messageId: String?) {
+        if let firstIndex = self.chatItems.firstIndex(where: {
+                   $0.messageId == messageId
+        }) {
+            let chatItem = self.chatItems[firstIndex]
+            chatItem.myMessageReactions.removeAll(where: {
+                $0 == reaction.emojiKey
+            })
+            if let existingReactionIndex = chatItem.reactions.firstIndex(where: {
+                $0.unicode == emojiCodes["\(reaction.emojiKey ?? "")"]
+            }) {
+                let existingReaction = chatItem.reactions[existingReactionIndex]
+                if existingReaction.counts ?? 0 > 1 {
+                    existingReaction.counts = (existingReaction.counts ?? 0) - 1
+                } else {
+                    chatItem.reactions.remove(at: existingReactionIndex)
+                }
+                chatItem.reactions.sort(by: {
+                    $0.counts ?? 0 > $1.counts ?? 0
+                })
+            }
+            // Check if there is Any Reaction or Not for selected Reaction Key
+            if let reactionCounts = chatItem.reactionCountsInfo["\(reaction.emojiKey ?? "")"] {
+                chatItem.reactionCountsInfo.updateValue(reactionCounts-1, forKey: reaction.emojiKey ?? "")
+            }
+            if chatItem.messageType == .text || chatItem.messageType == .quotedMessage {
+                self.collectionView.reloadData()
+            } else {
+                let reloadedIndexPath = IndexPath(item: firstIndex, section: 0)
+                   self.collectionView.performBatchUpdates({
+                       self.collectionView.reloadItems(at: [reloadedIndexPath])
+                   }, completion: nil)
+            }
+           
+            ChannelizeAPIService.removeMessageReaction(messageId: chatItem.messageId, reactionType: reaction.emojiKey ?? "", completion: {(status,errorString) in
+                if status {
+                    print("Message Reaction Removed Successfully")
+                } else {
+                    print("Failed To Remove Message Reaction")
+                    print("Error: \(errorString ?? "")")
+                }
+            })
+        }
+    }
+    
+    func didSelectReaction(reaction: EmojiReactionModel, messageId: String?) {
+        if let firstIndex = self.chatItems.firstIndex(where: {
+            $0.messageId == messageId
+        }) {
+            let chatItem = self.chatItems[firstIndex]
+            chatItem.myMessageReactions.append(reaction.emojiKey ?? "")
+            
+            if let existingReaction = chatItem.reactions.first(where: {
+                $0.unicode == reaction.emojiCode
+            }) {
+                existingReaction.counts = (existingReaction.counts ?? 0) + 1
+            } else {
+                let model = ReactionModel()
+                model.counts = 1
+                model.unicode = reaction.emojiCode
+                chatItem.reactions.append(model)
+                //chatItem.reactions.insert(model, at: 0)
+            }
+            chatItem.reactions.sort(by: {
+                $0.counts ?? 0 > $1.counts ?? 0
+            })
+            // Check if there is Any Reaction or Not for selected Reaction Key
+            if let reactionCounts = chatItem.reactionCountsInfo["\(reaction.emojiKey ?? "")"] {
+                chatItem.reactionCountsInfo.updateValue(reactionCounts+1, forKey: reaction.emojiKey ?? "")
+            } else {
+                chatItem.reactionCountsInfo.updateValue(1, forKey: reaction.emojiKey ?? "")
+            }
+            
+            if chatItem.messageType == .text || chatItem.messageType == .quotedMessage {
+                self.collectionView.reloadData()
+            } else {
+                let reloadedIndexPath = IndexPath(item: firstIndex, section: 0)
+                   self.collectionView.performBatchUpdates({
+                       self.collectionView.reloadItems(at: [reloadedIndexPath])
+                   }, completion: nil)
+            }
+            
+//            let reloadedIndexPath = IndexPath(item: firstIndex, section: 0)
+//            self.collectionView.performBatchUpdates({
+//                self.collectionView.reloadItems(at: [reloadedIndexPath])
+//            }, completion: nil)
+            
+            ChannelizeAPIService.addMessageReaction(messageId: chatItem.messageId, reactionType: reaction.emojiKey ?? "", completion: {(status,errorString) in
+                if status {
+                    print("Message Reaction Added Successfully")
+                } else {
+                    print("Failed To Add Message Reaction")
+                    print("Error: \(errorString ?? "")")
+                }
+            })
+            
+        }
+    }
 }

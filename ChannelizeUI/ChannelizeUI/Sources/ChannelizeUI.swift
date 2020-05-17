@@ -22,11 +22,24 @@ public class ChannelizeUI {
         return instance
     }()
     
+    // MARK: - Configure Channelize
+    public static func configure() {
+        if let path = Bundle.main.path(forResource: "Channelize-Info", ofType: "plist") {
+            let dictRoot = NSDictionary(contentsOfFile: path)
+            if let dict = dictRoot {
+                if let giphyKey = dict["GIPHY_API_KEY"] as? String {
+                    CHGifyService.configureGiphy(with: giphyKey)
+                }
+            }
+        }
+    }
+    
     public static func launchChannelize(navigationController: UINavigationController?, data:[AnyHashable : Any]? = nil) {
         
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.tabBarController?.tabBar.isHidden = true
+        configure()
         if ChannelizeAPI.getCurrentUserId() != "" {
             if UserDefaults.standard.value(forKey: ChannelizeKeys.isUserOnline.key()) as? Bool == true {
                 ChannelizeAPI.setUserOnline()

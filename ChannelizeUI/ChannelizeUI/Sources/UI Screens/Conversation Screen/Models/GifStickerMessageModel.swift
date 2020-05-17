@@ -54,6 +54,12 @@ class GifStickerMessageModel: BaseMessageItemProtocol, Differentiable {
         return .gifSticker
     }
     
+    var myMessageReactions: [String] = []
+    
+    var reactionCountsInfo: [String : Int] = [:]
+    
+    var reactions: [ReactionModel] = []
+    
     var messageStatus: BaseMessageStatus
     var messageSource: MessageSource?
     var baseMessageModel: BaseMessageModel
