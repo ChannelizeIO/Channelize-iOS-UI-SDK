@@ -25,7 +25,7 @@ class BlockedUserViewController: UITableViewController {
         #endif
         self.title = "Blocked Users"
         self.screenIdentifier = UUID()
-        ChannelizeAPI.addUserEventDelegate(delegate: self, identifier: self.screenIdentifier)
+        Channelize.addUserEventDelegate(delegate: self, identifier: self.screenIdentifier)
         self.tableView.backgroundColor = UIColor(hex: "#f2f2f7")
         self.tableView.tableFooterView = UIView()
         self.tableView.register(UIContactTableCell.self, forCellReuseIdentifier: "contactTableCell")
@@ -51,7 +51,7 @@ class BlockedUserViewController: UITableViewController {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         if self.isMovingFromParent {
-            ChannelizeAPI.removeUserEventDelegate(identifier: self.screenIdentifier)
+            Channelize.removeUserEventDelegate(identifier: self.screenIdentifier)
         }
     }
     
@@ -173,7 +173,7 @@ extension BlockedUserViewController: CHUserEventDelegates {
             return
         }
         
-        guard blockerUserId == ChannelizeAPI.getCurrentUserId() else {
+        guard blockerUserId == Channelize.getCurrentUserId() else {
             return
         }
         guard let blockedUser = model?.blockedUser else {
@@ -188,7 +188,7 @@ extension BlockedUserViewController: CHUserEventDelegates {
             return
         }
        
-        guard unBlockerUserId == ChannelizeAPI.getCurrentUserId() else {
+        guard unBlockerUserId == Channelize.getCurrentUserId() else {
             return
         }
         

@@ -138,9 +138,9 @@ extension UIConversationViewController: InputBarAccessoryViewDelegate, CHInputTe
         }
         
         let messageId = UUID().uuidString
-        let senderName = ChannelizeAPI.getCurrentUserDisplayName()
-        let senderId = ChannelizeAPI.getCurrentUserId()
-        let senderImageUrl = ChannelizeAPI.getCurrentUserProfileImageUrl() ?? ""
+        let senderName = Channelize.getCurrentUserDisplayName()
+        let senderId = Channelize.getCurrentUserId()
+        let senderImageUrl = Channelize.getCurrentUserProfileImageUrl() ?? ""
         let messageDate = Date()
         let messageStatus = BaseMessageStatus.sending
         
@@ -283,7 +283,7 @@ extension UIConversationViewController: InputBarAccessoryViewDelegate, CHInputTe
         if prefix == "@" {
             if let members = self.conversation?.members{
                 
-                let filteredMembersList = members.filter({ $0.user?.id != ChannelizeAPI.getCurrentUserId()})
+                let filteredMembersList = members.filter({ $0.user?.id != Channelize.getCurrentUserId()})
                 return filteredMembersList.map{ member in
                     
                     var userObject = [String:Any]()

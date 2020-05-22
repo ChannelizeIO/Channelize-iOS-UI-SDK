@@ -69,7 +69,7 @@ class CHAllConversations: CHConversationEventDelegate {
     public static var onApiLoadError: ((_ error: String?) -> Void)?
     
     init() {
-        ChannelizeAPI.addConversationEventDelegate(delegate: self, identifier: CHAllConversations.identifier)
+        Channelize.addConversationEventDelegate(delegate: self, identifier: CHAllConversations.identifier)
     }
     
     static func addConversationDelegates(delegate: CHAllConversationsDelegate, identifier: UUID) {
@@ -298,7 +298,7 @@ extension CHAllConversations {
         if let conversation = CHAllConversations.allGroupsConversations.first(where: {
             $0.id == conversation.id
         }) {
-            if readerUserId == ChannelizeAPI.getCurrentUserId() {
+            if readerUserId == Channelize.getCurrentUserId() {
                 conversation.unreadMessageCount = 0
                 conversation.lastReadByMe = model?.timeStamp
             }
@@ -361,16 +361,16 @@ extension CHAllConversations {
             conversation.canReplyToConversation = true
             var params = [String:Any]()
             params.updateValue(UUID().uuidString, forKey: "id")
-            params.updateValue(ChannelizeAPI.getCurrentUserId(), forKey: "userId")
+            params.updateValue(Channelize.getCurrentUserId(), forKey: "userId")
             params.updateValue(false, forKey: "isAdmin")
             if let member = Mapper<CHMember>().map(JSON: params) {
                 
                 var userParams = [String:Any]()
-                userParams.updateValue(ChannelizeAPI.getCurrentUserId(), forKey: "id")
-                userParams.updateValue(ChannelizeAPI.getCurrentUserDisplayName(), forKey: "displayName")
-                if ChannelizeAPI.getCurrentUserProfileImageUrl() != nil {
+                userParams.updateValue(Channelize.getCurrentUserId(), forKey: "id")
+                userParams.updateValue(Channelize.getCurrentUserDisplayName(), forKey: "displayName")
+                if Channelize.getCurrentUserProfileImageUrl() != nil {
                     userParams.updateValue(
-                        ChannelizeAPI.getCurrentUserProfileImageUrl()!, forKey: "profileImageUrl")
+                        Channelize.getCurrentUserProfileImageUrl()!, forKey: "profileImageUrl")
                 }
                 let userObject = Mapper<CHUser>().map(JSON: userParams)
                 member.user = userObject
@@ -384,16 +384,16 @@ extension CHAllConversations {
             conversation.canReplyToConversation = true
             var params = [String:Any]()
             params.updateValue(UUID().uuidString, forKey: "id")
-            params.updateValue(ChannelizeAPI.getCurrentUserId(), forKey: "userId")
+            params.updateValue(Channelize.getCurrentUserId(), forKey: "userId")
             params.updateValue(false, forKey: "isAdmin")
             if let member = Mapper<CHMember>().map(JSON: params) {
                 
                 var userParams = [String:Any]()
-                userParams.updateValue(ChannelizeAPI.getCurrentUserId(), forKey: "id")
-                userParams.updateValue(ChannelizeAPI.getCurrentUserDisplayName(), forKey: "displayName")
-                if ChannelizeAPI.getCurrentUserProfileImageUrl() != nil {
+                userParams.updateValue(Channelize.getCurrentUserId(), forKey: "id")
+                userParams.updateValue(Channelize.getCurrentUserDisplayName(), forKey: "displayName")
+                if Channelize.getCurrentUserProfileImageUrl() != nil {
                     userParams.updateValue(
-                        ChannelizeAPI.getCurrentUserProfileImageUrl()!, forKey: "profileImageUrl")
+                        Channelize.getCurrentUserProfileImageUrl()!, forKey: "profileImageUrl")
                 }
                 let userObject = Mapper<CHUser>().map(JSON: userParams)
                 member.user = userObject

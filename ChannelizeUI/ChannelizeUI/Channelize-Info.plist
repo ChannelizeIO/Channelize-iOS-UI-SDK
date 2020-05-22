@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+   Channelize-Info.plist
+   ChannelizeUI
+
+   Created by bigstep on 5/22/20.
+   Copyright (c) 2020 Channelize. All rights reserved.
+-->
+<plist version="1.0">
+    <dict>
+        <key>PUBLIC_KEY</key>
+        <string>INSERT_YOUR_PUBLIC_KEY</string>
+        <key>MAP_API_KEY</key>
+        <string>INSERT_YOUR_MAP_KEY</string>
+        <key>GIPHY_API_KEY</key>
+        <string>INSERT_YOUR_GIPHY_KEY</string>
+        <key>AGORA_API_KEY</key>
+        <string>INSERT_YOUR_AGORA_KEY</string>
+    </dict>
+</plist>

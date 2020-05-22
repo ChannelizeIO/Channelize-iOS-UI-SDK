@@ -37,11 +37,11 @@ class CHAllContacts: CHUserEventDelegates {
     public static var onApiLoadError: ((_ error: String?) -> Void)?
     
     init() {
-        ChannelizeAPI.addUserEventDelegate(delegate: self, identifier: CHAllContacts.identifier)
+        Channelize.addUserEventDelegate(delegate: self, identifier: CHAllContacts.identifier)
     }
     
     static func initializeContactClass() {
-        ChannelizeAPI.addUserEventDelegate(delegate: instance, identifier: CHAllContacts.identifier)
+        Channelize.addUserEventDelegate(delegate: instance, identifier: CHAllContacts.identifier)
     }
     
     static func addContactsLoadDelegates(delegate: CHAllContactsDelegates, identifier: UUID) {

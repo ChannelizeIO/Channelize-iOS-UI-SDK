@@ -1337,7 +1337,7 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         if let chatItem = self.chatItems.first(where: {
             $0.messageId == messageId
         }) {
-            if chatItem.senderId == ChannelizeAPI.getCurrentUserId() {
+            if chatItem.senderId == Channelize.getCurrentUserId() {
                 actionSheet.addAction(deleteForEveryOneAction)
             }
         }
@@ -1414,7 +1414,7 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
                 if textModel.isDeletedMessage == true {
                     showMessageDeleteForEveryone = false
                 } else {
-                    if textModel.senderId != ChannelizeAPI.getCurrentUserId() {
+                    if textModel.senderId != Channelize.getCurrentUserId() {
                         showMessageDeleteForEveryone = false
                     }
                 }
@@ -1422,7 +1422,7 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
                 if let chatItem = self.chatItems.first(where: {
                     $0.messageId == id
                 }) {
-                    if chatItem.senderId != ChannelizeAPI.getCurrentUserId() {
+                    if chatItem.senderId != Channelize.getCurrentUserId() {
                         showMessageDeleteForEveryone = false
                     }
                 }
@@ -1552,7 +1552,7 @@ extension UIConversationViewController: UICollectionViewDelegate, UICollectionVi
         })
         let cancelAction = UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .cancel, handler: nil)
         alertController.addAction(deleteForMeAction)
-        if senderId == ChannelizeAPI.getCurrentUserId() {
+        if senderId == Channelize.getCurrentUserId() {
             if isDeleted == false {
                 alertController.addAction(deleteForEveryOneAction)
             }

@@ -7,12 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		186781F8244DF4BC004213BE /* ChannelizeAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 186781F4244DF08C004213BE /* ChannelizeAPI.framework */; };
-		186781F9244DF4BC004213BE /* ChannelizeAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 186781F4244DF08C004213BE /* ChannelizeAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		186781FA244DF4BE004213BE /* ChannelizeCall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 186781F5244DF08E004213BE /* ChannelizeCall.framework */; };
-		186781FB244DF4BE004213BE /* ChannelizeCall.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 186781F5244DF08E004213BE /* ChannelizeCall.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		18B07DEC2449DCDD003D1610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEB2449DCDD003D1610 /* AppDelegate.swift */; };
-		18B07DEE2449DCDD003D1610 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DED2449DCDD003D1610 /* SceneDelegate.swift */; };
 		18B07DF02449DCDD003D1610 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEF2449DCDD003D1610 /* ViewController.swift */; };
 		18B07DF32449DCDD003D1610 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18B07DF12449DCDD003D1610 /* Main.storyboard */; };
 		18B07DF52449DCDF003D1610 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18B07DF42449DCDF003D1610 /* Assets.xcassets */; };
@@ -188,6 +183,8 @@
 		EB76B9402471A9220002BE57 /* ImageGeneratorFromString.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB76B8962471A9220002BE57 /* ImageGeneratorFromString.swift */; };
 		EB76B9412471A9220002BE57 /* NetworkState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB76B8972471A9220002BE57 /* NetworkState.swift */; };
 		EB76B9422471A9220002BE57 /* ImageResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB76B8982471A9220002BE57 /* ImageResizer.swift */; };
+		EBF930B42477902D0054CE1A /* Channelize-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EBF930B32477902D0054CE1A /* Channelize-Info.plist */; };
+		EBF930B6247791FF0054CE1A /* CHLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EBF930B5247791FF0054CE1A /* CHLocalizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -197,8 +194,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				186781F9244DF4BC004213BE /* ChannelizeAPI.framework in Embed Frameworks */,
-				186781FB244DF4BE004213BE /* ChannelizeCall.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,11 +201,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		186781F4244DF08C004213BE /* ChannelizeAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ChannelizeAPI.framework; sourceTree = "<group>"; };
-		186781F5244DF08E004213BE /* ChannelizeCall.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ChannelizeCall.framework; sourceTree = "<group>"; };
 		18B07DE82449DCDD003D1610 /* ChannelizeUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChannelizeUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B07DEB2449DCDD003D1610 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		18B07DED2449DCDD003D1610 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		18B07DEF2449DCDD003D1610 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		18B07DF22449DCDD003D1610 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		18B07DF42449DCDF003D1610 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -390,6 +382,8 @@
 		EB76B8962471A9220002BE57 /* ImageGeneratorFromString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageGeneratorFromString.swift; sourceTree = "<group>"; };
 		EB76B8972471A9220002BE57 /* NetworkState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkState.swift; sourceTree = "<group>"; };
 		EB76B8982471A9220002BE57 /* ImageResizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageResizer.swift; sourceTree = "<group>"; };
+		EBF930B32477902D0054CE1A /* Channelize-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Channelize-Info.plist"; sourceTree = "<group>"; };
+		EBF930B5247791FF0054CE1A /* CHLocalizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = CHLocalizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -397,9 +391,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				186781F8244DF4BC004213BE /* ChannelizeAPI.framework in Frameworks */,
 				527CE5FD14775297AB9FF59C /* Pods_ChannelizeUI.framework in Frameworks */,
-				186781FA244DF4BE004213BE /* ChannelizeCall.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,8 +409,6 @@
 		18B07DDF2449DCDD003D1610 = {
 			isa = PBXGroup;
 			children = (
-				186781F4244DF08C004213BE /* ChannelizeAPI.framework */,
-				186781F5244DF08E004213BE /* ChannelizeCall.framework */,
 				18B07DEA2449DCDD003D1610 /* ChannelizeUI */,
 				18B07DE92449DCDD003D1610 /* Products */,
 				E0078465EB47BB8C61346A69 /* Pods */,
@@ -439,12 +429,13 @@
 			children = (
 				18B07DFF2449EA40003D1610 /* Sources */,
 				18B07DEB2449DCDD003D1610 /* AppDelegate.swift */,
-				18B07DED2449DCDD003D1610 /* SceneDelegate.swift */,
 				18B07DEF2449DCDD003D1610 /* ViewController.swift */,
 				18B07DF12449DCDD003D1610 /* Main.storyboard */,
 				18B07DF42449DCDF003D1610 /* Assets.xcassets */,
 				18B07DF62449DCDF003D1610 /* LaunchScreen.storyboard */,
 				18B07DF92449DCDF003D1610 /* Info.plist */,
+				EBF930B32477902D0054CE1A /* Channelize-Info.plist */,
+				EBF930B5247791FF0054CE1A /* CHLocalizable.strings */,
 			);
 			path = ChannelizeUI;
 			sourceTree = "<group>";
@@ -892,6 +883,7 @@
 			buildConfigurationList = 18B07DFC2449DCDF003D1610 /* Build configuration list for PBXNativeTarget "ChannelizeUI" */;
 			buildPhases = (
 				D5761F4C47C9A9D54DCD6379 /* [CP] Check Pods Manifest.lock */,
+				A02A191AD5C9233D60CA7B62 /* [CP] Prepare Artifacts */,
 				18B07DE42449DCDD003D1610 /* Sources */,
 				18B07DE52449DCDD003D1610 /* Frameworks */,
 				18B07DE62449DCDD003D1610 /* Resources */,
@@ -957,10 +949,12 @@
 				18B07DF52449DCDF003D1610 /* Assets.xcassets in Resources */,
 				18B07DF32449DCDD003D1610 /* Main.storyboard in Resources */,
 				EB76B8B82471A9220002BE57 /* ChannelizeUIIcons.xcassets in Resources */,
+				EBF930B6247791FF0054CE1A /* CHLocalizable.strings in Resources */,
 				EB76B93C2471A9220002BE57 /* noGroups.png in Resources */,
 				EB76B8A62471A9220002BE57 /* ChannelizeActionIcons.xcassets in Resources */,
 				EB76B8A22471A9220002BE57 /* RobotoSlab-Medium.ttf in Resources */,
 				EB76B93A2471A9220002BE57 /* noResultFound.png in Resources */,
+				EBF930B42477902D0054CE1A /* Channelize-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -982,6 +976,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A02A191AD5C9233D60CA7B62 /* [CP] Prepare Artifacts */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-artifacts-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Prepare Artifacts";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-artifacts-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-artifacts.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D5761F4C47C9A9D54DCD6379 /* [CP] Check Pods Manifest.lock */ = {
@@ -1092,7 +1103,6 @@
 				EB76B8E32471A9220002BE57 /* GroupedImagesModel.swift in Sources */,
 				EB76B8D62471A9220002BE57 /* CHInputTextBarView.swift in Sources */,
 				EB76B90F2471A9220002BE57 /* CHMissCallMessageCell.swift in Sources */,
-				18B07DEE2449DCDD003D1610 /* SceneDelegate.swift in Sources */,
 				EB76B8C22471A9220002BE57 /* NoGroupConversationCell.swift in Sources */,
 				EB76B9312471A9220002BE57 /* CHCollectionView+Extension.swift in Sources */,
 				EB76B8ED2471A9220002BE57 /* MissCallMessageModel.swift in Sources */,

@@ -121,7 +121,7 @@ class UIRecentCallsViewController: CHTableViewController {
         params.updateValue(currentOffset, forKey: "skip")
         params.updateValue(25, forKey: "limit")
         params.updateValue("calls", forKey: "includes")
-        params.updateValue(ChannelizeAPI.getCurrentUserId(), forKey: "userId")
+        params.updateValue(Channelize.getCurrentUserId(), forKey: "userId")
         ChannelizeAPIService.getRecentCalls(params: params, completion: {(calls,errorString) in
             guard errorString == nil else {
                 return

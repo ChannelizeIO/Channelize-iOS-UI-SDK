@@ -158,8 +158,8 @@ class UIConversationViewController: ChannelizeController {
         self.navigationItem.titleView = conversationHeaderView
         
         self.screenIdentifier = UUID()
-        ChannelizeAPI.addConversationEventDelegate(delegate: self, identifier: self.screenIdentifier)
-        ChannelizeAPI.addUserEventDelegate(delegate: self, identifier: self.screenIdentifier)
+        Channelize.addConversationEventDelegate(delegate: self, identifier: self.screenIdentifier)
+        Channelize.addUserEventDelegate(delegate: self, identifier: self.screenIdentifier)
         
         self.configureHeaderView()
         self.conversationHeaderView.onBackButtonPressed = {[weak self] (sender) in
@@ -206,7 +206,7 @@ class UIConversationViewController: ChannelizeController {
         self.configureCollectionView()
         self.setUpViews()
         if self.conversation != nil {
-            ChannelizeUI.instance.chCurrentChatId = self.conversation?.id
+            ChUI.instance.chCurrentChatId = self.conversation?.id
             ChannelizeAPIService.joinReactionsSubscribers(conversationId: self.conversation?.id ?? "")
 //            self.configureCollectionView()
 //            self.setUpViews()
@@ -227,7 +227,7 @@ class UIConversationViewController: ChannelizeController {
                     self.setupTapGestureRecognizer()
                     self.getConversationMessages(offset: 0)
                     self.updateBlockViewStatus()
-                    ChannelizeUI.instance.chCurrentChatId = self.conversation?.id
+                    ChUI.instance.chCurrentChatId = self.conversation?.id
                 }
             })
         }
@@ -241,7 +241,7 @@ class UIConversationViewController: ChannelizeController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if self.isMovingFromParent {
-            ChannelizeUI.instance.chCurrentChatId = nil
+            ChUI.instance.chCurrentChatId = nil
             self.keyboardManager = nil
             self.audioPlayer?.stop()
             self.audioPlayer = nil
@@ -249,8 +249,8 @@ class UIConversationViewController: ChannelizeController {
             self.audioRecorder?.stop()
             self.audioRecorder = nil
             self.tabBarController?.tabBar.isHidden = false
-            ChannelizeAPI.removeUserEventDelegate(identifier: self.screenIdentifier)
-            ChannelizeAPI.removeConversationDelegate(identifier: self.screenIdentifier)
+            Channelize.removeUserEventDelegate(identifier: self.screenIdentifier)
+            Channelize.removeConversationDelegate(identifier: self.screenIdentifier)
             ChannelizeAPIService.leaveReactionsSubscribers(conversationId: self.conversation?.id ?? "")
         }
         self.navigationController?.setToolbarHidden(true, animated: true)
@@ -274,7 +274,7 @@ class UIConversationViewController: ChannelizeController {
                             return
                         }
                         if let recievedConversation = conversation {
-                            ChannelizeUI.instance.chCurrentChatId = recievedConversation.id
+                            ChUI.instance.chCurrentChatId = recievedConversation.id
                             self.conversation = recievedConversation
                             ChannelizeAPIService.joinReactionsSubscribers(conversationId: self.conversation?.id ?? "")
                             self.configureTextInputBar()

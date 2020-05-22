@@ -140,7 +140,7 @@ class QuotedMessageView: UIView {
     }
     
     private func assignData(data: QuotedViewModel) {
-        self.senderNameLabel.text = data.senderId == ChannelizeAPI.getCurrentUserId() ? "You" : data.senderName?.capitalized
+        self.senderNameLabel.text = data.senderId == Channelize.getCurrentUserId() ? "You" : data.senderName?.capitalized
         
         if data.imageUrl == nil {
             if data.typeOfMessage == .text || data.typeOfMessage == .quotedMessage {

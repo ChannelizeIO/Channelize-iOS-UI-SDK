@@ -102,8 +102,8 @@ class UserProfileViewController: ChannelizeController, UITableViewDelegate, UITa
         super.viewDidLoad()
         self.edgesForExtendedLayout = []
         self.screenIdentifier = UUID()
-        ChannelizeAPI.addUserEventDelegate(delegate: self, identifier: screenIdentifier)
-        ChannelizeAPI.addConversationEventDelegate(delegate: self, identifier: screenIdentifier)
+        Channelize.addUserEventDelegate(delegate: self, identifier: screenIdentifier)
+        Channelize.addConversationEventDelegate(delegate: self, identifier: screenIdentifier)
         self.setUpViews()
         self.tableView.backgroundColor = UIColor(hex: "#f5f5f5")
         self.configureTableHeaderView()
@@ -122,8 +122,8 @@ class UserProfileViewController: ChannelizeController, UITableViewDelegate, UITa
     }
     
     deinit {
-        ChannelizeAPI.removeConversationDelegate(identifier: self.screenIdentifier)
-        ChannelizeAPI.removeUserEventDelegate(identifier: self.screenIdentifier)
+        Channelize.removeConversationDelegate(identifier: self.screenIdentifier)
+        Channelize.removeUserEventDelegate(identifier: self.screenIdentifier)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -279,7 +279,7 @@ class UserProfileViewController: ChannelizeController, UITableViewDelegate, UITa
         let bundleUrl = Bundle.url(forResource: "ChannelizeCall", withExtension: "framework", subdirectory: "Frameworks", in: Bundle.main.bundleURL)
         let bundle = Bundle(url: bundleUrl!)
         bundle?.load()
-        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.ChannelizeCall")
+        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.CHCall")
         if let callMainClass = aClass as? CallSDKDelegates.Type{
             if let unwrappedUser = self.user {
                 callMainClass.launchCallViewController(
@@ -292,7 +292,7 @@ class UserProfileViewController: ChannelizeController, UITableViewDelegate, UITa
         let bundleUrl = Bundle.url(forResource: "ChannelizeCall", withExtension: "framework", subdirectory: "Frameworks", in: Bundle.main.bundleURL)
         let bundle = Bundle(url: bundleUrl!)
         bundle?.load()
-        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.ChannelizeCall")
+        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.CHCall")
         if let callMainClass = aClass as? CallSDKDelegates.Type{
             if let unwrappedUser = self.user {
                 callMainClass.launchCallViewController(

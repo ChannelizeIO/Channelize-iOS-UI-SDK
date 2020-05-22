@@ -51,7 +51,7 @@ class CommonGroupesViewController: UICollectionViewController, CHAllConversation
     
     // MARK: - API Functions
     private func getCommonGroups() {
-        let memberIds = [self.user?.id ?? "",ChannelizeAPI.getCurrentUserId()]
+        let memberIds = [self.user?.id ?? "",Channelize.getCurrentUserId()]
         var params = [String:Any]()
         params.updateValue(true, forKey: "isGroup")
         params.updateValue(memberIds.joined(separator: ","), forKey: "membersIncluded")

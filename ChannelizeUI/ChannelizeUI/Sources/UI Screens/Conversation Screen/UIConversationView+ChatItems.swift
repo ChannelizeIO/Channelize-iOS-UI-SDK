@@ -670,7 +670,7 @@ extension UIConversationViewController {
             //self.conversation?.lastReadAtByPartner
         } else {
             for(memberId,lastReadDate) in self.conversation?.lastReadDictionary ?? ["":""] {
-                if memberId != ChannelizeAPI.getCurrentUserId() {
+                if memberId != Channelize.getCurrentUserId() {
                     let dateTrasform = ISODateTransform()
                     if let readDate = dateTrasform.transformFromJSON(lastReadDate) {
                         self.conversation?.lastReadAtByPartner = readDate

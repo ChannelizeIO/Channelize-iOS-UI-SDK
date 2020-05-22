@@ -72,9 +72,9 @@ extension UIConversationViewController: ConversationAttachmentViewDelegate, Asse
     /// Location Selector Delegate
     func didSelectLocation(coordinates: CLLocationCoordinate2D, name: String, address: String) {
         let messageId = UUID().uuidString
-        let senderName = ChannelizeAPI.getCurrentUserDisplayName()
-        let senderId = ChannelizeAPI.getCurrentUserId()
-        let senderImageUrl = ChannelizeAPI.getCurrentUserProfileImageUrl()
+        let senderName = Channelize.getCurrentUserDisplayName()
+        let senderId = Channelize.getCurrentUserId()
+        let senderImageUrl = Channelize.getCurrentUserProfileImageUrl()
         let messageDate = Date()
         let messageStatus = BaseMessageStatus.sending
         
@@ -143,9 +143,9 @@ extension UIConversationViewController: ConversationAttachmentViewDelegate, Asse
                 
                 let uniqueId = UUID()
                 let messageId = uniqueId.uuidString
-                let senderName = ChannelizeAPI.getCurrentUserDisplayName()
-                let senderId = ChannelizeAPI.getCurrentUserId()
-                let senderImageUrl = ChannelizeAPI.getCurrentUserProfileImageUrl()
+                let senderName = Channelize.getCurrentUserDisplayName()
+                let senderId = Channelize.getCurrentUserId()
+                let senderImageUrl = Channelize.getCurrentUserProfileImageUrl()
                 let messageDate = Date()
                 let messageStatus = BaseMessageStatus.sending
                 
@@ -161,7 +161,7 @@ extension UIConversationViewController: ConversationAttachmentViewDelegate, Asse
                 print("Doc Message Check -> Message Id \(uniqueId.uuidString)")
                 messageQueryBuilder.conversationId = self.conversation?.id
                 messageQueryBuilder.messageType = .normal
-                messageQueryBuilder.ownerId = ChannelizeAPI.getCurrentUserId()
+                messageQueryBuilder.ownerId = Channelize.getCurrentUserId()
                 
                 let docAttachment = CHDocAttachmentQueryBuilder()
                 docAttachment.fileName = fileName
@@ -321,9 +321,9 @@ extension UIConversationViewController: ConversationAttachmentViewDelegate, Asse
         }
         
         let messageId = UUID().uuidString
-        let senderName = ChannelizeAPI.getCurrentUserDisplayName()
-        let senderId = ChannelizeAPI.getCurrentUserId()
-        let senderImageUrl = ChannelizeAPI.getCurrentUserProfileImageUrl()
+        let senderName = Channelize.getCurrentUserDisplayName()
+        let senderId = Channelize.getCurrentUserId()
+        let senderImageUrl = Channelize.getCurrentUserProfileImageUrl()
         let messageDate = Date()
         let messageStatus = BaseMessageStatus.sending
         
@@ -376,9 +376,9 @@ extension UIConversationViewController: ConversationAttachmentViewDelegate, Asse
                 return
             }
             let messageId = UUID().uuidString
-            let senderName = ChannelizeAPI.getCurrentUserDisplayName()
-            let senderId = ChannelizeAPI.getCurrentUserId()
-            let senderImageUrl = ChannelizeAPI.getCurrentUserProfileImageUrl()
+            let senderName = Channelize.getCurrentUserDisplayName()
+            let senderId = Channelize.getCurrentUserId()
+            let senderImageUrl = Channelize.getCurrentUserProfileImageUrl()
             let messageDate = Date()
             let messageStatus = BaseMessageStatus.sending
             
@@ -685,9 +685,9 @@ extension UIConversationViewController: ConversationAttachmentViewDelegate, Asse
             }
             
             let messageId = UUID().uuidString
-            let senderName = ChannelizeAPI.getCurrentUserDisplayName()
-            let senderId = ChannelizeAPI.getCurrentUserId()
-            let senderImageUrl = ChannelizeAPI.getCurrentUserProfileImageUrl()
+            let senderName = Channelize.getCurrentUserDisplayName()
+            let senderId = Channelize.getCurrentUserId()
+            let senderImageUrl = Channelize.getCurrentUserProfileImageUrl()
             let messageDate = Date()
             let messageStatus = BaseMessageStatus.sending
             
@@ -762,9 +762,9 @@ extension UIConversationViewController: ConversationAttachmentViewDelegate, Asse
     
     func didSelectMedia(type: GiphType, model: CHGiphImageModel) {
         let messageId = UUID().uuidString
-        let senderName = ChannelizeAPI.getCurrentUserDisplayName()
-        let senderId = ChannelizeAPI.getCurrentUserId()
-        let senderImageUrl = ChannelizeAPI.getCurrentUserProfileImageUrl()
+        let senderName = Channelize.getCurrentUserDisplayName()
+        let senderId = Channelize.getCurrentUserId()
+        let senderImageUrl = Channelize.getCurrentUserProfileImageUrl()
         let messageDate = Date()
         let messageStatus = BaseMessageStatus.sending
         

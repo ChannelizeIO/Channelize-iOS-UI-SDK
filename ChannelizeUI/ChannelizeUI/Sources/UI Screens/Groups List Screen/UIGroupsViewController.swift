@@ -39,7 +39,7 @@ class UIGroupsViewController: UICollectionViewController, UICollectionViewDelega
         super.viewDidLoad()
         self.title = "Groups"
         //self.screenIdentifier = UUID()
-        //ChannelizeAPI.addConversationEventDelegate(delegate: self, identifier: self.screenIdentifier)
+        //Channelize.addConversationEventDelegate(delegate: self, identifier: self.screenIdentifier)
         
         self.setUpHomeButton()
         self.setUpCreateButton()
@@ -243,8 +243,8 @@ class UIGroupsViewController: UICollectionViewController, UICollectionViewDelega
     
     // MARK: - Button Targets Functions
     @objc func homeButtonPressed(sender: UIButton) {
-//        ChannelizeAPI.removeUserEventDelegate(identifier: CHAllContacts.identifier)
-//        ChannelizeAPI.removeConversationDelegate(identifier: CHAllContacts.identifier)
+//        Channelize.removeUserEventDelegate(identifier: CHAllContacts.identifier)
+//        Channelize.removeConversationDelegate(identifier: CHAllContacts.identifier)
 //        CHAllConversations.allConversations.removeAll()
 //        CHAllConversations.allGroupsConversations.removeAll()
 //        CHAllConversations.allConversationCurrentOffset = 0
@@ -255,7 +255,7 @@ class UIGroupsViewController: UICollectionViewController, UICollectionViewDelega
 //        CHAllContacts.contactsList.removeAll()
 //        CHAllContacts.currentOffset = 0
 //        CHAllContacts.isAllContactsLoaded = false
-//        ChannelizeUI.instance.isCHOpen = false
+//        ChUI.instance.isCHOpen = false
 //        self.navigationController?
 //            .parent?.navigationController?.popViewController(
 //                animated: true)
@@ -532,7 +532,7 @@ class UIGroupsViewController: UICollectionViewController, UICollectionViewDelega
     
     func logout() {
         showProgressView(superView: self.view, string: nil)
-        ChannelizeAPI.logout(completion: {(status,errorString) in
+        Channelize.logout(completion: {(status,errorString) in
             disMissProgressView()
             if status {
                 self.navigationController?
@@ -682,7 +682,7 @@ extension UIGroupsViewController {
         if let conversationIndex = self.getConversationIndex(conversationId: conversationId) {
             let conversation = self.allConversation[conversationIndex]
             if conversation.isGroup == true {
-                if readerId == ChannelizeAPI.getCurrentUserId() {
+                if readerId == Channelize.getCurrentUserId() {
                     conversation.unreadMessageCount = 0
                 } else {
                     let dateString = dateTransformer.transformToJSON(
@@ -691,7 +691,7 @@ extension UIGroupsViewController {
                         dateString ?? "", forKey: readerId)
                 }
             } else {
-                if readerId == ChannelizeAPI.getCurrentUserId() {
+                if readerId == Channelize.getCurrentUserId() {
                     conversation.unreadMessageCount = 0
                 } else {
                     let dateString = dateTransformer.transformToJSON(
@@ -748,7 +748,7 @@ extension UIGroupsViewController {
             let conversation = self.allConversation[conversationIndex]
             conversation.canReplyToConversation = false
             conversation.members?.removeAll(where: {
-                $0.user?.id == ChannelizeAPI.getCurrentUserId()
+                $0.user?.id == Channelize.getCurrentUserId()
             })
             self.collectionView.performBatchUpdates({
                 self.collectionView.reloadItems(at: [IndexPath(item: conversationIndex, section: 0)])

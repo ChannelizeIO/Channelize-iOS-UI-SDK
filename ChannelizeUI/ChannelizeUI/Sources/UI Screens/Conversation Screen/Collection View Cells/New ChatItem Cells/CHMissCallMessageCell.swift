@@ -151,7 +151,7 @@ class CHMissCallMessageCell: BaseChatItemCollectionCell {
         }
         
         if missCallModel.senderId ==
-            ChannelizeAPI.getCurrentUserId() {
+            Channelize.getCurrentUserId() {
             let recieverName = missCallModel.recieverName?.trim ?? ""
             let firstName = recieverName.components(separatedBy: " ").first ?? ""
             let formattedString = String(format: "%@ Missed", firstName)

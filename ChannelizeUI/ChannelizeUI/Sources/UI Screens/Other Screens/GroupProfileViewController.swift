@@ -100,7 +100,7 @@ class GroupProfileViewController: ChannelizeController, AddMembersToGroupControl
         self.title = "Group Profile"
         self.view.backgroundColor = UIColor(hex: "#f2f2f7")
         self.screenIdentifier = UUID()
-        ChannelizeAPI.addConversationEventDelegate(delegate: self, identifier: self.screenIdentifier)
+        Channelize.addConversationEventDelegate(delegate: self, identifier: self.screenIdentifier)
         //AWSMqttService.addConversationDelegate(self, identifier: self.screenIdentifier)
         self.setUpViews()
         self.setUpViewsFrames()
@@ -114,8 +114,8 @@ class GroupProfileViewController: ChannelizeController, AddMembersToGroupControl
     }
     
     deinit {
-        ChannelizeAPI.removeConversationDelegate(identifier: self.screenIdentifier)
-        ChannelizeAPI.removeUserEventDelegate(identifier: self.screenIdentifier)
+        Channelize.removeConversationDelegate(identifier: self.screenIdentifier)
+        Channelize.removeUserEventDelegate(identifier: self.screenIdentifier)
     }
     
     private func configureTopHeaderView() {
@@ -433,7 +433,7 @@ extension GroupProfileViewController: UITableViewDelegate, UITableViewDataSource
                 break
             case "leaveConversationActionCell":
                 if (self.conversation?.members?.first(where: {
-                    $0.isAdmin == true && $0.user?.id != ChannelizeAPI.getCurrentUserId()
+                    $0.isAdmin == true && $0.user?.id != Channelize.getCurrentUserId()
                 })) != nil {
                     self.performGroupLeaveConversation()
                 } else {
@@ -471,7 +471,7 @@ extension GroupProfileViewController: UITableViewDelegate, UITableViewDataSource
     
     private func showUserOptionsAlert(for user: CHMember) {
         
-        guard user.userId != ChannelizeAPI.getCurrentUserId() else {
+        guard user.userId != Channelize.getCurrentUserId() else {
             return
         }
         
@@ -575,7 +575,7 @@ extension GroupProfileViewController: UITableViewDelegate, UITableViewDataSource
         let bundleUrl = Bundle.url(forResource: "ChannelizeCall", withExtension: "framework", subdirectory: "Frameworks", in: Bundle.main.bundleURL)
         let bundle = Bundle(url: bundleUrl!)
         bundle?.load()
-        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.ChannelizeCall")
+        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.CHCall")
         if let callMainClass = aClass as? CallSDKDelegates.Type {
             if let unwrappedUser = user {
                 callMainClass.launchCallViewController(
@@ -588,7 +588,7 @@ extension GroupProfileViewController: UITableViewDelegate, UITableViewDataSource
         let bundleUrl = Bundle.url(forResource: "ChannelizeCall", withExtension: "framework", subdirectory: "Frameworks", in: Bundle.main.bundleURL)
         let bundle = Bundle(url: bundleUrl!)
         bundle?.load()
-        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.ChannelizeCall")
+        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.CHCall")
         if let callMainClass = aClass as? CallSDKDelegates.Type {
             if let unwrappedUser = user {
                 callMainClass.launchCallViewController(
@@ -980,7 +980,7 @@ extension GroupProfileViewController: CHConversationEventDelegate {
             }) {
                 firstUser.isAdmin = true
             }
-            if adminUser.id == ChannelizeAPI.getCurrentUserId() {
+            if adminUser.id == Channelize.getCurrentUserId() {
                 self.conversation?.isCurrentUserAdmin = true
                 self.galleryButton.isHidden = false
             }

@@ -97,7 +97,7 @@ class GroupedPhotosViewController: UICollectionViewController, UICollectionViewD
         actionSheet.addAction(cancelAction)
         
         if let firstItem = self.imagesModels.first {
-            if firstItem.senderId == ChannelizeAPI.getCurrentUserId() {
+            if firstItem.senderId == Channelize.getCurrentUserId() {
                 actionSheet.addAction(deleteForEveryOneAction)
             }
         }

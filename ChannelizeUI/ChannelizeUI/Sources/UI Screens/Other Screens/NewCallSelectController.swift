@@ -222,7 +222,7 @@ extension NewCallSelectController: CreateGroupUserCellDelegate {
         let bundleUrl = Bundle.url(forResource: "ChannelizeCall", withExtension: "framework", subdirectory: "Frameworks", in: Bundle.main.bundleURL)
         let bundle = Bundle(url: bundleUrl!)
         bundle?.load()
-        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.ChannelizeCall")
+        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.CHCall")
         if let callMainClass = aClass as? CallSDKDelegates.Type{
             if let unwrappedUser = user {
                 callMainClass.launchCallViewController(navigationController: self.navigationController, user: unwrappedUser, type: CHCallScreen.voice.rawValue)
@@ -234,7 +234,7 @@ extension NewCallSelectController: CreateGroupUserCellDelegate {
         let bundleUrl = Bundle.url(forResource: "ChannelizeCall", withExtension: "framework", subdirectory: "Frameworks", in: Bundle.main.bundleURL)
         let bundle = Bundle(url: bundleUrl!)
         bundle?.load()
-        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.ChannelizeCall")
+        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.CHCall")
         if let callMainClass = aClass as? CallSDKDelegates.Type{
             if let unwrappedUser = user {
                 callMainClass.launchCallViewController(navigationController: self.navigationController, user: unwrappedUser, type: CHCallScreen.video.rawValue)

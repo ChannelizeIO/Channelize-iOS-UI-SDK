@@ -47,21 +47,21 @@ class GroupedImagesModel: BaseMessageItemProtocol, Differentiable {
         if let imageModel = self.imagesModel.first {
             return imageModel.senderId
         }
-        return ChannelizeAPI.getCurrentUserId()
+        return Channelize.getCurrentUserId()
     }
     
     var senderName: String {
         if let imageModel = self.imagesModel.first {
             return imageModel.senderName
         }
-        return ChannelizeAPI.getCurrentUserDisplayName()
+        return Channelize.getCurrentUserDisplayName()
     }
     
     var senderImageUrl: String {
         if let imageModel = self.imagesModel.first {
             return imageModel.senderImageUrl
         }
-        return ChannelizeAPI.getCurrentUserProfileImageUrl() ?? ""
+        return Channelize.getCurrentUserProfileImageUrl() ?? ""
     }
     
     var messageDate: Date {

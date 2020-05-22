@@ -153,7 +153,7 @@ class UIRecentCallTableCell: UITableViewCell {
         let profileImageUrl = callData.callPartnerMember?.user?.profileImageUrl
         var callState: CallType?
         let mineCallRecipient = callData.callPartnerMember?.lastCall?.recipients?.first(where: {
-            $0.userId == ChannelizeAPI.getCurrentUserId()
+            $0.userId == Channelize.getCurrentUserId()
         })
         callState = mineCallRecipient?.state
         switch callState ?? .Out {

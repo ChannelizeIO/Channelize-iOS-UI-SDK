@@ -314,7 +314,7 @@ class QuotedMessageContainerView: UIView {
     }
     
     private func assignData(data: QuotedViewModel) {
-        self.senderNameLabel.text = data.senderId == ChannelizeAPI.getCurrentUserId() ? "You" : data.senderName?.capitalized
+        self.senderNameLabel.text = data.senderId == Channelize.getCurrentUserId() ? "You" : data.senderName?.capitalized
         
         self.senderNameLabel.textColor = data.isIncoming ? UIColor(hex: "#3A3C4C") : .white
         

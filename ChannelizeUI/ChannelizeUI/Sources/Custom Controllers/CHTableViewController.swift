@@ -307,8 +307,8 @@ class CHTableViewController: UITableViewController, UISearchBarDelegate, UISearc
             #endif
             self.present(alertController, animated: true, completion: nil)
         } else {
-            ChannelizeAPI.removeUserEventDelegate(identifier: CHAllContacts.identifier)
-            ChannelizeAPI.removeConversationDelegate(identifier: CHAllContacts.identifier)
+            Channelize.removeUserEventDelegate(identifier: CHAllContacts.identifier)
+            Channelize.removeConversationDelegate(identifier: CHAllContacts.identifier)
             CHAllConversations.allConversations.removeAll()
             CHAllConversations.allGroupsConversations.removeAll()
             CHAllConversations.allConversationCurrentOffset = 0
@@ -319,7 +319,7 @@ class CHTableViewController: UITableViewController, UISearchBarDelegate, UISearc
             CHAllContacts.contactsList.removeAll()
             CHAllContacts.currentOffset = 0
             CHAllContacts.isAllContactsLoaded = false
-            ChannelizeUI.instance.isCHOpen = false
+            ChUI.instance.isCHOpen = false
             self.navigationController?.parent?.navigationController?.popViewController(animated: true)
         }
     }
@@ -377,11 +377,11 @@ class CHTableViewController: UITableViewController, UISearchBarDelegate, UISearc
     
     func logout() {
         showProgressView(superView: self.navigationController?.view, string: nil)
-        ChannelizeAPI.logout(completion: {(status,errorString) in
+        Channelize.logout(completion: {(status,errorString) in
             disMissProgressView()
             if status {
-                ChannelizeAPI.removeUserEventDelegate(identifier: CHAllContacts.identifier)
-                ChannelizeAPI.removeConversationDelegate(identifier: CHAllContacts.identifier)
+                Channelize.removeUserEventDelegate(identifier: CHAllContacts.identifier)
+                Channelize.removeConversationDelegate(identifier: CHAllContacts.identifier)
                 CHAllConversations.allConversations.removeAll()
                 CHAllConversations.allGroupsConversations.removeAll()
                 CHAllConversations.allConversationCurrentOffset = 0
@@ -392,7 +392,7 @@ class CHTableViewController: UITableViewController, UISearchBarDelegate, UISearc
                 CHAllContacts.contactsList.removeAll()
                 CHAllContacts.currentOffset = 0
                 CHAllContacts.isAllContactsLoaded = false
-                ChannelizeUI.instance.isCHOpen = false
+                ChUI.instance.isCHOpen = false
                 self.navigationController?
                     .parent?.navigationController?.popViewController(
                         animated: true)

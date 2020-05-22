@@ -90,6 +90,6 @@ class BaseMessageModel {
         self.senderImageUrl = senderImageUrl
         self.messageDate = messageDate
         self.messageStatus = status
-        self.isIncoming = senderId == ChannelizeAPI.getCurrentUserId() ? false : true
+        self.isIncoming = senderId == Channelize.getCurrentUserId() ? false : true
     }
 }

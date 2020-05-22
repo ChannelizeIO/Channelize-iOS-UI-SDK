@@ -190,7 +190,7 @@ class UIRecentConversationCell: UITableViewCell {
             self.conversationTimeLabel.text = nil
         }
         
-        if conversationData.lastMessage?.ownerId == ChannelizeAPI.getCurrentUserId() {
+        if conversationData.lastMessage?.ownerId == Channelize.getCurrentUserId() {
             if conversationData.lastMessage?.messageType == .admin {
                 self.messageStatusImageView.isHidden = true
                 self.messageCountLabel.isHidden = true
@@ -298,7 +298,7 @@ class UIRecentConversationCell: UITableViewCell {
                 let subjectName = metaData.subjectUser?.displayName?.capitalized ?? ""
                 let groupName = metaData.objectValues as? String ?? ""
                 
-                let subjectString = metaData.subjectUser?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+                let subjectString = metaData.subjectUser?.id == Channelize.getCurrentUserId() ? "You" : subjectName
                 
                 let messageLabel = String(format: "%@ created group %@", arguments: [subjectString,groupName])
                 return messageLabel
@@ -306,7 +306,7 @@ class UIRecentConversationCell: UITableViewCell {
             case .addMembers:
                 let subjectName = metaData.subjectUser?.displayName?.capitalized ?? ""
                 
-                let subjectString = metaData.subjectUser?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+                let subjectString = metaData.subjectUser?.id == Channelize.getCurrentUserId() ? "You" : subjectName
                 
                 var addedUsersName = [String]()
                 if let objectUsers = metaData.objectUsers {
@@ -321,7 +321,7 @@ class UIRecentConversationCell: UITableViewCell {
             case .groupLeave:
                 let subjectName = metaData.subjectUser?.displayName?.capitalized ?? ""
                 
-                let subjectString = metaData.subjectUser?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+                let subjectString = metaData.subjectUser?.id == Channelize.getCurrentUserId() ? "You" : subjectName
                 
                 let messageLabel = String(format: "%@ left", subjectString)
                 return messageLabel
@@ -329,7 +329,7 @@ class UIRecentConversationCell: UITableViewCell {
             case .removeMember:
                 let subjectName = metaData.subjectUser?.displayName?.capitalized ?? ""
                 
-                let subjectString = metaData.subjectUser?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+                let subjectString = metaData.subjectUser?.id == Channelize.getCurrentUserId() ? "You" : subjectName
                 
                 var removedUsersName = [String]()
                 if let removedMembers = metaData.objectUsers {
@@ -344,7 +344,7 @@ class UIRecentConversationCell: UITableViewCell {
             case .makeGroupAdmin:
                 let subjectName = metaData.subjectUser?.displayName?.capitalized ?? ""
                 
-                let subjectString = metaData.subjectUser?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+                let subjectString = metaData.subjectUser?.id == Channelize.getCurrentUserId() ? "You" : subjectName
                 
                 let messageLabel = String(format: "%@ are now an admin", subjectString)
                 return messageLabel
@@ -352,7 +352,7 @@ class UIRecentConversationCell: UITableViewCell {
             case .changeGroupTitle:
                 let subjectName = metaData.subjectUser?.displayName?.capitalized ?? ""
                 
-                let subjectString = metaData.subjectUser?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+                let subjectString = metaData.subjectUser?.id == Channelize.getCurrentUserId() ? "You" : subjectName
                 
                 let newGroupName = metaData.objectValues as? String ?? ""
                 let messageLabel = String(format: "%@ changed the title to %@", arguments: [subjectString,newGroupName])
@@ -361,18 +361,18 @@ class UIRecentConversationCell: UITableViewCell {
             case .changeGroupPhoto:
                 let subjectName = metaData.subjectUser?.displayName?.capitalized ?? ""
                 
-                let subjectString = metaData.subjectUser?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+                let subjectString = metaData.subjectUser?.id == Channelize.getCurrentUserId() ? "You" : subjectName
                 
                 let messageLabel = String(format: "%@ changed group photo", subjectString)
                 return messageLabel
             case .missedVideoCall:
-                if lastMessage.ownerId == ChannelizeAPI.getCurrentUserId() {
+                if lastMessage.ownerId == Channelize.getCurrentUserId() {
                     return String(format: CHLocalized(key: "pmUserMissedVideoCall"), self.conversation?.conversationPartner?.displayName?.capitalized ?? "")
                 } else {
                     return String(format: CHLocalized(key: "pmUserMissedVideoCall"), CHLocalized(key: "pmYou"))
                 }
             case .missedVoiceCall:
-                if lastMessage.ownerId == ChannelizeAPI.getCurrentUserId() {
+                if lastMessage.ownerId == Channelize.getCurrentUserId() {
                     return String(format: CHLocalized(key: "pmUserMissedVoiceCall"), self.conversation?.conversationPartner?.displayName?.capitalized ?? "")
                 } else {
                     return String(format: CHLocalized(key: "pmUserMissedVoiceCall"),CHLocalized(key: "pmYou"))

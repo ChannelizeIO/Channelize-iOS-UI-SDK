@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import AVFoundation
-import IHProgressHUD
 
 func getDateFromString(value: String?) -> Date? {
     let formatter = DateFormatter()

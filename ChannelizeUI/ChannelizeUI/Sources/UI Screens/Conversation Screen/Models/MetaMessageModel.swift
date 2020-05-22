@@ -108,7 +108,7 @@ class MetaMessageModel: BaseMessageItemProtocol, Differentiable {
         switch messageType {
         case .addMembers:
             let subjectName = metaMessageData.subject?.displayName?.capitalized ?? ""
-            let subjectString = metaMessageData.subject?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+            let subjectString = metaMessageData.subject?.id == Channelize.getCurrentUserId() ? "You" : subjectName
             
             var addedUsersName = [String]()
             if let objectUsers = metaMessageData.objectUsers {
@@ -122,13 +122,13 @@ class MetaMessageModel: BaseMessageItemProtocol, Differentiable {
             break
         case .changeGroupPhoto:
             let subjectName = metaMessageData.subject?.displayName?.capitalized ?? ""
-            let subjectString = metaMessageData.subject?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+            let subjectString = metaMessageData.subject?.id == Channelize.getCurrentUserId() ? "You" : subjectName
             let messageLabel = String(format: "%@ changed group photo", subjectString)
             self.metaMessageFormattedString = messageLabel
             break
         case .changeGroupTitle:
             let subjectName = metaMessageData.subject?.displayName?.capitalized ?? ""
-            let subjectString = metaMessageData.subject?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+            let subjectString = metaMessageData.subject?.id == Channelize.getCurrentUserId() ? "You" : subjectName
             
             let newGroupName = metaMessageData.object as? String ?? ""
             let messageLabel = String(format: "%@ changed the title to \"%@\"", arguments: [subjectString,newGroupName])
@@ -138,21 +138,21 @@ class MetaMessageModel: BaseMessageItemProtocol, Differentiable {
             let subjectName = metaMessageData.subject?.displayName?.capitalized ?? ""
             let groupName = metaMessageData.object as? String ?? ""
             
-            let subjectString = metaMessageData.subject?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+            let subjectString = metaMessageData.subject?.id == Channelize.getCurrentUserId() ? "You" : subjectName
             let messageLabel = String(format: "%@ created group \"%@\"", arguments: [subjectString,groupName])
             self.metaMessageFormattedString = messageLabel
             break
         case .groupLeave:
             let subjectName = metaMessageData.subject?.displayName?.capitalized ?? ""
             
-            let subjectString = metaMessageData.subject?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+            let subjectString = metaMessageData.subject?.id == Channelize.getCurrentUserId() ? "You" : subjectName
             
             let messageLabel = String(format: "%@ left", subjectString)
             self.metaMessageFormattedString = messageLabel
             break
         case .makeGroupAdmin:
             let subjectName = metaMessageData.subject?.displayName?.capitalized ?? ""
-            let subjectString = metaMessageData.subject?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+            let subjectString = metaMessageData.subject?.id == Channelize.getCurrentUserId() ? "You" : subjectName
             
             let messageLabel = String(format: "%@ are now an admin", subjectString)
             self.metaMessageFormattedString = messageLabel
@@ -160,7 +160,7 @@ class MetaMessageModel: BaseMessageItemProtocol, Differentiable {
         case .removeMember:
             
             let subjectName = metaMessageData.subject?.displayName?.capitalized ?? ""
-            let subjectString = metaMessageData.subject?.id == ChannelizeAPI.getCurrentUserId() ? "You" : subjectName
+            let subjectString = metaMessageData.subject?.id == Channelize.getCurrentUserId() ? "You" : subjectName
             var removedUsersName = [String]()
             if let removedMembers = metaMessageData.objectUsers {
                 removedMembers.forEach({

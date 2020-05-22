@@ -227,7 +227,7 @@ class OnlineUserViewController: UITableViewController, CHAllContactsDelegates {
     }
     
     func didUserStatusUpdated(updatedUser: CHUser) {
-        guard updatedUser.id != ChannelizeAPI.getCurrentUserId() else {
+        guard updatedUser.id != Channelize.getCurrentUserId() else {
             return
         }
         if updatedUser.isOnline == false {

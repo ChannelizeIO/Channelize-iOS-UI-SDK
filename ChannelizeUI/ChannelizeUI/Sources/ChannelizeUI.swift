@@ -1,5 +1,5 @@
 //
-//  ChannelizeUI.swift
+//  ChUI.swift
 //  ChannelizeUI
 //
 //  Created by Ashish-BigStep on 2/28/20.
@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 import ChannelizeAPI
 
-public class ChannelizeUI {
+public class ChUI {
     
     fileprivate var notificationData: [AnyHashable : Any]?
     open var chCurrentChatId: String?
     open var currentChatIdUserName: String = ""
     
     open var isCHOpen = false
-    public static var instance: ChannelizeUI = {
-        let instance = ChannelizeUI()
+    public static var instance: ChUI = {
+        let instance = ChUI()
         return instance
     }()
     
@@ -40,9 +40,9 @@ public class ChannelizeUI {
         navigationController?.navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.tabBarController?.tabBar.isHidden = true
         configure()
-        if ChannelizeAPI.getCurrentUserId() != "" {
+        if Channelize.getCurrentUserId() != "" {
             if UserDefaults.standard.value(forKey: ChannelizeKeys.isUserOnline.key()) as? Bool == true {
-                ChannelizeAPI.setUserOnline()
+                Channelize.setUserOnline()
             }
             if(!instance.isCHOpen) {
                 instance.isCHOpen = true

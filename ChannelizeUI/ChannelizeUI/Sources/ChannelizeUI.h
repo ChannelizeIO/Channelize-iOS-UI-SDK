@@ -1,5 +1,5 @@
 //
-//  ChannelizeUI.h
+//  ChUI.h
 //  ChannelizeUI
 //
 //  Created by Ashish-BigStep on 3/25/20.
@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-//! Project version number for ChannelizeUI.
+//! Project version number for ChUI.
 FOUNDATION_EXPORT double ChannelizeUIVersionNumber;
 
-//! Project version string for ChannelizeUI.
+//! Project version string for ChUI.
 FOUNDATION_EXPORT const unsigned char ChannelizeUIVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <ChannelizeUI/PublicHeader.h>

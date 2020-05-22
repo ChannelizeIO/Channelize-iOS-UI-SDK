@@ -24,13 +24,13 @@ extension UIConversationViewController: CHUserEventDelegates {
         guard let blockedUser = model?.blockedUser else {
             return
         }
-        if blockerUser.id == ChannelizeAPI.getCurrentUserId() {
+        if blockerUser.id == Channelize.getCurrentUserId() {
             if blockedUser.id == self.conversation?.conversationPartner?.id {
                 self.conversation?.isPartnerIsBlocked = true
                 self.updateBlockViewStatus()
             }
         } else if blockerUser.id == self.conversation?.conversationPartner?.id {
-            if blockedUser.id == ChannelizeAPI.getCurrentUserId() {
+            if blockedUser.id == Channelize.getCurrentUserId() {
                 self.conversation?.isPartenerHasBlocked = true
                 self.updateBlockViewStatus()
             }
@@ -47,13 +47,13 @@ extension UIConversationViewController: CHUserEventDelegates {
         guard let unBlockedUser = model?.unblockedUser else {
             return
         }
-        if unBlockerUser.id == ChannelizeAPI.getCurrentUserId() {
+        if unBlockerUser.id == Channelize.getCurrentUserId() {
             if unBlockedUser.id == self.conversation?.conversationPartner?.id {
                 self.conversation?.isPartnerIsBlocked = false
                 self.updateBlockViewStatus()
             }
         } else if unBlockerUser.id == self.conversation?.conversationPartner?.id {
-            if unBlockedUser.id == ChannelizeAPI.getCurrentUserId() {
+            if unBlockedUser.id == Channelize.getCurrentUserId() {
                 self.conversation?.isPartenerHasBlocked = false
                 self.updateBlockViewStatus()
             }
@@ -64,7 +64,7 @@ extension UIConversationViewController: CHUserEventDelegates {
         guard let userModel = model?.updatedUser else {
             return
         }
-        guard userModel.id != ChannelizeAPI.getCurrentUserId() else {
+        guard userModel.id != Channelize.getCurrentUserId() else {
             return
         }
         guard userModel.id == self.conversation?.conversationPartner?.id else {
@@ -99,7 +99,7 @@ extension UIConversationViewController: CHConversationEventDelegate {
                     lastReadData.updateValue(memberReadDate, forKey: id)
                 }
             })
-            lastReadData.removeValue(forKey: ChannelizeAPI.getCurrentUserId())
+            lastReadData.removeValue(forKey: Channelize.getCurrentUserId())
             
             let sortedData = lastReadData.sorted(by: {$0.value < $1.value})
             if let oldestReader = sortedData.first {
@@ -133,7 +133,7 @@ extension UIConversationViewController: CHConversationEventDelegate {
                 dateString ?? "", forKey: markReadUser.id ?? "")
             self.updateMessagesStatus()
         } else {
-            if markReadUser.id != ChannelizeAPI.getCurrentUserId() {
+            if markReadUser.id != Channelize.getCurrentUserId() {
                 let sentItems = self.chatItems.filter({
                     $0.messageStatus == .sent
                 })
@@ -199,7 +199,7 @@ extension UIConversationViewController: CHConversationEventDelegate {
             if let recievedMessage = model?.message {
                 if let chatItem = self.createChatItemFromMessage(message: recievedMessage) {
                     
-                    self.insertNewChatItemAtBottom(chatItem: chatItem, isScrollToLast: chatItem.senderId == ChannelizeAPI.getCurrentUserId())
+                    self.insertNewChatItemAtBottom(chatItem: chatItem, isScrollToLast: chatItem.senderId == Channelize.getCurrentUserId())
                     //self.insertNewChatItemAtBottom(chatItem: chatItem)
                     if chatItem.messageType == .text || chatItem.messageType == .quotedMessage {
                         if let textItem = chatItem as? TextMessageModel {
@@ -236,7 +236,7 @@ extension UIConversationViewController: CHConversationEventDelegate {
 //                    self.chatItems.append(chatItem)
 //                    self.collectionView.reloadData()
                     
-                    if chatItem.senderId != ChannelizeAPI.getCurrentUserId() {
+                    if chatItem.senderId != Channelize.getCurrentUserId() {
                         if plusButton.isHidden == false {
                             plusButton.updateBadgeCount()
                         }
@@ -333,7 +333,7 @@ extension UIConversationViewController: CHConversationEventDelegate {
         conversation?.canReplyToConversation = false
         //self.updateBlockViewStatus()
         conversation?.members?.removeAll(where: {
-            $0.user?.id == ChannelizeAPI.getCurrentUserId()
+            $0.user?.id == Channelize.getCurrentUserId()
         })
         if self.conversation?.isGroup == true {
             self.conversationHeaderView.updateConversationInfoView(infoString: "\(model?.conversation?.membersCount ?? 0) Members")
@@ -370,15 +370,15 @@ extension UIConversationViewController: CHConversationEventDelegate {
         conversation?.canReplyToConversation = true
         var params = [String:Any]()
         params.updateValue(UUID().uuidString, forKey: "id")
-        params.updateValue(ChannelizeAPI.getCurrentUserId(), forKey: "userId")
+        params.updateValue(Channelize.getCurrentUserId(), forKey: "userId")
         params.updateValue(false, forKey: "isAdmin")
         if let member = Mapper<CHMember>().map(JSON: params) {
             
             var userParams = [String:Any]()
-            userParams.updateValue(ChannelizeAPI.getCurrentUserId(), forKey: "id")
-            userParams.updateValue(ChannelizeAPI.getCurrentUserDisplayName(), forKey: "displayName")
-            if ChannelizeAPI.getCurrentUserProfileImageUrl() != nil {
-                userParams.updateValue(ChannelizeAPI.getCurrentUserProfileImageUrl()!, forKey: "profileImageUrl")
+            userParams.updateValue(Channelize.getCurrentUserId(), forKey: "id")
+            userParams.updateValue(Channelize.getCurrentUserDisplayName(), forKey: "displayName")
+            if Channelize.getCurrentUserProfileImageUrl() != nil {
+                userParams.updateValue(Channelize.getCurrentUserProfileImageUrl()!, forKey: "profileImageUrl")
             }
             let userObject = Mapper<CHUser>().map(JSON: userParams)
             member.user = userObject
@@ -640,7 +640,7 @@ extension UIConversationViewController: CHConversationEventDelegate {
             if let existingReaction = chatItem.reactions.first(where: {
                 $0.unicode == emojiCodes["\(reactionModel.reactionKey ?? "")"]
             }) {
-                if reactionModel.reactingUserId == ChannelizeAPI.getCurrentUserId() {
+                if reactionModel.reactingUserId == Channelize.getCurrentUserId() {
                     if !chatItem.myMessageReactions.contains(reactionModel.reactionKey ?? "") {
                         existingReaction.counts = (existingReaction.counts ?? 0) + 1
                         chatItem.reactions.sort(by: {
@@ -660,7 +660,7 @@ extension UIConversationViewController: CHConversationEventDelegate {
             
             //chatItem.reactionCountsInfo = reactionModel.message?.reactionsCount ?? [:]
             
-            if reactionModel.reactingUserId == ChannelizeAPI.getCurrentUserId() {
+            if reactionModel.reactingUserId == Channelize.getCurrentUserId() {
                 if let myReactionKey = reactionModel.reactionKey {
                     if chatItem.myMessageReactions.filter({
                         $0 == myReactionKey
@@ -688,7 +688,7 @@ extension UIConversationViewController: CHConversationEventDelegate {
                 $0.unicode == emojiCodes["\(reactionModel.reactionKey ?? "")"]
             }) {
                 let existingReaction = chatItem.reactions[existingReactionIndex]
-                if reactionModel.reactingUserId == ChannelizeAPI.getCurrentUserId() {
+                if reactionModel.reactingUserId == Channelize.getCurrentUserId() {
                     if chatItem.myMessageReactions.contains(reactionModel.reactionKey ?? "") {
                         if existingReaction.counts ?? 0 > 1 {
                             existingReaction.counts = (existingReaction.counts ?? 0) - 1
@@ -708,7 +708,7 @@ extension UIConversationViewController: CHConversationEventDelegate {
                 })
             }
 //            chatItem.reactionCountsInfo = reactionModel.message?.reactionsCount ?? [:]
-            if reactionModel.reactingUserId == ChannelizeAPI.getCurrentUserId() {
+            if reactionModel.reactingUserId == Channelize.getCurrentUserId() {
                 if let myReactionKey = reactionModel.reactionKey {
                     chatItem.myMessageReactions.removeAll(where: {
                         $0 == myReactionKey

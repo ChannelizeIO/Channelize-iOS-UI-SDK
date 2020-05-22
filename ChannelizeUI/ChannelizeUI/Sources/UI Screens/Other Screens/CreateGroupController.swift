@@ -62,8 +62,8 @@ class CreateGroupController: ChannelizeController, CHAllContactsDelegates {
         super.viewWillDisappear(animated)
         self.navigationController?.tabBarController?.tabBar.isHidden = false
         if self.isMovingFromParent {
-            ChannelizeAPI.removeConversationDelegate(identifier: self.screenIndentifier)
-            ChannelizeAPI.removeUserEventDelegate(identifier: self.screenIndentifier)
+            Channelize.removeConversationDelegate(identifier: self.screenIndentifier)
+            Channelize.removeUserEventDelegate(identifier: self.screenIndentifier)
         }
     }
     
@@ -140,7 +140,7 @@ class CreateGroupController: ChannelizeController, CHAllContactsDelegates {
                 usersArray.append(userId)
             }
         }
-        usersArray.append(ChannelizeAPI.getCurrentUserId())
+        usersArray.append(Channelize.getCurrentUserId())
         
         if usersArray.count < 2{
             self.showSimpleAlert(withTitle: "Error", message: "Please Select Atleast One Member")

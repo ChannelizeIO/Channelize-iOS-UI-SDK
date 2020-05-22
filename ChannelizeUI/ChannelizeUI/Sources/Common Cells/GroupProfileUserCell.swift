@@ -84,7 +84,7 @@ class GroupProfileUserCell: UITableViewCell {
         
         self.extraInfoLabel.frame.size = CGSize(width: 60, height: 20)
         self.extraInfoLabel.center.y = self.contentView.frame.height/2
-        if self.member?.user?.id == ChannelizeAPI.getCurrentUserId() {
+        if self.member?.user?.id == Channelize.getCurrentUserId() {
             self.rightArrowIcon.frame.size = .zero
             self.rightArrowIcon.isHidden = true
             self.extraInfoLabel.frame.origin.x = self.contentView.frame.width - 100

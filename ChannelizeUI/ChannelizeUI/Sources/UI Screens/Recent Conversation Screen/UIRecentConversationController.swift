@@ -21,7 +21,7 @@ class UIRecentConversationController: CHTableViewController, CHAllConversationsD
     init() {
         super.init(style: .plain)
         self.screenIdentifier = UUID()
-        ChannelizeAPI.addUserEventDelegate(delegate: self, identifier: self.screenIdentifier)
+        Channelize.addUserEventDelegate(delegate: self, identifier: self.screenIdentifier)
         CHAllConversations.addConversationDelegates(delegate: self, identifier: self.screenIdentifier)
         CHAllConversations.getAllConversations()
     }
@@ -43,8 +43,8 @@ class UIRecentConversationController: CHTableViewController, CHAllConversationsD
         self.tableView.tableHeaderView = UIView()
         self.tableView.tableFooterView = UIView()
         
-        if(ChannelizeUI.instance.getData() != nil) {
-            handleNotification(userInfo: ChannelizeUI.instance.getData()!)
+        if(ChUI.instance.getData() != nil) {
+            handleNotification(userInfo: ChUI.instance.getData()!)
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(showNotification(notification:)), name: NSNotification.Name(rawValue: "channelizeNotification"), object: nil)
@@ -60,7 +60,7 @@ class UIRecentConversationController: CHTableViewController, CHAllConversationsD
     @objc func showNotification(notification: NSNotification) {
         if let notificationData = notification.userInfo {
             if let conversationId = notificationData["conversationId"] as? String {
-                if conversationId != ChannelizeUI.instance.chCurrentChatId {
+                if conversationId != ChUI.instance.chCurrentChatId {
                     if(self.tabBarController?.selectedIndex != 0){
                         self.tabBarController?.selectedIndex = 0
                     }
@@ -89,7 +89,7 @@ class UIRecentConversationController: CHTableViewController, CHAllConversationsD
     
     func handleNotification(userInfo:[AnyHashable:Any]){
         if let conversationId = userInfo["conversationId"] as? String{
-            if conversationId != ChannelizeUI.instance.chCurrentChatId {
+            if conversationId != ChUI.instance.chCurrentChatId {
                 if(self.tabBarController?.selectedIndex != 0){
                     self.tabBarController?.selectedIndex = 0
                 }
@@ -386,13 +386,13 @@ class UIRecentConversationController: CHTableViewController, CHAllConversationsD
         
         if let conversationIndex = self.getConversationIndex(conversationId: conversationId) {
             let conversation = self.conversations[conversationIndex]
-            if recievedMessage.owner?.id == ChannelizeAPI.getCurrentUserId() {
+            if recievedMessage.owner?.id == Channelize.getCurrentUserId() {
                 
                 let dateTransformer = ISODateTransform()
                 if let messageDateString = dateTransformer.transformToJSON(recievedMessage.createdAt) {
                     conversation.lastReadByMe = recievedMessage.createdAt
                     conversation.lastReadDictionary?.updateValue(
-                        messageDateString, forKey: ChannelizeAPI.getCurrentUserId())
+                        messageDateString, forKey: Channelize.getCurrentUserId())
                 }
             }
             conversation.lastMessage = recievedMessage
@@ -520,7 +520,7 @@ class UIRecentConversationController: CHTableViewController, CHAllConversationsD
         let dateTransformer = ISODateTransform()
         if let conversationIndex = self.getConversationIndex(conversationId: conversationId) {
             let conversation = self.conversations[conversationIndex]
-            if readerId == ChannelizeAPI.getCurrentUserId() {
+            if readerId == Channelize.getCurrentUserId() {
                 conversation.unreadMessageCount = 0
                 conversation.lastReadByMe = readedAt
             }
@@ -576,7 +576,7 @@ class UIRecentConversationController: CHTableViewController, CHAllConversationsD
             let conversation = self.conversations[conversationIndex]
             conversation.canReplyToConversation = false
             conversation.members?.removeAll(where: {
-                $0.user?.id == ChannelizeAPI.getCurrentUserId()
+                $0.user?.id == Channelize.getCurrentUserId()
             })
             self.tableView.performBatchUpdates({
                 self.tableView.reloadRows(at: [IndexPath(row: conversationIndex, section: 0)], with: .none)
@@ -590,16 +590,16 @@ class UIRecentConversationController: CHTableViewController, CHAllConversationsD
             conversation.canReplyToConversation = true
             var params = [String:Any]()
             params.updateValue(UUID().uuidString, forKey: "id")
-            params.updateValue(ChannelizeAPI.getCurrentUserId(), forKey: "userId")
+            params.updateValue(Channelize.getCurrentUserId(), forKey: "userId")
             params.updateValue(false, forKey: "isAdmin")
             if let member = Mapper<CHMember>().map(JSON: params) {
                 
                 var userParams = [String:Any]()
-                userParams.updateValue(ChannelizeAPI.getCurrentUserId(), forKey: "id")
-                userParams.updateValue(ChannelizeAPI.getCurrentUserDisplayName(), forKey: "displayName")
-                if ChannelizeAPI.getCurrentUserProfileImageUrl() != nil {
+                userParams.updateValue(Channelize.getCurrentUserId(), forKey: "id")
+                userParams.updateValue(Channelize.getCurrentUserDisplayName(), forKey: "displayName")
+                if Channelize.getCurrentUserProfileImageUrl() != nil {
                     userParams.updateValue(
-                        ChannelizeAPI.getCurrentUserProfileImageUrl()!, forKey: "profileImageUrl")
+                        Channelize.getCurrentUserProfileImageUrl()!, forKey: "profileImageUrl")
                 }
                 let userObject = Mapper<CHUser>().map(JSON: userParams)
                 member.user = userObject
@@ -660,7 +660,7 @@ class UIRecentConversationController: CHTableViewController, CHAllConversationsD
         guard let updatedUser = model?.updatedUser else {
             return
         }
-        guard updatedUser.id != ChannelizeAPI.getCurrentUserId() else {
+        guard updatedUser.id != Channelize.getCurrentUserId() else {
             return
         }
         
