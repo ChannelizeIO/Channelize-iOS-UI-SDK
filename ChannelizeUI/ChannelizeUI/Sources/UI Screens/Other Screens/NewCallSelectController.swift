@@ -9,7 +9,6 @@
 import UIKit
 import ChannelizeAPI
 import Alamofire
-import ChannelizeCall
 
 class NewCallSelectController: UITableViewController, UISearchBarDelegate, CHAllContactsDelegates {
     
