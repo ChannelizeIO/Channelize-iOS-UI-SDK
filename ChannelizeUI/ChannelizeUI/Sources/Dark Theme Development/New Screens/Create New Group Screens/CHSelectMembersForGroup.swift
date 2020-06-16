@@ -116,7 +116,12 @@ class CHSelectMembersForGroup: UIViewController, UITableViewDelegate, UITableVie
         self.tableView.setLeftAnchor(relatedConstraint: self.view.leftAnchor, constant: 0)
         self.tableView.setRightAnchor(relatedConstraint: self.view.rightAnchor, constant: 0)
         self.tableView.setTopAnchor(relatedConstraint: self.seletedUsersView.bottomAnchor, constant: 0)
-        self.tableView.setBottomAnchor(relatedConstraint: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+        if #available(iOS 11.0, *) {
+            self.tableView.setBottomAnchor(relatedConstraint: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+        } else {
+            self.tableView.setBottomAnchor(relatedConstraint: self.bottomLayoutGuide.topAnchor, constant: 0)
+            // Fallback on earlier versions
+        }
         
         self.searchBar.delegate = self
         

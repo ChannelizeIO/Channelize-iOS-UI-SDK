@@ -134,6 +134,19 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
     }
     
     func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
+        
+        if(!text.isEmpty && !isTyping){
+            isTyping = true
+            ChannelizeAPIService.sendIsTypingStatus(conversationId: self.conversation?.id ?? "", isTyping: true, completion: {(status,errorString) in
+                if status {
+
+                } else {
+                    print(errorString ?? "")
+                }
+            })
+            runTimer()
+        }
+        
         guard autocompleteManager.currentSession != nil, autocompleteManager.currentSession?.prefix == "@", self.conversation?.isGroup == true else {
             
             return
@@ -145,6 +158,28 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
                 }
             }
         }
+    }
+    
+    @objc func updateTimer(){
+        seconds+=1
+        if(seconds == 3 && isTyping){
+            isTyping = false
+            ChannelizeAPIService.sendIsTypingStatus(conversationId: self.conversation?.id ?? "", isTyping: false, completion: {(status,errorString) in
+                if status {
+
+                } else {
+                    print(errorString ?? "")
+                }
+            })
+            timer?.invalidate()
+            seconds = 0
+        }
+    }
+
+    fileprivate func runTimer(){
+        timer?.invalidate()
+        seconds = 0
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateTimer), userInfo: nil, repeats: true)
     }
     
     func configureAutoCompleter(){
@@ -234,8 +269,7 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
     }
     
     func setAutocompleteManager(active: Bool) {
-        if active && !self.topStackViewContainer.contains(
-            autocompleteManager.tableView) {
+        if active && !self.topStackViewContainer.contains(autocompleteManager.tableView) {
             //
             autocompleteManager.tableView.translatesAutoresizingMaskIntoConstraints = false
             self.topStackViewContainer.addArrangedSubview(autocompleteManager.tableView)

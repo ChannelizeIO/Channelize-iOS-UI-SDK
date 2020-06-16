@@ -124,6 +124,10 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
     var currentDocPreviewUrl: URL!
     var currentQuotedModel: QuotedViewModel?
     
+    var seconds = 0
+    var timer: Timer?
+    var isTyping = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.edgesForExtendedLayout = []
