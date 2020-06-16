@@ -10,6 +10,44 @@ import Foundation
 import UIKit
 import AVFoundation
 
+func loadImageFromDiskWith(fileName: String) -> UIImage? {
+
+  let documentDirectory = FileManager.SearchPathDirectory.documentDirectory
+
+    let userDomainMask = FileManager.SearchPathDomainMask.userDomainMask
+    let paths = NSSearchPathForDirectoriesInDomains(documentDirectory, userDomainMask, true)
+
+    if let dirPath = paths.first {
+        let imageUrl = URL(fileURLWithPath: dirPath).appendingPathComponent(fileName)
+        let image = UIImage(contentsOfFile: imageUrl.path)
+        return image
+
+    }
+    return nil
+}
+
+func getViewEndOriginX(view: UIView) -> CGFloat {
+    return view.frame.size.width + view.frame.origin.x
+}
+
+func getViewEndOriginY(view: UIView) -> CGFloat {
+    return view.frame.size.height + view.frame.origin.y
+}
+
+func getKeyWindow() -> UIWindow?{
+    if #available(iOS 13.0, *) {
+        let keyWindow = UIApplication.shared.connectedScenes
+        .filter({$0.activationState == .foregroundActive})
+        .map({$0 as? UIWindowScene})
+        .compactMap({$0})
+        .first?.windows
+        .filter({$0.isKeyWindow}).first
+        return keyWindow
+    } else {
+        return UIApplication.shared.delegate?.window ?? nil
+    }
+}
+
 func getDateFromString(value: String?) -> Date? {
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -108,7 +146,7 @@ func getTimeStamp(_ date: Date)-> String{
 
 func showProgressView(superView: UIView?, string: String?) {
     IHProgressHUD.set(containerView: superView)
-    IHProgressHUD.set(defaultStyle: .light)
+    IHProgressHUD.set(defaultStyle: CHAppConstant.themeStyle == .dark ? .dark : .light)
     IHProgressHUD.set(ringThickness: 5.0)
     IHProgressHUD.set(foregroundColor: CHUIConstants.appDefaultColor)
     //IHProgressHUD.set(backgroundColor: UIColor(hex: "#fefefe"))
@@ -117,7 +155,7 @@ func showProgressView(superView: UIView?, string: String?) {
     IHProgressHUD.set(defaultMaskType: .black)
     IHProgressHUD.set(minimumDismiss: 1.0)
     IHProgressHUD.set(maximumDismissTimeInterval: 1.5)
-    IHProgressHUD.set(font: UIFont(fontStyle: .robotoSlabMedium, size: 18.0)!)
+    IHProgressHUD.set(font: CHCustomStyles.normalSizeRegularFont!)
     IHProgressHUD.setHapticsEnabled(hapticsEnabled: true)
     IHProgressHUD.show(withStatus: string)
     
@@ -138,13 +176,14 @@ func showProgressView(superView: UIView?, string: String?) {
 }
 
 func disMissProgressView() {
+    IHProgressHUD.set(defaultStyle: CHAppConstant.themeStyle == .dark ? .dark : .light)
     IHProgressHUD.dismiss()
     //SVProgressHUD.dismiss()
 }
 
 func showProgressErrorView(superView: UIView?, errorString: String?) {
     IHProgressHUD.set(containerView: superView)
-    IHProgressHUD.set(defaultStyle: .light)
+    IHProgressHUD.set(defaultStyle: CHAppConstant.themeStyle == .dark ? .dark : .light)
     IHProgressHUD.set(ringThickness: 5.0)
     IHProgressHUD.set(defaultMaskType: .black)
     IHProgressHUD.set(minimumDismiss: 1.0)
@@ -152,14 +191,14 @@ func showProgressErrorView(superView: UIView?, errorString: String?) {
     IHProgressHUD.set(borderColor: UIColor.lightGray)
     IHProgressHUD.set(borderWidth: 0.5)
     IHProgressHUD.set(maximumDismissTimeInterval: 1.5)
-    IHProgressHUD.set(font: UIFont(fontStyle: .robotoSlabRegualar, size: 18.0)!)
+    IHProgressHUD.set(font: CHCustomStyles.normalSizeRegularFont!)
     IHProgressHUD.setHapticsEnabled(hapticsEnabled: true)
     IHProgressHUD.showError(withStatus: errorString)
 }
 
 func showProgressSuccessView(superView: UIView?, withStatusString: String?) {
     IHProgressHUD.set(containerView: superView)
-    IHProgressHUD.set(defaultStyle: .light)
+    IHProgressHUD.set(defaultStyle: CHAppConstant.themeStyle == .dark ? .dark : .light)
     //IHProgressHUD.set(backgroundColor: UIColor(hex: "#fefefe"))
     IHProgressHUD.set(borderColor: UIColor.lightGray)
     IHProgressHUD.set(borderWidth: 0.5)
@@ -167,7 +206,7 @@ func showProgressSuccessView(superView: UIView?, withStatusString: String?) {
     IHProgressHUD.set(defaultMaskType: .black)
     IHProgressHUD.set(minimumDismiss: 1.0)
     IHProgressHUD.set(maximumDismissTimeInterval: 1.5)
-    IHProgressHUD.set(font: UIFont(fontStyle: .robotoSlabMedium, size: 18.0)!)
+    IHProgressHUD.set(font: CHCustomStyles.normalSizeRegularFont!)
     IHProgressHUD.setHapticsEnabled(hapticsEnabled: true)
     IHProgressHUD.showSuccesswithStatus(withStatusString)
 }
@@ -255,13 +294,13 @@ open class MarkDown{
                         var attributes : [NSAttributedString.Key:Any]?
                         if currentMarkElement == "*"{
                             
-                            attributes = [NSAttributedString.Key.font: UIFont(fontStyle: .robotoBold, size: withFont.pointSize)!, NSAttributedString.Key.foregroundColor: textColor]
+                            attributes = [NSAttributedString.Key.font: UIFont(name: CHCustomStyles.normalSizeMediumFont!.fontName, size: withFont.pointSize)!, NSAttributedString.Key.foregroundColor: textColor]
                         } else if currentMarkElement == "_"{
                             
-                            attributes = [ NSAttributedString.Key.font: UIFont(fontStyle: .robotoItalic, size: withFont.pointSize)!, NSAttributedString.Key.foregroundColor: textColor]
+                            attributes = [ NSAttributedString.Key.font: UIFont(name: CHCustomStyles.mediumSizeMediumItalicFont!.fontName, size: withFont.pointSize)!, NSAttributedString.Key.foregroundColor: textColor]
                         } else if currentMarkElement == "~"{
                             
-                            attributes = [ NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue, NSAttributedString.Key.foregroundColor: textColor, NSAttributedString.Key.font: UIFont(fontStyle: .robotoRegular, size: withFont.pointSize)!]
+                            attributes = [ NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue, NSAttributedString.Key.foregroundColor: textColor, NSAttributedString.Key.font: UIFont(name: CHCustomStyles.normalSizeRegularFont!.fontName, size: withFont.pointSize)!]
                         } else if currentMarkElement == "$"{
                             attributes = [NSAttributedString.Key.font:UIFont(name: "Courier", size: withFont.pointSize)!,NSAttributedString.Key.foregroundColor:textColor]
                         }
@@ -456,5 +495,14 @@ func showIpadActionSheet(sourceView: UIView, popoverController: UIPopoverPresent
     popoverController.sourceRect = CGRect(x: sourceView.bounds.midX, y: sourceView.bounds.midY, width: 0, height: 0)
     popoverController.permittedArrowDirections = []
     
+}
+
+func getLastSeen(lastSeenDate: Date?) -> String {
+    if let timestampDate = lastSeenDate {
+        let date = Date()
+        return CHLocalized(key: "pmLastSeen")+" "+timeAgoSinceDate(
+            timestampDate, currentDate: date, numericDates: false)
+    }
+    return ""
 }
 

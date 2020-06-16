@@ -114,7 +114,7 @@ class SimpleFloatingActionButton: UIButton {
         rippleBackgroundView.alpha = 0
         
         self.setImage(getImage("ic_expand_more")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        self.tintColor = CHUIConstants.appDefaultColor
+        self.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.tintColor : CHLightThemeColors.tintColor
         
         setupBadge()
     }

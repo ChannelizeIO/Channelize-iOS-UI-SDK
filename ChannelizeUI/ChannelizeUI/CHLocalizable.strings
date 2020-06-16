@@ -303,6 +303,15 @@
 "pmUserBlockCallError" = "User is blocked. You can't make a call.";
 "pmUserHasBlockCallError" = "You can't make a call.";
 "pmDeleteForMe" = "Delete for me";
+"pmSharePhotos" = "Share Photos";
+"pmShareVideos" = "Share Video";
+"pmShareDocument" = "Share Document";
+"pmShareLocation" = "Share Location";
+"pmShareStickerGifs" = "Share Stickers and GIFs";
+"pmNewMessage" = "New Message";
+"pmStartCall" = "Start a Call";
+"pmNoResultsFound" = "No Result Found.";
+
 
 
 

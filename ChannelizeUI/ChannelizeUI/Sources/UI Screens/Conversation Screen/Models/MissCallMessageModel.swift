@@ -11,6 +11,7 @@ import Foundation
 import ChannelizeAPI
 import DifferenceKit
 
+/*
 class MissCallMessageModel: BaseMessageItemProtocol, Differentiable {
     
     var differenceIdentifier: String {
@@ -88,3 +89,4 @@ class MissCallMessageModel: BaseMessageItemProtocol, Differentiable {
     
     
 }
+*/

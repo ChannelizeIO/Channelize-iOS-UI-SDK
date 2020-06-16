@@ -19,7 +19,7 @@ class ViewController: UIViewController {
 
 class LoginTableController: UITableViewController {
     
-    var loginAccounts = ["leo@se.com","ter@se.com","jordi@se.com"]
+    var loginAccounts = ["leo@ch.com","ter@ch.com","jordi@ch.com"]
     
     override func viewDidLoad() {
         super.viewDidLoad()

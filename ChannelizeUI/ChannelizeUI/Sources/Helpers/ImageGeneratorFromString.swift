@@ -51,7 +51,7 @@ struct ImageFromStringProvider {
         lblNameInitialize.textColor = .white
         lblNameInitialize.frame.size = self.imageSize
         lblNameInitialize.text = initialsFromString(string: self.letter)
-        lblNameInitialize.font = UIFont(fontStyle: .robotoSlabSemiBold, size: fontSize)
+        lblNameInitialize.font = UIFont(fontStyle: .medium, size: fontSize)
         lblNameInitialize.textAlignment = .center
         lblNameInitialize.backgroundColor = self.pickColor(alphabet: self.letter.first)
         lblNameInitialize.layer.cornerRadius = self.imageSize.width/2

@@ -53,7 +53,7 @@ class AssetListController: UICollectionViewController {
         let button = UIButton()
         button.layer.cornerRadius = 30
         button.imageView?.contentMode = .scaleAspectFit
-        button.backgroundColor = CHUIConstants.appDefaultColor
+        button.backgroundColor = CHUIConstant.appTintColor
         button.imageEdgeInsets = UIEdgeInsets(top: 12.5, left: 12.5, bottom: 12.5, right: 12.7)
         button.setImage(getImage("chCameraIcon"), for: .normal)
         button.tintColor = .white
@@ -278,7 +278,7 @@ class AssetListController: UICollectionViewController {
                 cell.selectedLabel.isHidden = false
                 cell.selectedView.isHidden = false
                 cell.selectedLabel.text = String(itemIndex)
-                cell.layer.borderColor = CHUIConstants.appDefaultColor.cgColor
+                cell.layer.borderColor = CHUIConstant.appTintColor.cgColor
                 cell.layer.borderWidth = 5.0
             }
         } else{
@@ -358,7 +358,7 @@ class AssetListController: UICollectionViewController {
                 }
                 selectedAssets.append(cellAsset)
                 cell.selectedLabel.isHidden = false
-                cell.layer.borderColor = CHUIConstants.appDefaultColor.cgColor
+                cell.layer.borderColor = CHUIConstant.appTintColor.cgColor
                 cell.layer.borderWidth = 5.0
                 setIndexForSelectedItems()
             }
@@ -419,7 +419,7 @@ class AssetListController: UICollectionViewController {
             let cellIndex = currentCollectionAssets.index(of: element)
             let indexPath = IndexPath(item: cellIndex, section: 0)
             if let cell = collectionView.cellForItem(at: indexPath) as? CollectionPhotoListCell{
-                cell.layer.borderColor = CHUIConstants.appDefaultColor.cgColor
+                cell.layer.borderColor = CHUIConstant.appTintColor.cgColor
                 cell.layer.borderWidth = 5.0
                 cell.selectedLabel.isHidden = false
                 cell.selectedView.isHidden = false
@@ -510,5 +510,7 @@ extension AssetListController : PHPhotoLibraryChangeObserver{
         }
     }
 }
+
+
 
 

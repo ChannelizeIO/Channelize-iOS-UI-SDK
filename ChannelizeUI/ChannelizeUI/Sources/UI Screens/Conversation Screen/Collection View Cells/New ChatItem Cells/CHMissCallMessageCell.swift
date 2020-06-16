@@ -9,6 +9,8 @@
 import UIKit
 import ChannelizeAPI
 
+/*
+
 class CHMissCallMessageCell: BaseChatItemCollectionCell {
     
     private var messageStringLabel: UILabel = {
@@ -165,3 +167,4 @@ class CHMissCallMessageCell: BaseChatItemCollectionCell {
         self.onCallBackButtonTapped?(self.miscallMessageModel?.callType ?? .voice)
     }
 }
+*/

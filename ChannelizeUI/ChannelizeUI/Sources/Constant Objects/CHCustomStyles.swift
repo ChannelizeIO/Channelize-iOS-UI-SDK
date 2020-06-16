@@ -19,6 +19,48 @@ open class CHCustomStyles {
         return style
     }
     
+    // MARK: - Tab Bar Customization
+    // Change Recent Screen Tab Bar image
+    public static var recentScreenTabImage: UIImage? = getImage("recentTabIcon")
+    public static var recentScreenSelectedTabImage: UIImage? = nil
+
+    // Change Contacts Screen Tab Bar Image
+    public static var contactScreenTabImage:UIImage? = getImage("contactTabIcon")
+    public static var contactScreenSelectedTabImage: UIImage? = nil
+
+    // Change Groups Screen Tab Bar Image
+    public static var groupsScreenTabImage:UIImage? = getImage("groupsTabIcon")
+    public static var groupsScreenSelectedTabImage: UIImage? = nil
+
+    // Change Call Screens Tab Bar Image
+    public static var callScreenTabImage:UIImage? = getImage("callsTabIcon")
+    public static var callScreenSelectedTabImage: UIImage? = nil
+
+    // Changes Settings Screen Tab Bar Image
+    public static var settingsScreenTabImage:UIImage? = getImage("settingsTabIcon")
+    public static var settingsScreenSelectedTabImage: UIImage? = nil
+    
+    // MARK: - Fonts
+    
+    public static var largeSizeRegularFont = UIFont(fontStyle: .regular, size: 19.0)
+    public static var normalSizeRegularFont = UIFont(fontStyle: .regular, size: 17.0)
+    public static var mediumSizeRegularFont = UIFont(fontStyle: .regular, size: 15.0)
+    public static var smallSizeRegularFont = UIFont(fontStyle: .regular, size: 13.0)
+    public static var extraSmallSizeRegularFont = UIFont(fontStyle: .regular, size: 11.0)
+    
+    public static var largeSizeMediumFont = UIFont(fontStyle: .medium, size: 19.0)
+    public static var normalSizeMediumFont = UIFont(fontStyle: .medium, size: 17.0)
+    public static var mediumSizeMediumFont = UIFont(fontStyle: .medium, size: 15.0)
+    public static var smallSizeMediumFont = UIFont(fontStyle: .medium, size: 13.0)
+    
+    public static var normalSizeMediumItalicFont = UIFont(fontStyle: .mediumItalic, size: 17.0)
+    public static var mediumSizeMediumItalicFont = UIFont(fontStyle: .mediumItalic, size: 15.0)
+    
+    public static var textMessageFont = UIFont(fontStyle: .regular, size: 17.0)
+    public static var metaMessageFont = UIFont(fontStyle: .regular, size: 15.0)
+    // Font for Meta Messages
+    
+    
     //Mark:- Colors Variables for UI
     
     public static var shimmeringColor = UIColor(white: 0.98, alpha: 1.0)
@@ -39,6 +81,15 @@ open class CHCustomStyles {
     public static var quotedOutgoingMessageColor : UIColor = UIColor.black
     
     //MARK:- Variables For Photo and Video Message Bubble
+    public static var gifStickerMessageBubbleSize = CGSize(width: 220, height: 175)
+    public static var locationMessageBubbleImageSize = CGSize(width: 260, height: 150)
+    public static var audioMessageBubbleSize = CGSize(width: 260, height: 80)
+    public static var videoMessageBubbleSize = CGSize(width: 210, height: 260)
+    public static var imageMessageBubbleSize = CGSize(width: 230, height: 190)
+    public static var docMessageBubbleSize = CGSize(width: 230, height: 110)
+    
+    
+    
     
     public static var photoBubbleSize : CGSize = CGSize(width: 260, height: 240)
     public static var videoMessageSize : CGSize = CGSize(width: 220, height: 270)
@@ -109,16 +160,6 @@ open class CHCustomStyles {
     public static var groupScreenTabTitle = CHLocalized(key: "pmGroups")
     public static var settingsScreenTabTitle = CHLocalized(key: "pmSettings")
     
-    public static var recentScreenTabImage = getImage("chTabBarChatIcon")
-    public static var contactScreenTabImage = getImage("chTabBarContactsIcon")
-    public static var groupsScreenTabImage = getImage("chTabBarGroupIcon")
-    public static var settingsScreenTabImage = getImage("chTabBarSettingIcon")
-    
-    public static var recentScreenSelectedTabImage: UIImage? = nil
-    public static var contactScreenSelectedTabImage: UIImage? = nil
-    public static var groupsScreenSelectedTabImage: UIImage? = nil
-    public static var settingsScreenSelectedTabImage: UIImage? = nil
-    
     //MARK:- Variables for Seachbar
     
     /// Default Clear
@@ -177,6 +218,8 @@ open class CHCustomOptions {
     
     // MARK:- Show Logout Button. Ignore -> just for Testing
     public static var showLogoutButton : Bool = false
+    
+    public static var callModuleEnabled: Bool = true
     
 }
 

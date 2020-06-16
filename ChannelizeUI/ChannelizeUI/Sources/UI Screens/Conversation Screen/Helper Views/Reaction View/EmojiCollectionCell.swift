@@ -70,7 +70,7 @@ class EmojiCollectionCell: UICollectionViewCell {
     
     private func assignData() {
         self.textLabel.text = model?.emojiCode
-        self.textLabel.backgroundColor = model?.isSelected == true ? UIColor(hex: "#cacaca") : .clear
+        self.textLabel.backgroundColor = model?.isSelected == true ? (CHAppConstant.themeStyle == .dark ? UIColor(hex: "#3c3c3c") : UIColor(hex: "#cacaca")) : .clear
         self.isSelectedDotView.isHidden = model?.isSelected == true ? false : true
     }
 }

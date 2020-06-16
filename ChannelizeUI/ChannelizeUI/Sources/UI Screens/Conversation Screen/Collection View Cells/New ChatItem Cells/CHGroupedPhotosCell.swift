@@ -10,6 +10,7 @@ import UIKit
 import ChannelizeAPI
 import SDWebImage
 
+/*
 class CHGroupedPhotosCell: BaseChatItemCollectionCell {
     
     private var imageContainerView: UIView = {
@@ -278,3 +279,5 @@ class CHGroupedPhotosCell: BaseChatItemCollectionCell {
         self.onCellTapped?(self)
     }
 }
+
+ */

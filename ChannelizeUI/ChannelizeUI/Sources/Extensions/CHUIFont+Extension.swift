@@ -24,6 +24,17 @@ public enum FontStyle: String {
     case robotoSlabMedium = "RobotoSlab-Medium"
     case robotoSlabRegualar = "RobotoSlab-Regular"
     case robotoSlabSemiBold = "RobotoSlab-SemiBold"
+    case boldBlack = "Roboto-Black"
+    case boldItalicBlack = "Roboto-BlackItalic"
+    case bold = "Roboto-Bold"
+    case boldItalic = "Roboto-BoldItalic"
+    case light = "Roboto-Light"
+    case lightItalic = "Roboto-LightItalic"
+    case medium = "Roboto-Medium"
+    case mediumItalic = "Roboto-MediumItalic"
+    case regular = "Roboto-Regular"
+    case thin = "Roboto-Thin"
+    case thinItalic = "Roboto-ThinItalic"
     
 }
 
@@ -49,6 +60,17 @@ public extension UIFont {
         loadFontWith(name: "RobotoSlab-Medium")
         loadFontWith(name: "RobotoSlab-Regular")
         loadFontWith(name: "RobotoSlab-SemiBold")
+        loadFontWith(name: "Roboto-Black")
+        loadFontWith(name: "Roboto-BlackItalic")
+        loadFontWith(name: "Roboto-Bold")
+        loadFontWith(name: "Roboto-BoldItalic")
+        loadFontWith(name: "Roboto-Light")
+        loadFontWith(name: "Roboto-LightItalic")
+        loadFontWith(name: "Roboto-Medium")
+        loadFontWith(name: "Roboto-MediumItalic")
+        loadFontWith(name: "Roboto-Regular")
+        loadFontWith(name: "Roboto-Thin")
+        loadFontWith(name: "Roboto-ThinItalic")
     }()
     
     convenience init?(fontStyle: FontStyle, size: CGFloat) {

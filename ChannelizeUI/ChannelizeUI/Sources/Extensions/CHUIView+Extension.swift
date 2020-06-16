@@ -130,6 +130,7 @@ public extension UIView {
     
     func addBottomBorder(with color: UIColor?, andWidth borderWidth: CGFloat) {
         let border = UIView()
+        border.tag = 101010
         border.backgroundColor = color
         border.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
         border.frame = CGRect(x: 0, y: frame.size.height - borderWidth, width: frame.size.width, height: borderWidth)
@@ -174,5 +175,10 @@ public extension UIView {
         return NSKeyedUnarchiver.unarchiveObject(with: NSKeyedArchiver.archivedData(withRootObject: self)) as! T
     }
     
+    func setViewCircular() {
+        self.layer.cornerRadius = self.frame.height/2
+        self.layer.masksToBounds = true
+    }
 }
+
 

@@ -32,12 +32,7 @@ class ReactionPopOverController: UIViewController, UICollectionViewDelegate, UIC
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        #if compiler(>=5.1)
-        if #available(iOS 13.0, *) {
-            overrideUserInterfaceStyle = .light
-        }
-        #endif
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : .white
         self.createEmojiModels()
         self.configureCollectionView()
         self.view.addSubview(self.collectionView)
@@ -72,27 +67,29 @@ class ReactionPopOverController: UIViewController, UICollectionViewDelegate, UIC
     }
    
    func configureCollectionView() {
-       let collectionViewLayout = UICollectionViewFlowLayout()
-       collectionViewLayout.scrollDirection = .horizontal
-       self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
-       self.collectionView.translatesAutoresizingMaskIntoConstraints = false
-       self.collectionView.backgroundColor = .clear
-       self.collectionView.showsHorizontalScrollIndicator = true
+        let collectionViewLayout = UICollectionViewFlowLayout()
+        collectionViewLayout.scrollDirection = .horizontal
+        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.collectionView.backgroundColor = .clear
+        self.collectionView.showsHorizontalScrollIndicator = true
         self.collectionView.scrollIndicatorInsets.left = 5
-       self.collectionView.decelerationRate = UIScrollView.DecelerationRate.normal
-       self.collectionView.allowsSelection = true
-       self.collectionView.indicatorStyle = .default
-       self.collectionView.delegate = self
-       self.collectionView.dataSource = self
-       self.collectionView.contentInset.bottom = 0
+        self.collectionView.decelerationRate = UIScrollView.DecelerationRate.normal
+        self.collectionView.allowsSelection = true
+        self.collectionView.indicatorStyle = CHAppConstant.themeStyle == .dark ? .white : .black//.default
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.contentInset.bottom = 0
        //self.collectionView.alwaysBounceHorizontal = false
-       self.collectionView.alwaysBounceVertical = false
-       self.collectionView.contentInset.top = 0
-       self.collectionView.tintColor = .white
-    self.collectionView.contentInset.left = 5
-    self.collectionView.contentInset.right = 5
+        self.collectionView.alwaysBounceVertical = false
+        self.collectionView.contentInset.top = 0
+        self.collectionView.tintColor = .white
+        self.collectionView.contentInset.left = 5
+        self.collectionView.contentInset.right = 5
+        self.collectionView.layer.masksToBounds = true
+        self.collectionView.layer.cornerRadius = 5
        //self.collectionView.alwaysBounceVertical = true
-       self.collectionView.register(EmojiCollectionCell.self, forCellWithReuseIdentifier: "emojiCell")
+        self.collectionView.register(EmojiCollectionCell.self, forCellWithReuseIdentifier: "emojiCell")
    }
    
     func createEmojiModels() {

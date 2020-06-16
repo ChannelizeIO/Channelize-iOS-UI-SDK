@@ -37,10 +37,10 @@ public class ABLoader {
     
     private func animate(view:UIView, start: Bool) {
         if start {
-            let shimmeringColor = UIColor(hex: "#eaeaea")
+            let shimmeringColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#5c5c5c") : UIColor(hex: "#eaeaea")
             // 1. Add Color Layer
             let colorLayer = CALayer()
-            colorLayer.backgroundColor = UIColor(white: 0.90, alpha: 1).cgColor
+            colorLayer.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#3c3c3c").cgColor : UIColor(white: 0.90, alpha: 1).cgColor
             colorLayer.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
             colorLayer.name = "colorLayer"
             view.layer.addSublayer(colorLayer)
@@ -61,7 +61,7 @@ public class ABLoader {
             
             // 3. Animate loader layer
             let animation = CABasicAnimation(keyPath: "transform.translation.x")
-            animation.duration = 0.8
+            animation.duration = 1.5
             animation.fromValue = -view.frame.width
             animation.toValue = view.frame.width
             animation.repeatCount = Float.infinity

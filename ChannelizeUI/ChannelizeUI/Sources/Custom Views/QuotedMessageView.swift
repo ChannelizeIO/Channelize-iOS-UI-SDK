@@ -18,15 +18,17 @@ class QuotedMessageView: UIView {
 
     private var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor.white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private var dividerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.customSystemIndigo
+        view.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.tintColor : CHLightThemeColors.tintColor
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 2.5
+        view.layer.masksToBounds = true
         return view
     }()
     
@@ -34,6 +36,7 @@ class QuotedMessageView: UIView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 5
         imageView.backgroundColor = UIColor.lightGray
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -42,8 +45,8 @@ class QuotedMessageView: UIView {
     private var senderNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(fontStyle: .robotoSlabMedium, size: 18.0)
-        label.textColor = UIColor.customSystemBlue
+        label.font = CHCustomStyles.mediumSizeRegularFont
+        label.textColor = CHUIConstant.recentConversationTitleColor
         label.textAlignment = .left
         label.backgroundColor = .clear
         return label
@@ -52,8 +55,8 @@ class QuotedMessageView: UIView {
     private var typeOfMessageLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(fontStyle: .robotoSlabRegualar, size: 16.0)
-        label.textColor = UIColor.black
+        label.font = CHCustomStyles.smallSizeRegularFont
+        label.textColor = CHUIConstant.recentConversationMessageColor
         label.textAlignment = .left
         label.backgroundColor = .clear
         return label
@@ -77,7 +80,7 @@ class QuotedMessageView: UIView {
     }
     
     var delegate: QuotedMessageViewDelegate?
-    
+    var onCloseButtonPressed: (()->())?
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setUpViews()
@@ -95,11 +98,12 @@ class QuotedMessageView: UIView {
         self.containerView.addSubview(typeOfMessageLabel)
         self.containerView.addSubview(closeViewButton)
         
+        self.containerView.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor, andWidth: 0.5)
         self.closeViewButton.addTarget(self, action: #selector(didPressCloseButton(sender:)), for: .touchUpInside)
     }
     
     @objc private func didPressCloseButton(sender: UIButton) {
-        self.delegate?.didPressCloseQuotedViewButton()
+        self.onCloseButtonPressed?()
     }
     
     private func setUpViewsFrames() {
@@ -116,20 +120,20 @@ class QuotedMessageView: UIView {
         self.imageView.setLeftAnchor(relatedConstraint: self.dividerView.rightAnchor, constant: 5)
         self.imageView.setCenterYAnchor(relatedConstraint: self.containerView.centerYAnchor, constant: 0)
         if quotedViewModel.imageUrl == nil {
-            self.imageView.setHeightAnchor(constant: 50)
+            self.imageView.setHeightAnchor(constant: 40)
             self.imageView.setWidthAnchor(constant: 0)
         } else {
-            self.imageView.setViewsAsSquare(squareWidth: 50)
+            self.imageView.setViewsAsSquare(squareWidth: 40)
         }
         
         self.senderNameLabel.setLeftAnchor(relatedConstraint: self.imageView.rightAnchor, constant: 5)
-        self.senderNameLabel.setTopAnchor(relatedConstraint: self.imageView.topAnchor, constant: 0)
-        self.senderNameLabel.setHeightAnchor(constant: 25)
+        self.senderNameLabel.setTopAnchor(relatedConstraint: self.imageView.topAnchor, constant: 2.5)
+        self.senderNameLabel.setHeightAnchor(constant: 20)
         self.senderNameLabel.setRightAnchor(relatedConstraint: self.closeViewButton.leftAnchor, constant: -5)
         
         self.typeOfMessageLabel.setLeftAnchor(relatedConstraint: self.imageView.rightAnchor, constant: 5)
         self.typeOfMessageLabel.setTopAnchor(relatedConstraint: self.senderNameLabel.bottomAnchor, constant: 2.5)
-        self.typeOfMessageLabel.setHeightAnchor(constant: 22.5)
+        self.typeOfMessageLabel.setHeightAnchor(constant: 15)
         self.typeOfMessageLabel.setRightAnchor(relatedConstraint: self.closeViewButton.leftAnchor, constant: -5)
         
         self.closeViewButton.setViewsAsSquare(squareWidth: 35)
@@ -150,19 +154,19 @@ class QuotedMessageView: UIView {
             } else {
                 switch data.typeOfMessage {
                 case .image:
-                    self.typeOfMessageLabel.text = "Image"
+                    self.typeOfMessageLabel.text = CHLocalized(key: "pmImage")
                     break
                 case .video:
-                    self.typeOfMessageLabel.text = "Video"
+                    self.typeOfMessageLabel.text = CHLocalized(key: "pmVideo")
                     break
                 case .location:
-                    self.typeOfMessageLabel.text = "Location"
+                    self.typeOfMessageLabel.text = CHLocalized(key: "pmLocationText")
                     break
                 case .gifSticker:
-                    self.typeOfMessageLabel.text = "GIF"
+                    self.typeOfMessageLabel.text = CHLocalized(key: "pmGif")
                     break
                 case .audio:
-                    self.typeOfMessageLabel.text = "Audio"
+                    self.typeOfMessageLabel.text = CHLocalized(key: "pmAudio")
                     break
                 case .doc:
                     self.typeOfMessageLabel.text = ""
@@ -180,19 +184,19 @@ class QuotedMessageView: UIView {
             
             switch data.typeOfMessage {
             case .image:
-                self.typeOfMessageLabel.text = "Image"
+                self.typeOfMessageLabel.text = CHLocalized(key: "pmImage")
                 break
             case .video:
-                self.typeOfMessageLabel.text = "Video"
+                self.typeOfMessageLabel.text = CHLocalized(key: "pmVideo")
                 break
             case .location:
-                self.typeOfMessageLabel.text = "Location"
+                self.typeOfMessageLabel.text = CHLocalized(key: "pmLocationText")
                 break
             case .gifSticker:
-                self.typeOfMessageLabel.text = "GIF"
+                self.typeOfMessageLabel.text = CHLocalized(key: "pmGif")
                 break
             case .audio:
-                self.typeOfMessageLabel.text = "Audio"
+                self.typeOfMessageLabel.text = CHLocalized(key: "pmAudio")
                 break
             default:
                 break

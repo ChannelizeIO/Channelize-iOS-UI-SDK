@@ -22,7 +22,7 @@ class TaggedUserCell: UITableViewCell {
     
     var userName : UILabel = {
         let label = UILabel()
-        label.font = UIFont(fontStyle: .robotoSlabRegualar, size: 16.0)
+        label.font = UIFont(fontStyle: .regular, size: 17.0)
         label.textColor = UIColor.black
         label.textAlignment = .left
         label.numberOfLines = 1

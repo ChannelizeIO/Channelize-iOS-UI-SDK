@@ -19,7 +19,12 @@ class EmojiReactionModel {
     }
 }
 
-class ReactionModel {
+class ReactionModel: Equatable {
+    
+    static func == (lhs: ReactionModel, rhs: ReactionModel) -> Bool {
+        return true
+    }
+    
     var unicode: String?
     var counts: Int?
     

@@ -4,12 +4,19 @@
 target 'ChannelizeUI' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-  pod 'ChannelizeAPI', '>= 4.20.6'
-  pod 'ChannelizeCall', '>= 4.20.6'
+  pod 'ChannelizeAPI', '>= 4.20.7'
+  #$awsVersion = '2.9.3'
+  #pod 'AWSMobileClient', $awsVersion
+  #pod 'AWSIoT', $awsVersion
+  #pod 'Alamofire', '4.8.2'
+  #pod 'AlamofireObjectMapper', '5.2.0'
+  pod 'ChannelizeCall', '>= 4.20.7'
   pod 'InputBarAccessoryView', '4.2.2'
   pod 'SDWebImageFLPlugin'
-  pod 'MaterialComponents'
   pod 'DifferenceKit'
+  pod 'MaterialComponents/ProgressView'
+  pod 'MaterialComponents/ActivityIndicator'
+  pod 'ReachabilitySwift'
 end
 
 post_install do |installer|

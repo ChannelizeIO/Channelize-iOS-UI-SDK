@@ -13,15 +13,15 @@ public extension String {
     
     func with(_ icon : UIImage?)->NSMutableAttributedString{
         
-        let iconsSize = CGRect(x: 0, y: -5, width: 20, height: 20)
+        let iconsSize = CGRect(x: 0, y: -2.5, width: 15, height: 15)
         
         let fullString = NSMutableAttributedString()
         let attchment = NSTextAttachment()
-        attchment.image = icon?.imageWithColor(tintColor: CHUIConstants.conversationMessageColor)
+        attchment.image = icon?.imageWithColor(tintColor: CHUIConstant.recentConversationMessageColor)
         attchment.bounds = iconsSize
         let attachedImage = NSAttributedString(attachment: attchment)
         fullString.append(attachedImage)
-        let textAttributedString = NSAttributedString(string: " "+self, attributes: [NSAttributedString.Key.font: CHUIConstants.conversationMessageFont!, NSAttributedString.Key.foregroundColor: CHUIConstants.conversationMessageColor])
+        let textAttributedString = NSAttributedString(string: " "+self, attributes: [NSAttributedString.Key.font: CHCustomStyles.mediumSizeRegularFont!, NSAttributedString.Key.foregroundColor: CHUIConstant.recentConversationMessageColor])
         fullString.append(textAttributedString)
         return fullString
     }
