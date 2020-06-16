@@ -10,12 +10,12 @@
 <plist version="1.0">
     <dict>
         <key>PUBLIC_KEY</key>
-        <string>qHvonVEyIxDLa6zh</string>
+        <string>INSERT_YOUR_API_KEY</string>
         <key>MAP_API_KEY</key>
         <string>INSERT_YOUR_MAP_KEY</string>
         <key>GIPHY_API_KEY</key>
-        <string>Hbj9gr7HtEv0QyE2REtUVa24WjvCsGdu</string>
+        <string>INSERT_YOUR_GIPHY_KEY</string>
         <key>AGORA_API_KEY</key>
-        <string>efbe5917e2524444bacfa5d7bee05487</string>
+        <string>INSERT_YOUR_AGORA_KEY</string>
     </dict>
 </plist>
