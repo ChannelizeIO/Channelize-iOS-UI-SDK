@@ -15,6 +15,20 @@ import DifferenceKit
 extension CHConversationViewController: InputBarAccessoryViewDelegate, AutocompleteManagerDelegate, AutocompleteManagerDataSource {
     
     func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
+        var lastYOffset = self.collectionView.contentOffset.y
+        if size.height > self.currentInputBarHeight {
+            lastYOffset = lastYOffset + 22
+        } else {
+            lastYOffset = lastYOffset - 15
+        }
+        self.currentInputBarHeight = size.height
+        //lastYOffset = lastYOffset + max(self.currentInputBarHeight,0)
+        
+        //self.collectionView.contentInset.bottom = size.height - 50
+        self.collectionView.setContentOffset(CGPoint(x: 0, y: lastYOffset), animated: true)
+       // self.currentInputBarHeight = size.height
+        
+        
         if size.height <= 50 {
             UIView.animate(withDuration: 0.33, animations: {
                 self.inputBarHeightConstraint.constant = 50
@@ -83,7 +97,11 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
         
         let messageQueryBuilder = CHMessageQueryBuilder()
         messageQueryBuilder.body = text
-        messageQueryBuilder.conversationId = self.conversation?.id
+        if self.conversation?.id != nil {
+            messageQueryBuilder.conversationId = self.conversation?.id
+        } else {
+            messageQueryBuilder.userId = self.conversation?.conversationPartner?.id
+        }
         messageQueryBuilder.id = messageId
         if self.currentQuotedModel != nil {
             messageQueryBuilder.messageType = .quotedMessage
@@ -95,8 +113,9 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
         messageQueryBuilder.mentionedUsers = apiMentionedUsers.count > 0 ? apiMentionedUsers : nil
         
         
-        self.conversation?.lastReadDictionary?.updateValue(ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
-        self.conversation?.lastReadDateDictionary?.updateValue(messageDate, forKey: Channelize.getCurrentUserId())
+        self.conversation?.lastReadDictionary?.updateValue(
+            ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
+        self.conversation?.updateLastMessageOldestRead()
         
         
         let oldItems = self.chatItems.copy()
@@ -129,23 +148,28 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
                 self.collectionView.reload(using: changeSet, interrupt: { $0.changeCount > 500 }, setData: { data in
                     self.chatItems = data
                 })
+                if self.conversation?.id == nil {
+                    self.getConversationWithId(conversationId: message?.conversationId ?? "")
+                }
             }
         })
     }
     
     func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
-        
         if(!text.isEmpty && !isTyping){
             isTyping = true
-            ChannelizeAPIService.sendIsTypingStatus(conversationId: self.conversation?.id ?? "", isTyping: true, completion: {(status,errorString) in
-                if status {
-
-                } else {
-                    print(errorString ?? "")
-                }
-            })
-            runTimer()
+            if self.conversation?.id != nil {
+                ChannelizeAPIService.sendIsTypingStatus(conversationId: self.conversation?.id ?? "", isTyping: true, completion: {(status,errorString) in
+                    if status {
+                        
+                    } else {
+                        print(errorString ?? "")
+                    }
+                })
+                runTimer()
+            }
         }
+        
         
         guard autocompleteManager.currentSession != nil, autocompleteManager.currentSession?.prefix == "@", self.conversation?.isGroup == true else {
             
@@ -161,12 +185,15 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
     }
     
     @objc func updateTimer(){
+        guard self.conversation?.id != nil else {
+            return
+        }
         seconds+=1
         if(seconds == 3 && isTyping){
             isTyping = false
             ChannelizeAPIService.sendIsTypingStatus(conversationId: self.conversation?.id ?? "", isTyping: false, completion: {(status,errorString) in
                 if status {
-
+                    
                 } else {
                     print(errorString ?? "")
                 }
@@ -175,7 +202,7 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
             seconds = 0
         }
     }
-
+    
     fileprivate func runTimer(){
         timer?.invalidate()
         seconds = 0
@@ -269,7 +296,8 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
     }
     
     func setAutocompleteManager(active: Bool) {
-        if active && !self.topStackViewContainer.contains(autocompleteManager.tableView) {
+        if active && !self.topStackViewContainer.contains(
+            autocompleteManager.tableView) {
             //
             autocompleteManager.tableView.translatesAutoresizingMaskIntoConstraints = false
             self.topStackViewContainer.addArrangedSubview(autocompleteManager.tableView)
@@ -315,3 +343,4 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
         }
     }
 }
+

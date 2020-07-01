@@ -13,6 +13,8 @@ import ChannelizeAPI
 class DetailedCallLogHeaderView: UIView {
     
     var onBackButtonTapped: ((_ sender: UIButton) -> Void)?
+    var onVoiceCallButtonTapped: ((_ sender: UIButton) -> Void)?
+    var onVideoCallButtonTapped: ((_ sender: UIButton) -> Void)?
     
     private var headerContainerView: UIView = {
         let view = UIView()
@@ -95,6 +97,8 @@ class DetailedCallLogHeaderView: UIView {
         self.headerContainerView.addSubview(voiceCallButton)
         
         self.backButton.addTarget(self, action: #selector(backButtonPressed(sender:)), for: .touchUpInside)
+        self.voiceCallButton.addTarget(self, action: #selector(voiceCallButtonPressed(sender:)), for: .touchUpInside)
+        self.videoCallButton.addTarget(self, action: #selector(videoCallButtonPressed(sender:)), for: .touchUpInside)
         
         self.backButton.setViewsAsSquare(squareWidth: 40)
         self.backButton.setLeftAnchor(relatedConstraint: self.headerContainerView.leftAnchor, constant: 5)
@@ -121,6 +125,14 @@ class DetailedCallLogHeaderView: UIView {
     
     @objc private func backButtonPressed(sender: UIButton) {
         self.onBackButtonTapped?(sender)
+    }
+    
+    @objc private func voiceCallButtonPressed(sender: UIButton) {
+        self.onVoiceCallButtonTapped?(sender)
+    }
+    
+    @objc private func videoCallButtonPressed(sender: UIButton) {
+        self.onVideoCallButtonTapped?(sender)
     }
     
     func assignHeaderViewData(callPartner: CHCallMember?) {
@@ -150,3 +162,4 @@ class DetailedCallLogHeaderView: UIView {
     */
 
 }
+

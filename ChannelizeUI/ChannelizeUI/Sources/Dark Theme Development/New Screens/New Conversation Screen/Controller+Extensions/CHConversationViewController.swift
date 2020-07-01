@@ -86,6 +86,10 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
     var isShowingKeyboard = false
     var isShowingGifStickerView = false
     
+    var seconds = 0
+    var timer: Timer?
+    var isTyping = false
+    
     // Mark: - SubViews Constraints
     var inputBarBottomConstraint: NSLayoutConstraint!
     var inputBarHeightConstraint: NSLayoutConstraint!
@@ -124,9 +128,8 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
     var currentDocPreviewUrl: URL!
     var currentQuotedModel: QuotedViewModel?
     
-    var seconds = 0
-    var timer: Timer?
-    var isTyping = false
+    var conversationId: String?
+    var currentInputBarHeight: CGFloat = 22
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,24 +151,60 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
         self.configureAutoCompleter()
         self.configureBottomViewTopStackContainer()
         self.setupTapGestureRecognizer()
-        if self.conversation?.id == nil {
-            ChannelizeAPIService.getConversationWithUser(userId: self.conversation?.conversationPartner?.id ?? "", completion: {(conversation,errorString) in
+        
+        if self.conversation == nil {
+            guard let currentChatId = self.conversationId else {
+                print("Wrong Data Request. No Conversation Id")
+                return
+            }
+            ChannelizeAPIService.getConversationWithId(conversationId: currentChatId, completion: {(conversation,errorString) in
+                guard errorString == nil else {
+                    print("Failed to get Conversation.")
+                    print("Error: \(errorString ?? "")")
+                    return
+                }
                 self.conversation = conversation
+                self.configureHeaderView()
+                ChUI.instance.chCurrentChatId = self.conversation?.id
                 ChannelizeAPIService.joinReactionsSubscribers(conversationId: self.conversation?.id ?? "")
                 self.headerView.updateBlockStatus(conversation: self.conversation)
-                self.blockStatusView.updateBlockStatusView(conversation: self.conversation)
+                self.blockStatusView.updateBlockStatusView(conversation: self.conversation, relationModel: nil)
                 self.getMessages()
             })
         } else {
-            ChannelizeAPIService.joinReactionsSubscribers(conversationId: self.conversation?.id ?? "")
-            if self.conversation?.members == nil {
-                self.getConversationMembers()
+            if self.conversation?.id == nil {
+                ChannelizeAPIService.getConversationWithUser(userId: self.conversation?.conversationPartner?.id ?? "", completion: {(conversation,errorString) in
+                    
+                    if conversation != nil {
+                        self.conversation = conversation
+                        ChUI.instance.chCurrentChatId = self.conversation?.id
+                        ChannelizeAPIService.joinReactionsSubscribers(conversationId: self.conversation?.id ?? "")
+                        self.headerView.updateBlockStatus(conversation: self.conversation)
+                        self.blockStatusView.updateBlockStatusView(conversation: self.conversation, relationModel: nil)
+                        self.getMessages()
+                    } else {
+                        ChannelizeAPIService.getRelationshipStatus(userId: self.conversation?.conversationPartner?.id ?? "", completion: {(relationModel,errorString) in
+                            self.loaderView.hideSpinnerView()
+                            self.loaderView.removeFromSuperview()
+                            if let checkRelationModel = relationModel {
+                                self.blockStatusView.updateBlockStatusView(conversation: nil, relationModel: checkRelationModel)
+                            }
+                        })
+                    }
+                })
             } else {
-                self.headerView.updateBlockStatus(conversation: self.conversation)
-                self.blockStatusView.updateBlockStatusView(conversation: self.conversation)
+                ChUI.instance.chCurrentChatId = self.conversation?.id
+                ChannelizeAPIService.joinReactionsSubscribers(conversationId: self.conversation?.id ?? "")
+                if self.conversation?.members == nil {
+                    self.getConversationMembers()
+                } else {
+                    self.headerView.updateBlockStatus(conversation: self.conversation)
+                    self.blockStatusView.updateBlockStatusView(conversation: self.conversation, relationModel: nil)
+                }
+                self.getMessages()
             }
-            self.getMessages()
         }
+        
         self.view.addSubview(moveToBottomButton)
         self.moveToBottomButton.addTarget(self, action: #selector(moveToBottom), for: .touchUpInside)
         self.moveToBottomButton.isHidden = true
@@ -180,6 +219,7 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //self.addKeyBoardManager()
         if self.isMovingToParent {
             if self.conversation?.id != nil {
                 self.getConversationMembers()
@@ -207,6 +247,24 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
     
     @objc func moveToBottom(){
         self.scrollToBottom(animated: false)
+    }
+    
+    private func addKeyBoardManager() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyBoardWillShow(notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+            if let endFrameInfo = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyBoardFrame = endFrameInfo.cgRectValue
+                print("KeyBoard height is -> \(keyBoardFrame.height)")
+            }
+        }
+    }
+    
+    @objc private func keyBoardWillHide(notification: NSNotification) {
+        
     }
     
     // MARK: - Configure Header View
@@ -468,18 +526,20 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
     private func configureKeyBoardManager() {
         self.keyBoardManager?.on(event: .willShow, do: {[weak self] notification in
             if let strongSelf = self {
-                if strongSelf.isShowingKeyboard == false {
-                    strongSelf.isShowingKeyboard = true
-                    strongSelf.moveToBottomButton.frame.origin.y = strongSelf.view.frame.height - notification.endFrame.height - 130
-                    strongSelf.keyboardHeight = notification.endFrame.height
-                    UIView.animate(withDuration: notification.timeInterval, animations: {
-                        strongSelf.inputBarBottomConstraint.constant = -strongSelf.keyboardHeight
-                        var lastYOffset = strongSelf.collectionView.contentOffset.y
-                        lastYOffset = lastYOffset + notification.endFrame.height - strongSelf.inputBarBottomConstraint.constant
-                        strongSelf.collectionView.setContentOffset(CGPoint(x: 0, y: lastYOffset), animated: false)
-                        strongSelf.view.layoutIfNeeded()
-                    })
+                print("KeyBoard height is -> \(notification.endFrame.height)")
+                guard notification.endFrame.height != 0.0 else {
+                    return
                 }
+                strongSelf.isShowingKeyboard = true
+                strongSelf.moveToBottomButton.frame.origin.y = strongSelf.view.frame.height - notification.endFrame.height - 130
+                strongSelf.keyboardHeight = notification.endFrame.height
+                UIView.animate(withDuration: notification.timeInterval, animations: {
+                    strongSelf.inputBarBottomConstraint.constant = -strongSelf.keyboardHeight
+                    var lastYOffset = strongSelf.collectionView.contentOffset.y
+                    lastYOffset = lastYOffset + notification.endFrame.height - strongSelf.inputBarBottomConstraint.constant
+                    strongSelf.collectionView.setContentOffset(CGPoint(x: 0, y: lastYOffset), animated: false)
+                    strongSelf.view.layoutIfNeeded()
+                })
             }
         }).on(event: .willHide, do: {[weak self] notification in
             if let strongSelf = self {
@@ -539,3 +599,4 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
     */
 
 }
+

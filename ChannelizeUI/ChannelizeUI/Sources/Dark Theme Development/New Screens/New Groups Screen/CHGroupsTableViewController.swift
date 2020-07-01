@@ -192,6 +192,7 @@ class CHGroupsTableViewController: NewCHTableViewController, CHConversationEvent
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard self.groupConversations.count > 0, indexPath.row == self.groupConversations.count - 3 else {
+            self.tableLoaderFooterView.stopAnimating()
             return
         }
         if self.isAllConversationsLoaded == false {

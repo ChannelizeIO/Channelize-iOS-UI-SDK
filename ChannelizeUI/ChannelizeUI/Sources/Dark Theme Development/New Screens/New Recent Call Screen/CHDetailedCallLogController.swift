@@ -35,6 +35,12 @@ class CHDetailedCallLogController: NewCHTableViewController {
         self.headerView.onBackButtonTapped = {[weak self](sender) in
             self?.navigationController?.popViewController(animated: true)
         }
+        self.headerView.onVoiceCallButtonTapped = {[weak self](sender) in
+            self?.voiceCallButtonPressed()
+        }
+        self.headerView.onVideoCallButtonTapped = {[weak self](sender) in
+            self?.videoCallButtonPressed()
+        }
         self.headerView.assignHeaderViewData(callPartner: callPartner)
         self.tableView.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.plainTableBackGroundColor : CHLightThemeColors.instance.plainTableBackGroundColor
         self.tableView.tableFooterView = UIView()
@@ -44,6 +50,30 @@ class CHDetailedCallLogController: NewCHTableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    private func voiceCallButtonPressed() {
+        let bundleUrl = Bundle.url(forResource: "ChannelizeCall", withExtension: "framework", subdirectory: "Frameworks", in: Bundle.main.bundleURL)
+        let bundle = Bundle(url: bundleUrl!)
+        bundle?.load()
+        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.CHCall")
+        if let callMainClass = aClass as? CallSDKDelegates.Type{
+            if let unwrappedUser = self.callPartner?.user {
+                callMainClass.launchCallViewController(navigationController: self.navigationController, user: unwrappedUser, type: CHCallScreen.voice.rawValue)
+            }
+        }
+    }
+    
+    private func videoCallButtonPressed() {
+        let bundleUrl = Bundle.url(forResource: "ChannelizeCall", withExtension: "framework", subdirectory: "Frameworks", in: Bundle.main.bundleURL)
+        let bundle = Bundle(url: bundleUrl!)
+        bundle?.load()
+        let aClass : AnyClass? = NSClassFromString("ChannelizeCall.CHCall")
+        if let callMainClass = aClass as? CallSDKDelegates.Type{
+            if let unwrappedUser = self.callPartner?.user {
+                callMainClass.launchCallViewController(navigationController: self.navigationController, user: unwrappedUser, type: CHCallScreen.video.rawValue)
+            }
+        }
     }
     
     // MARK: - Table view data source
@@ -165,3 +195,4 @@ class CHDetailedCallLogController: NewCHTableViewController {
 
 
 }
+

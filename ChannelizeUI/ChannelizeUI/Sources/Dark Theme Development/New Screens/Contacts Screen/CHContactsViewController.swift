@@ -261,6 +261,7 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             guard self.onlineContacts.count > 0, indexPath.row == self.onlineContacts.count - 3 else {
+                self.tableLoaderFooterView.stopAnimating()
                 return
             }
             if self.isAllOnlineContactsLoaded == false {
@@ -274,6 +275,7 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
             }
         } else {
             guard self.allContacts.count > 0, indexPath.row == self.allContacts.count - 3 else {
+                self.tableLoaderFooterView.stopAnimating()
                 return
             }
             if self.isAllOfflineContactsLoaded == false {

@@ -24,36 +24,46 @@ class CHTabBarController: UITabBarController {
         let recentNavigationController = CHNavigationController(rootViewController: recentConversationController)
         recentNavigationController.tabBarItem.image = CHCustomStyles.recentScreenTabImage
         recentNavigationController.tabBarItem.selectedImage = CHCustomStyles.recentScreenSelectedTabImage
-        recentNavigationController.tabBarItem.title = nil
-        recentNavigationController.tabBarItem.setImageOnly()
+        recentNavigationController.tabBarItem.title = CHCustomStyles.recentScreenTabTitle
+        if CHCustomStyles.recentScreenTabTitle == nil {
+            recentNavigationController.tabBarItem.setImageOnly()
+        }
         
         let contactsViewController = CHContactViewController()
         let contactsNavigationController = CHNavigationController(rootViewController: contactsViewController)
         contactsNavigationController.tabBarItem.image = CHCustomStyles.contactScreenTabImage
         contactsNavigationController.tabBarItem.selectedImage = CHCustomStyles.contactScreenSelectedTabImage
-        contactsNavigationController.tabBarItem.title = nil
-        contactsNavigationController.tabBarItem.setImageOnly()
+        contactsNavigationController.tabBarItem.title = CHCustomStyles.contactScreenTabTitle
+        if CHCustomStyles.contactScreenTabTitle == nil {
+            contactsNavigationController.tabBarItem.setImageOnly()
+        }
         
         let groupsViewController = CHGroupsTableViewController()
         let groupsNavigationController = CHNavigationController(rootViewController: groupsViewController)
         groupsNavigationController.tabBarItem.image = CHCustomStyles.groupsScreenTabImage
         groupsNavigationController.tabBarItem.selectedImage = CHCustomStyles.groupsScreenSelectedTabImage
-        groupsNavigationController.tabBarItem.title = nil
-        groupsNavigationController.tabBarItem.setImageOnly()
+        groupsNavigationController.tabBarItem.title = CHCustomStyles.groupsScreenTabTitle
+        if CHCustomStyles.groupsScreenTabTitle == nil {
+            groupsNavigationController.tabBarItem.setImageOnly()
+        }
         
         let recentCallViewController = CHRecentCallsViewController()
         let recentCallNavViewController = CHNavigationController(rootViewController: recentCallViewController)
         recentCallNavViewController.tabBarItem.image = CHCustomStyles.callScreenTabImage
         recentCallNavViewController.tabBarItem.selectedImage = CHCustomStyles.callScreenSelectedTabImage
-        recentCallNavViewController.tabBarItem.title = nil
-        recentCallNavViewController.tabBarItem.setImageOnly()
+        recentCallNavViewController.tabBarItem.title = CHCustomStyles.callScreenTabTitle
+        if CHCustomStyles.callScreenTabTitle == nil {
+            recentCallNavViewController.tabBarItem.setImageOnly()
+        }
         
         let mainSettingsViewController = CHSettingsViewController()
         let mainSettingsNavigationController = CHNavigationController(rootViewController: mainSettingsViewController)
         mainSettingsNavigationController.tabBarItem.image = CHCustomStyles.settingsScreenTabImage
         mainSettingsNavigationController.tabBarItem.selectedImage = CHCustomStyles.settingsScreenSelectedTabImage
-        mainSettingsNavigationController.tabBarItem.title = nil
-        mainSettingsNavigationController.tabBarItem.setImageOnly()
+        mainSettingsNavigationController.tabBarItem.title = CHCustomStyles.settingsScreenTabTitle
+        if CHCustomStyles.settingsScreenTabTitle == nil {
+            mainSettingsNavigationController.tabBarItem.setImageOnly()
+        }
         
         if CHCustomOptions.callModuleEnabled {
             viewControllers = [recentNavigationController, contactsNavigationController, groupsNavigationController, recentCallNavViewController, mainSettingsNavigationController]
@@ -61,6 +71,17 @@ class CHTabBarController: UITabBarController {
             viewControllers = [recentNavigationController, contactsNavigationController, groupsNavigationController, mainSettingsNavigationController]
         }
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.isMovingFromParent {
+            self.viewControllers?.removeAll()
+            Channelize.removeAllUserEventsDelegates()
+            Channelize.removeAllConversationsEventDelegates()
+            ChUserCache.instance.users.removeAll()
+            CHConversationCache.instance.conversations.removeAll()
+        }
     }
     
 
@@ -83,3 +104,4 @@ extension UITabBarItem {
        setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.clear], for: .normal)
    }
 }
+

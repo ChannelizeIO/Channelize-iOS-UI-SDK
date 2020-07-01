@@ -23,22 +23,27 @@ open class CHCustomStyles {
     // Change Recent Screen Tab Bar image
     public static var recentScreenTabImage: UIImage? = getImage("recentTabIcon")
     public static var recentScreenSelectedTabImage: UIImage? = nil
+    public static var recentScreenTabTitle: String? = nil
 
     // Change Contacts Screen Tab Bar Image
     public static var contactScreenTabImage:UIImage? = getImage("contactTabIcon")
     public static var contactScreenSelectedTabImage: UIImage? = nil
+    public static var contactScreenTabTitle: String? = nil
 
     // Change Groups Screen Tab Bar Image
     public static var groupsScreenTabImage:UIImage? = getImage("groupsTabIcon")
     public static var groupsScreenSelectedTabImage: UIImage? = nil
+    public static var groupsScreenTabTitle: String? = nil
 
     // Change Call Screens Tab Bar Image
     public static var callScreenTabImage:UIImage? = getImage("callsTabIcon")
     public static var callScreenSelectedTabImage: UIImage? = nil
+    public static var callScreenTabTitle: String? = nil
 
     // Changes Settings Screen Tab Bar Image
     public static var settingsScreenTabImage:UIImage? = getImage("settingsTabIcon")
     public static var settingsScreenSelectedTabImage: UIImage? = nil
+    public static var settingsScreenTabTitle: String? = nil
     
     // MARK: - Fonts
     
@@ -151,15 +156,6 @@ open class CHCustomStyles {
     /// Default Black
     public static var contactNameLabelColor = UIColor.black
     
-    //MARK:- Variables for Contact Screen Customization
-    
-    //MARK:- Variables to Set Custom text and Images for Tab Bar Controllers
-    /// Default True
-    public static var recentScreenTabTitle = CHLocalized(key: "pmRecent")
-    public static var contactScreenTabTitle = CHLocalized(key: "pmContacts")
-    public static var groupScreenTabTitle = CHLocalized(key: "pmGroups")
-    public static var settingsScreenTabTitle = CHLocalized(key: "pmSettings")
-    
     //MARK:- Variables for Seachbar
     
     /// Default Clear
@@ -220,6 +216,8 @@ open class CHCustomOptions {
     public static var showLogoutButton : Bool = false
     
     public static var callModuleEnabled: Bool = true
+    
+    static var isAllUserSearchEnabled: Bool = false
     
 }
 

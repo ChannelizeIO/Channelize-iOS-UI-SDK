@@ -130,22 +130,41 @@ class CHNewCallViewController: NewCHTableViewController, UISearchBarDelegate {
     }
     
     private func performUserSearch(searchQuery: String) {
-        let onlineContactsQueryBuilder = CHFriendQueryBuilder()
-        onlineContactsQueryBuilder.limit = self.apiCallLimit
-        onlineContactsQueryBuilder.skip = 0
-        onlineContactsQueryBuilder.includeBlocked = false
-        onlineContactsQueryBuilder.searchQuery = searchQuery
-        ChannelizeAPIService.getFriendsList(queryBuilder: onlineContactsQueryBuilder, completion: {(users,errorString) in
-            guard errorString == nil else {
-                return
-            }
-            if let recievedUsers = users {
-                self.isSearchingContact = false
-                self.searchedContacts.removeAll()
-                self.searchedContacts = recievedUsers
-            }
-            self.tableView.reloadData()
-        })
+        
+        if CHCustomOptions.isAllUserSearchEnabled {
+            let usersSearchQuery = CHUserQueryBuilder()
+            usersSearchQuery.limit = 100
+            usersSearchQuery.skip = 0
+            usersSearchQuery.searchQuery = searchQuery
+            ChannelizeAPIService.getUsersList(queryBuilder: usersSearchQuery, completion: {(users,errorString) in
+                guard errorString == nil else {
+                    return
+                }
+                if let recievedUsers = users {
+                    self.isSearchingContact = false
+                    self.searchedContacts.removeAll()
+                    self.searchedContacts = recievedUsers
+                    //ChUserCache.instance.appendUsers(newUsers: recievedUsers)
+                }
+            })
+        } else {
+            let onlineContactsQueryBuilder = CHFriendQueryBuilder()
+            onlineContactsQueryBuilder.limit = 100
+            onlineContactsQueryBuilder.skip = 0
+            onlineContactsQueryBuilder.includeBlocked = false
+            onlineContactsQueryBuilder.searchQuery = searchQuery
+            ChannelizeAPIService.getFriendsList(queryBuilder: onlineContactsQueryBuilder, completion: {(users,errorString) in
+                guard errorString == nil else {
+                    return
+                }
+                if let recievedUsers = users {
+                    self.isSearchingContact = false
+                    self.searchedContacts.removeAll()
+                    self.searchedContacts = recievedUsers
+                    ChUserCache.instance.appendUsers(newUsers: recievedUsers)
+                }
+            })
+        }
     }
     
     private func cancelPreviousRequest() {
@@ -154,6 +173,9 @@ class CHNewCallViewController: NewCHTableViewController, UISearchBarDelegate {
             dataTasks.forEach {
                 print("Cancelling -> \($0.originalRequest?.url?.absoluteURL.path ?? "")")
                 if ($0.originalRequest?.url?.absoluteURL.path == "/users/friends") {
+                    $0.cancel()
+                }
+                if ($0.originalRequest?.url?.absoluteURL.path == "/users") {
                     $0.cancel()
                 }
             }

@@ -16,14 +16,14 @@ PODS:
   - AWSMobileClient (2.9.3):
     - AWSAuthCore (= 2.9.3)
     - AWSCognitoIdentityProvider (= 2.9.3)
-  - ChannelizeAPI (4.20.7):
+  - ChannelizeAPI (4.20.8):
     - Alamofire (= 4.8.2)
     - AlamofireObjectMapper (= 5.2.0)
     - AWSIoT (= 2.9.3)
     - AWSMobileClient (= 2.9.3)
-  - ChannelizeCall (4.20.7):
+  - ChannelizeCall (4.20.8):
     - AgoraRtcEngine_iOS (= 2.9.0)
-    - ChannelizeAPI (>= 4.20.7)
+    - ChannelizeAPI (>= 4.20.8)
     - SDWebImageFLPlugin
   - DifferenceKit (1.1.5):
     - DifferenceKit/Core (= 1.1.5)
@@ -57,8 +57,8 @@ PODS:
     - SDWebImage/Core (~> 5.6)
 
 DEPENDENCIES:
-  - ChannelizeAPI (>= 4.20.7)
-  - ChannelizeCall (>= 4.20.7)
+  - ChannelizeAPI (>= 4.20.8)
+  - ChannelizeCall (>= 4.20.8)
   - DifferenceKit
   - InputBarAccessoryView (= 4.2.2)
   - MaterialComponents/ActivityIndicator
@@ -101,8 +101,8 @@ SPEC CHECKSUMS:
   AWSCore: 5cbb6c6ccfad4b55e494c2e8df87781512f7881e
   AWSIoT: d7debf750a8f485a9e93177fda7a345a9121053b
   AWSMobileClient: 57b907ae11832376a2d7cf07eba5fbe2c6b8cfa4
-  ChannelizeAPI: 644489b4c2f4015d61f689c20657da7d36521a93
-  ChannelizeCall: df404baec39bb3393a99d5620eab906a78e293d6
+  ChannelizeAPI: 6e75643846438e7a93a67cfa60f54a67efc78cff
+  ChannelizeCall: 78d131a6e8830b1aecd36d13d354bc3e38777e74
   DifferenceKit: 516f12e336ed65a3a0665847b5c3cb5cad4bd4ea
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   InputBarAccessoryView: 2b937602598e2fab3149f37f51dd7ad795653812
@@ -115,6 +115,6 @@ SPEC CHECKSUMS:
   SDWebImage: 84000f962cbfa70c07f19d2234cbfcf5d779b5dc
   SDWebImageFLPlugin: 6c2295fb1242d44467c6c87dc5db6b0a13228fd8
 
-PODFILE CHECKSUM: 183dbf29b554cf148f98d76e9ed8c55b197d0451
+PODFILE CHECKSUM: 090f5601a76323b2dfd26c109e6360e811c63fb0
 
 COCOAPODS: 1.9.1

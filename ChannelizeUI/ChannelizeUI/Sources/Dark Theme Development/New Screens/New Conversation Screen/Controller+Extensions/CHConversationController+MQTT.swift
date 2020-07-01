@@ -163,7 +163,7 @@ extension CHConversationViewController: CHUserEventDelegates, CHConversationEven
         self.conversation?.membersCount = self.conversation?.members?.count
         self.conversation?.isActive = false
         self.headerView.updateGroupMembersInfo(conversation: self.conversation)
-        self.blockStatusView.updateBlockStatusView(conversation: self.conversation)
+        self.blockStatusView.updateBlockStatusView(conversation: self.conversation, relationModel: nil)
     }
     
     func didCurrentUserJoinedConversation(model: CHCurrentUserJoinConversationModel?) {
@@ -287,9 +287,40 @@ extension CHConversationViewController: CHUserEventDelegates, CHConversationEven
     }
     
     func didRecieveNewMessage(model: CHNewMessageRecievedModel?) {
-        guard let recievedMessage = model?.message, recievedMessage.conversationId == self.conversation?.id else {
+        guard let recievedMessage = model?.message else {
             return
         }
+        if self.conversation?.id == nil {
+            if let firstConversation = CHConversationCache.instance.conversations.first(where: {
+                $0.isGroup == false && $0.conversationPartner?.id == self.conversation?.conversationPartner?.id
+            }) {
+                self.conversation = firstConversation
+                guard recievedMessage.conversationId == self.conversation?.id else {
+                    return
+                }
+                self.appendMessage(recievedMessage: recievedMessage)
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
+                    if let firstConversation = CHConversationCache.instance.conversations.first(where: {
+                        $0.isGroup == false && $0.conversationPartner?.id == self.conversation?.conversationPartner?.id
+                    }) {
+                        self.conversation = firstConversation
+                        guard recievedMessage.conversationId == self.conversation?.id else {
+                            return
+                        }
+                        self.appendMessage(recievedMessage: recievedMessage)
+                    }
+                })
+            }
+        } else {
+            guard recievedMessage.conversationId == self.conversation?.id else {
+                return
+            }
+            self.appendMessage(recievedMessage: recievedMessage)
+        }
+    }
+    
+    func appendMessage(recievedMessage: CHMessage) {
         self.noMessageContentView.removeFromSuperview()
         if let messageIndex = self.chatItems.firstIndex(where: {
             $0.messageId == recievedMessage.id
@@ -327,6 +358,7 @@ extension CHConversationViewController: CHUserEventDelegates, CHConversationEven
             }
         }
     }
+    
     
     func didMessageReactionAdded(model: CHReactionEventModel?) {
         guard let reactionModel = model else {
@@ -422,3 +454,4 @@ extension CHConversationViewController: CHUserEventDelegates, CHConversationEven
         }
     }
 }
+

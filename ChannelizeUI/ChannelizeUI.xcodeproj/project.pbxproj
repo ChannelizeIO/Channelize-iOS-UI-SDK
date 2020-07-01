@@ -12,6 +12,8 @@
 		18B07DF32449DCDD003D1610 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18B07DF12449DCDD003D1610 /* Main.storyboard */; };
 		18B07DF52449DCDF003D1610 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18B07DF42449DCDF003D1610 /* Assets.xcassets */; };
 		18B07DF82449DCDF003D1610 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18B07DF62449DCDF003D1610 /* LaunchScreen.storyboard */; };
+		18F83E2824AB6EFC00E87A8A /* CHConversationCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F83E2724AB6EFC00E87A8A /* CHConversationCache.swift */; };
+		18F83E2A24AB725F00E87A8A /* ChannelizeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F83E2924AB725F00E87A8A /* ChannelizeUI.swift */; };
 		527CE5FD14775297AB9FF59C /* Pods_ChannelizeUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78173D39087F5201AFEFEF09 /* Pods_ChannelizeUI.framework */; };
 		EB5F6B8D2497E626004B7676 /* ChannelizeActionIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6A9E2497E620004B7676 /* ChannelizeActionIcons.xcassets */; };
 		EB5F6B8E2497E626004B7676 /* SelectedChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6AA02497E620004B7676 /* SelectedChatModel.swift */; };
@@ -135,7 +137,6 @@
 		EB5F6C062497E626004B7676 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B3D2497E624004B7676 /* Roboto-Thin.ttf */; };
 		EB5F6C072497E626004B7676 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B3E2497E624004B7676 /* Roboto-Black.ttf */; };
 		EB5F6C082497E626004B7676 /* RobotoSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B3F2497E624004B7676 /* RobotoSlab-Regular.ttf */; };
-		EB5F6C092497E626004B7676 /* ChannelizeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B402497E624004B7676 /* ChannelizeUI.swift */; };
 		EB5F6C0A2497E626004B7676 /* CHCustomStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B422497E624004B7676 /* CHCustomStyles.swift */; };
 		EB5F6C0B2497E626004B7676 /* CHUIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B432497E624004B7676 /* CHUIConstants.swift */; };
 		EB5F6C0C2497E626004B7676 /* ChannelizeImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B452497E624004B7676 /* ChannelizeImages.swift */; };
@@ -222,6 +223,8 @@
 		18B07DF42449DCDF003D1610 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18B07DF72449DCDF003D1610 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		18B07DF92449DCDF003D1610 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18F83E2724AB6EFC00E87A8A /* CHConversationCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHConversationCache.swift; sourceTree = "<group>"; };
+		18F83E2924AB725F00E87A8A /* ChannelizeUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelizeUI.swift; sourceTree = "<group>"; };
 		78173D39087F5201AFEFEF09 /* Pods_ChannelizeUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChannelizeUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		798FEF3DE085F47FA3D54FBE /* Pods-ChannelizeUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelizeUI.debug.xcconfig"; path = "Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI.debug.xcconfig"; sourceTree = "<group>"; };
 		9F569F07C0898B73C5C89A4F /* Pods-ChannelizeUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelizeUI.release.xcconfig"; path = "Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI.release.xcconfig"; sourceTree = "<group>"; };
@@ -347,7 +350,6 @@
 		EB5F6B3D2497E624004B7676 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		EB5F6B3E2497E624004B7676 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
 		EB5F6B3F2497E624004B7676 /* RobotoSlab-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Regular.ttf"; sourceTree = "<group>"; };
-		EB5F6B402497E624004B7676 /* ChannelizeUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChannelizeUI.swift; path = "../../../../../ui sdk files/ChannelizeUI.swift"; sourceTree = "<group>"; };
 		EB5F6B422497E624004B7676 /* CHCustomStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHCustomStyles.swift; sourceTree = "<group>"; };
 		EB5F6B432497E624004B7676 /* CHUIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHUIConstants.swift; sourceTree = "<group>"; };
 		EB5F6B452497E624004B7676 /* ChannelizeImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelizeImages.swift; sourceTree = "<group>"; };
@@ -473,7 +475,6 @@
 			children = (
 				EB76B7F32471A91C0002BE57 /* ChannelizeUI.h */,
 				EB5F6A9E2497E620004B7676 /* ChannelizeActionIcons.xcassets */,
-				EB5F6B402497E624004B7676 /* ChannelizeUI.swift */,
 				EB5F6AA12497E622004B7676 /* ChannelizeUIIcons.xcassets */,
 				EB5F6A9F2497E620004B7676 /* Common Cells */,
 				EB5F6B412497E624004B7676 /* Constant Objects */,
@@ -489,6 +490,7 @@
 				EB5F6B1C2497E623004B7676 /* Realm Models */,
 				EB5F6B472497E625004B7676 /* UI Screens */,
 				EB76B8872471A9210002BE57 /* IHProgressHUD */,
+				18F83E2924AB725F00E87A8A /* ChannelizeUI.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -810,6 +812,7 @@
 			isa = PBXGroup;
 			children = (
 				EB5F6B122497E622004B7676 /* ChUserCache.swift */,
+				18F83E2724AB6EFC00E87A8A /* CHConversationCache.swift */,
 			);
 			path = "New Cache Classes";
 			sourceTree = "<group>";
@@ -1300,6 +1303,7 @@
 				EB5F6BB02497E626004B7676 /* CHConversationHeaderView.swift in Sources */,
 				EB5F6BD92497E626004B7676 /* CHCollectionViewLoadingCell.swift in Sources */,
 				EB5F6C1A2497E626004B7676 /* BadgeSwift.swift in Sources */,
+				18F83E2824AB6EFC00E87A8A /* CHConversationCache.swift in Sources */,
 				EB5F6B922497E626004B7676 /* CHDetailedCallLogController.swift in Sources */,
 				EB5F6C3B2497E626004B7676 /* CHUIColor+Extension.swift in Sources */,
 				18B07DF02449DCDD003D1610 /* ViewController.swift in Sources */,
@@ -1351,7 +1355,6 @@
 				EB5F6B9C2497E626004B7676 /* UIDocMessageCell.swift in Sources */,
 				EB5F6BCD2497E626004B7676 /* CHNavHeaderView.swift in Sources */,
 				EB5F6C0E2497E626004B7676 /* RecentConversationShimmerCell.swift in Sources */,
-				EB5F6C092497E626004B7676 /* ChannelizeUI.swift in Sources */,
 				EB5F6BBF2497E626004B7676 /* CHCommonGroupsViewController.swift in Sources */,
 				EB5F6BD72497E626004B7676 /* CHGiphStickerViewController.swift in Sources */,
 				EB5F6C112497E626004B7676 /* CircularProgressBar.swift in Sources */,
@@ -1383,6 +1386,7 @@
 				EB5F6BF12497E626004B7676 /* MessageBadgeView.swift in Sources */,
 				EB5F6C3D2497E626004B7676 /* CHUIView+Extension.swift in Sources */,
 				EB5F6BE82497E626004B7676 /* CHAppColors.swift in Sources */,
+				18F83E2A24AB725F00E87A8A /* ChannelizeUI.swift in Sources */,
 				EB5F6BD32497E626004B7676 /* CHSelectedUsersView.swift in Sources */,
 				EB5F6BD82497E626004B7676 /* CHGiphyMediaCell.swift in Sources */,
 				EB5F6BBB2497E626004B7676 /* CHLocationMessageItem.swift in Sources */,

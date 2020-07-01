@@ -33,7 +33,7 @@ class NoContactsView: UIView {
         label.textColor = CHAppConstant.themeStyle == .dark ? UIColor.white : UIColor(hex: "#3b3c4c")
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(fontStyle: .regular, size: 16.0)
-        label.text = "No contacts found. To enjoy messaging, get connected with community members."
+        label.text = CHLocalized(key: "pmNoContactFound")
         return label
     }()
     

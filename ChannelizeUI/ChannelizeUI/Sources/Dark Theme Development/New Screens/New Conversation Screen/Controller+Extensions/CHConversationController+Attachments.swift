@@ -48,7 +48,11 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
         let locationMessageQueryBuilder = CHMessageQueryBuilder()
         locationMessageQueryBuilder.id = messageId
         locationMessageQueryBuilder.body = nil
-        locationMessageQueryBuilder.conversationId = self.conversation?.id
+        if self.conversation?.id != nil {
+            locationMessageQueryBuilder.conversationId = self.conversation?.id
+        } else {
+            locationMessageQueryBuilder.userId = self.conversation?.conversationPartner?.id
+        }
         locationMessageQueryBuilder.messageType = .normal
         locationMessageQueryBuilder.ownerId = senderId
         locationMessageQueryBuilder.attachments = [locationAttachmentBuilder]
@@ -80,6 +84,9 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                 self.collectionView.reload(using: changeSet, interrupt: { $0.changeCount > 500 }, setData: { data in
                     self.chatItems = data
                 })
+                if self.conversation?.id == nil {
+                    self.getConversationWithId(conversationId: message?.conversationId)
+                }
             }
         })
     }
@@ -137,14 +144,19 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
             let videoMessageQueryBuilder = CHMessageQueryBuilder()
             videoMessageQueryBuilder.id = messageId
             videoMessageQueryBuilder.body = nil
-            videoMessageQueryBuilder.conversationId = self.conversation?.id
+            if self.conversation?.id != nil {
+                videoMessageQueryBuilder.conversationId = self.conversation?.id
+            } else {
+                videoMessageQueryBuilder.userId = self.conversation?.conversationPartner?.id
+            }
             videoMessageQueryBuilder.messageType = .normal
             videoMessageQueryBuilder.ownerId = senderId
             videoMessageQueryBuilder.attachments = [videoAttachmentQueryBuilder]
             
             self.noMessageContentView.removeFromSuperview()
             
-            self.conversation?.lastReadDictionary?.updateValue(ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
+            self.conversation?.lastReadDictionary?.updateValue(
+                ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
             self.conversation?.updateLastMessageOldestRead()
             
             let oldItems = self.chatItems.copy()
@@ -181,6 +193,9 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                     self.collectionView.reload(using: changeSet, interrupt: { $0.changeCount > 500 }, setData: { data in
                         self.chatItems = data
                     })
+                    if self.conversation?.id == nil {
+                        self.getConversationWithId(conversationId: message?.conversationId)
+                    }
                 }
             })
         } catch {
@@ -241,7 +256,11 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                 
                 let messageQueryBuilder = CHMessageQueryBuilder()
                 messageQueryBuilder.id = uniqueId.uuidString
-                messageQueryBuilder.conversationId = self.conversation?.id
+                if self.conversation?.id != nil {
+                    messageQueryBuilder.conversationId = self.conversation?.id
+                } else {
+                    messageQueryBuilder.userId = self.conversation?.conversationPartner?.id
+                }
                 messageQueryBuilder.messageType = .normal
                 messageQueryBuilder.ownerId = Channelize.getCurrentUserId()
                 messageQueryBuilder.attachments = [docAttachment]
@@ -324,6 +343,9 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                         }
                         //Modify Existing File
                         print(recievedMessage.toJSON())
+                        if self.conversation?.id == nil {
+                            self.getConversationWithId(conversationId: message?.conversationId)
+                        }
                     }
                 })
             }
@@ -609,7 +631,11 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
             let audioMessageQueryBuilder = CHMessageQueryBuilder()
             audioMessageQueryBuilder.id = messageId
             audioMessageQueryBuilder.body = nil
-            audioMessageQueryBuilder.conversationId = self.conversation?.id
+            if self.conversation?.id != nil {
+                audioMessageQueryBuilder.conversationId = self.conversation?.id
+            } else {
+                audioMessageQueryBuilder.userId = self.conversation?.conversationPartner?.id
+            }
             audioMessageQueryBuilder.messageType = .normal
             audioMessageQueryBuilder.ownerId = senderId
             audioMessageQueryBuilder.attachments = [audioAttachmentQueryBuilder]
@@ -641,6 +667,9 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                     self.collectionView.reload(using: changeSet, interrupt: { $0.changeCount > 500 }, setData: { data in
                         self.chatItems = data
                     })
+                    if self.conversation?.id == nil {
+                        self.getConversationWithId(conversationId: message?.conversationId)
+                    }
                 }
             })
         } catch {
@@ -770,12 +799,17 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
         let imageMessageQueryBuilder = CHMessageQueryBuilder()
         imageMessageQueryBuilder.id = messageId
         imageMessageQueryBuilder.body = nil
-        imageMessageQueryBuilder.conversationId = self.conversation?.id
+        if self.conversation?.id != nil {
+            imageMessageQueryBuilder.conversationId = self.conversation?.id
+        } else {
+            imageMessageQueryBuilder.userId = self.conversation?.conversationPartner?.id
+        }
         imageMessageQueryBuilder.messageType = .normal
         imageMessageQueryBuilder.ownerId = senderId
         imageMessageQueryBuilder.attachments = [imageAttachmentQueryBuilder]
         
-        self.conversation?.lastReadDictionary?.updateValue(ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
+        self.conversation?.lastReadDictionary?.updateValue(
+            ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
         self.conversation?.updateLastMessageOldestRead()
         
         self.noMessageContentView.removeFromSuperview()
@@ -814,6 +848,9 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                 self.collectionView.reload(using: changeSet, interrupt: { $0.changeCount > 500 }, setData: { data in
                     self.chatItems = data
                 })
+                if self.conversation?.id == nil {
+                    self.getConversationWithId(conversationId: message?.conversationId)
+                }
             }
         })
     }
@@ -847,7 +884,11 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
         let gifStickerMessageQueryBuilder = CHMessageQueryBuilder()
         gifStickerMessageQueryBuilder.id = messageId
         gifStickerMessageQueryBuilder.body = nil
-        gifStickerMessageQueryBuilder.conversationId = self.conversation?.id
+        if self.conversation?.id != nil {
+            gifStickerMessageQueryBuilder.conversationId = self.conversation?.id
+        } else {
+            gifStickerMessageQueryBuilder.userId = self.conversation?.conversationPartner?.id
+        }
         gifStickerMessageQueryBuilder.messageType = .normal
         gifStickerMessageQueryBuilder.ownerId = senderId
         
@@ -865,7 +906,8 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
             gifStickerMessageQueryBuilder.attachments = [stickerAttachmentQueryBuilder]
         }
         
-        self.conversation?.lastReadDictionary?.updateValue(ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
+        self.conversation?.lastReadDictionary?.updateValue(
+            ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
         self.conversation?.updateLastMessageOldestRead()
         
         self.noMessageContentView.removeFromSuperview()
@@ -891,6 +933,9 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                 self.collectionView.reload(using: changeSet, interrupt: { $0.changeCount > 500 }, setData: { data in
                     self.chatItems = data
                 })
+                if self.conversation?.id == nil {
+                    self.getConversationWithId(conversationId: message?.conversationId)
+                }
             }
         })
     }
@@ -990,4 +1035,5 @@ extension ImageFormat {
         return "image/\(rawValue)"
     }
 }
+
 

@@ -120,26 +120,36 @@ class CHConversationBlockStatusView: UIView {
         self.isHidden = true
     }
     
-    func updateBlockStatusView(conversation: CHConversation?) {
-        if conversation?.isGroup == true {
-            if conversation?.isActive == false {
-                self.showGroupConversationStatusView()
-            } else {
-                self.hideAllViews()
-            }
-        } else {
-            if let conversationMember = conversation?.members {
-                if conversationMember.count == 2 {
-                    self.hideAllViews()
+    func updateBlockStatusView(conversation: CHConversation?, relationModel: CHUserStatusModel?) {
+        if conversation != nil {
+            if conversation?.isGroup == true {
+                if conversation?.isActive == false {
+                    self.showGroupConversationStatusView()
                 } else {
-                    if conversationMember.contains(where: {
-                        $0.user?.id == Channelize.getCurrentUserId()
-                    }) {
-                        self.showUserHasBlockedStatusView()
+                    self.hideAllViews()
+                }
+            } else {
+                if let conversationMember = conversation?.members {
+                    if conversationMember.count == 2 {
+                        self.hideAllViews()
                     } else {
-                        self.showUserIsBlockedStatusView()
+                        if conversationMember.contains(where: {
+                            $0.user?.id == Channelize.getCurrentUserId()
+                        }) {
+                            self.showUserHasBlockedStatusView()
+                        } else {
+                            self.showUserIsBlockedStatusView()
+                        }
                     }
                 }
+            }
+        } else {
+            if relationModel?.hasBlocked == true {
+                self.showUserIsBlockedStatusView()
+            } else if relationModel?.isBlocked == true {
+                self.showUserHasBlockedStatusView()
+            } else {
+                self.hideAllViews()
             }
         }
     }
@@ -154,4 +164,5 @@ class CHConversationBlockStatusView: UIView {
     */
 
 }
+
 

@@ -12,6 +12,16 @@ import ChannelizeAPI
 extension CHConversationViewController {
     // MARK: - API Functions
     
+    func getConversationWithId(conversationId: String?) {
+        guard conversationId != nil else {
+            return
+        }
+        ChannelizeAPIService.getConversationWithId(conversationId: conversationId ?? "", completion: {(conversation,errorString) in
+            self.conversation = conversation
+            ChUI.instance.chCurrentChatId = self.conversation?.id
+        })
+    }
+    
     func getMessages() {
         let queryBuilder = CHGetMessageQueryBuilder()
         queryBuilder.limit = self.messageApiCallLimit
@@ -59,6 +69,9 @@ extension CHConversationViewController {
     }
     
     func markConversationRead() {
+        guard self.conversation?.id != nil else {
+            return
+        }
         ChannelizeAPIService.markConversationRead(conversationId: self.conversation?.id ?? "", completion: {(status,errorString) in
             if status {
                 print("All Messagess Marked Successfully")
@@ -85,10 +98,12 @@ extension CHConversationViewController {
             if self.conversation?.isGroup == false {
                 self.headerView.updatePartnerStatus(conversation: self.conversation)
                 self.headerView.updateBlockStatus(conversation: self.conversation)
-                self.blockStatusView.updateBlockStatusView(conversation: self.conversation)
+                self.blockStatusView.updateBlockStatusView(conversation: self.conversation, relationModel: nil)
+                //self.blockStatusView.updateBlockStatusView(conversation: self.conversation)
             } else {
                 self.headerView.updateGroupMembersInfo(conversation: self.conversation)
-                self.blockStatusView.updateBlockStatusView(conversation: self.conversation)
+                self.blockStatusView.updateBlockStatusView(conversation: self.conversation, relationModel: nil)
+                //self.blockStatusView.updateBlockStatusView(conversation: self.conversation)
             }
         })
     }
@@ -192,4 +207,5 @@ extension CHConversationViewController {
         })
     }
 }
+
 

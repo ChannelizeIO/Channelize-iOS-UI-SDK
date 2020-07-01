@@ -386,7 +386,11 @@ extension CHConversationViewController: ReactionPopOverControllerDelegate, UIPop
                         $0.tag == 50001
                     })?.removeFromSuperview()
                     UIView.animate(withDuration: 0.33, animations: {
-                        self.topStackContainerHeightConstraint.constant = self.autoCompleteTableHeightConstraint.constant
+                        if self.autoCompleteTableHeightConstraint != nil {
+                            self.topStackContainerHeightConstraint.constant = self.autoCompleteTableHeightConstraint.constant
+                        } else {
+                            self.topStackContainerHeightConstraint.constant = 0
+                        }
                         self.view.layoutIfNeeded()
                     })
                 }
@@ -1003,3 +1007,4 @@ extension CHConversationViewController: ReactionPopOverControllerDelegate, UIPop
         return String((0..<length).map{ _ in letters.randomElement()! })
     }
 }
+

@@ -44,6 +44,10 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
     init() {
         super.init(tableStyle: .plain)
         self.getRecentConversations()
+        self.becomeFirstResponder()
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.33, execute: {
+            self.resignFirstResponder()
+        })
     }
     
     required init?(coder: NSCoder) {
@@ -92,22 +96,21 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
         self.headerView.onBackButtonPressed = {
             if CHCustomOptions.showLogoutButton {
                 let alertController = UIAlertController(title: nil, message: "Logout?", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: CHLocalized(key: "pmLogout"), style: .destructive, handler: {(action) in
+                let okAction = UIAlertAction(title: "Logout", style: .destructive, handler: {(action) in
                     self.logout()
                 })
                 let cancelAction = UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .cancel, handler: nil)
                 alertController.addAction(okAction)
                 alertController.addAction(cancelAction)
+                #if compiler(>=5.1)
                 if #available(iOS 13.0, *) {
                     // Always adopt a light interface style.
-                    if CHAppConstant.themeStyle == .dark {
-                        alertController.overrideUserInterfaceStyle = .dark
-                    } else {
-                        alertController.overrideUserInterfaceStyle = .light
-                    }
+                    alertController.overrideUserInterfaceStyle = .light
                 }
+                #endif
                 self.present(alertController, animated: true, completion: nil)
             } else {
+
                 ChUI.instance.isCHOpen = false
                 ChUserCache.instance.users.removeAll()
                 self.navigationController?.parent?.navigationController?.popViewController(animated: true)
@@ -152,12 +155,16 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
                     if(self.tabBarController?.selectedIndex != 0){
                         self.tabBarController?.selectedIndex = 0
                     }
-                    self.navigationController?.popToRootViewController(
-                        animated: false)
+                    self.navigationController?.popToRootViewController(animated: false)
                     if let conversationIndex = self.getConversationIndex(conversationId: conversationId) {
                         let conversation = self.conversationsList[conversationIndex]
                         let controller = CHConversationViewController()
                         controller.conversation = conversation
+                        controller.hidesBottomBarWhenPushed = true
+                        self.navigationController?.pushViewController(controller, animated: true)
+                    } else {
+                        let controller = CHConversationViewController()
+                        controller.conversationId = conversationId
                         controller.hidesBottomBarWhenPushed = true
                         self.navigationController?.pushViewController(controller, animated: true)
                     }
@@ -179,6 +186,11 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
                     controller.conversation = conversation
                     controller.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(controller, animated: true)
+                } else {
+                    let controller = CHConversationViewController()
+                    controller.conversationId = conversationId
+                    controller.hidesBottomBarWhenPushed = true
+                    self.navigationController?.pushViewController(controller, animated: true)
                 }
             }
         } else if let userId = userInfo["userId"] {
@@ -186,6 +198,7 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
                 let controller = CHConversationViewController()
                 let conversation = CHConversation()
                 conversation.conversationPartner = user
+                controller.conversation = conversation
                 controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: false)
             })
@@ -275,6 +288,7 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
                     self.isAllConversationLoaded = true
                 }
                 self.currentAPIOffset += recievedConversations.count
+                CHConversationCache.instance.appendConversation(newConversations: recievedConversations)
             }
             self.checkAndSetNoContentView()
         })
@@ -377,6 +391,7 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard self.conversationsList.count > 0, indexPath.row == self.conversationsList.count - 3 else {
+            self.tableLoaderFooterView.stopAnimating()
             return
         }
         if self.isAllConversationLoaded == false {
@@ -414,6 +429,10 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
     
     // MARK: - MQTT Functions
     func didConversationDeleted(model: CHConversationDeleteModel?) {
+        let deletedConversation = self.conversationsList.first(where: {
+            $0.id == model?.conversation?.id
+        })
+        CHConversationCache.instance.removeConversation(conversation: deletedConversation)
         self.conversationsList.removeAll(where: {
             $0.id == model?.conversation?.id
         })
@@ -498,6 +517,7 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
                 }
                 if let recievedConversation = conversation {
                     self.conversationsList.insert(recievedConversation, at: 0)
+                    CHConversationCache.instance.appendConversation(newConversations: [recievedConversation])
                 }
                 self.checkAndSetNoContentView()
             })
@@ -653,5 +673,6 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
     }
 
 }
+
 
 

@@ -203,7 +203,7 @@ class CHSearchViewController: UITableViewController, UISearchBarDelegate {
             
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
-            label.text = CHLocalized(key: "pmContacts")
+            label.text = "Contacts"
             label.textColor = CHAppConstant.themeStyle == .dark ? UIColor.white : UIColor(hex: "#4a505a")
             label.font = UIFont(fontStyle: .medium, size: 16)
             backGroundView.addSubview(label)
@@ -220,7 +220,7 @@ class CHSearchViewController: UITableViewController, UISearchBarDelegate {
             backGroundView.backgroundColor = .clear//CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : .white
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
-            label.text = CHLocalized(key: "pmGroups")
+            label.text = "Groups"
             label.textColor = CHAppConstant.themeStyle == .dark ? UIColor.white : UIColor(hex: "#4a505a")
             label.font = UIFont(fontStyle: .medium, size: 16)
             backGroundView.addSubview(label)
@@ -339,22 +339,40 @@ class CHSearchViewController: UITableViewController, UISearchBarDelegate {
     
     
     private func performUserSearch(searchQuery: String) {
-        let onlineContactsQueryBuilder = CHFriendQueryBuilder()
-        onlineContactsQueryBuilder.limit = 100
-        onlineContactsQueryBuilder.skip = 0
-        onlineContactsQueryBuilder.includeBlocked = false
-        onlineContactsQueryBuilder.searchQuery = searchQuery
-        ChannelizeAPIService.getFriendsList(queryBuilder: onlineContactsQueryBuilder, completion: {(users,errorString) in
-            guard errorString == nil else {
-                return
-            }
-            if let recievedUsers = users {
-                self.searchedContacts.removeAll()
-                self.searchedContacts = recievedUsers
-                ChUserCache.instance.appendUsers(newUsers: recievedUsers)
-            }
-            self.perfromGroupSearch(searchQuery: searchQuery)
-        })
+        if CHCustomOptions.isAllUserSearchEnabled {
+            let usersSearchQuery = CHUserQueryBuilder()
+            usersSearchQuery.limit = 100
+            usersSearchQuery.skip = 0
+            usersSearchQuery.searchQuery = searchQuery
+            ChannelizeAPIService.getUsersList(queryBuilder: usersSearchQuery, completion: {(users,errorString) in
+                guard errorString == nil else {
+                    return
+                }
+                if let recievedUsers = users {
+                    self.searchedContacts.removeAll()
+                    self.searchedContacts = recievedUsers
+                    //ChUserCache.instance.appendUsers(newUsers: recievedUsers)
+                }
+                self.perfromGroupSearch(searchQuery: searchQuery)
+            })
+        } else {
+            let onlineContactsQueryBuilder = CHFriendQueryBuilder()
+            onlineContactsQueryBuilder.limit = 100
+            onlineContactsQueryBuilder.skip = 0
+            onlineContactsQueryBuilder.includeBlocked = false
+            onlineContactsQueryBuilder.searchQuery = searchQuery
+            ChannelizeAPIService.getFriendsList(queryBuilder: onlineContactsQueryBuilder, completion: {(users,errorString) in
+                guard errorString == nil else {
+                    return
+                }
+                if let recievedUsers = users {
+                    self.searchedContacts.removeAll()
+                    self.searchedContacts = recievedUsers
+                    ChUserCache.instance.appendUsers(newUsers: recievedUsers)
+                }
+                self.perfromGroupSearch(searchQuery: searchQuery)
+            })
+        }
     }
     
     private func perfromGroupSearch(searchQuery: String) {
@@ -385,6 +403,9 @@ class CHSearchViewController: UITableViewController, UISearchBarDelegate {
                     $0.cancel()
                 }
                 if ($0.originalRequest?.url?.absoluteURL.path == "/conversations") {
+                    $0.cancel()
+                }
+                if ($0.originalRequest?.url?.absoluteURL.path == "/users") {
                     $0.cancel()
                 }
             }
@@ -418,7 +439,7 @@ class CHSearchViewController: UITableViewController, UISearchBarDelegate {
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
     */
 
@@ -448,3 +469,4 @@ class CHSearchViewController: UITableViewController, UISearchBarDelegate {
     */
 
 }
+
