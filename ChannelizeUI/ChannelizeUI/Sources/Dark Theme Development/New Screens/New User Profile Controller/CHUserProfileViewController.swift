@@ -111,7 +111,7 @@ class CHUserProfileViewController: UITableViewController, CHConversationEventDel
         self.userProfileHeaderView.addSubview(userProfileImageView)
         self.userProfileHeaderView.addSubview(userNameLabel)
         self.userProfileHeaderView.addSubview(messageButton)
-        if CHCustomOptions.callModuleEnabled {
+        if CHConstants.isChannelizeCallAvailable {
             self.userProfileHeaderView.addSubview(voiceCallButton)
             self.userProfileHeaderView.addSubview(videoCallButton)
         }
@@ -141,7 +141,7 @@ class CHUserProfileViewController: UITableViewController, CHConversationEventDel
         self.userNameLabel.frame.origin.x = 15
         self.userNameLabel.frame.origin.y = getViewEndOriginY(view: self.userProfileImageView) + 25
         
-        if CHCustomOptions.callModuleEnabled {
+        if CHConstants.isChannelizeCallAvailable {
             
             self.voiceCallButton.frame.size = CGSize(width: 50, height: 50)
             self.voiceCallButton.frame.origin.y = getViewEndOriginY(view: self.userNameLabel) + 15
@@ -192,7 +192,7 @@ class CHUserProfileViewController: UITableViewController, CHConversationEventDel
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "userProfileActionCell", for: indexPath)
-            cell.textLabel?.text = "Groups in Common"
+            cell.textLabel?.text = CHLocalized(key: "pmGroupsInCommon")
             cell.textLabel?.textColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.primaryColor : CHLightThemeColors.primaryColor
             cell.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor(hex: "#ffffff")
             cell.textLabel?.font = CHCustomStyles.normalSizeRegularFont
@@ -466,4 +466,5 @@ class CHUserProfileViewController: UITableViewController, CHConversationEventDel
     */
 
 }
+
 

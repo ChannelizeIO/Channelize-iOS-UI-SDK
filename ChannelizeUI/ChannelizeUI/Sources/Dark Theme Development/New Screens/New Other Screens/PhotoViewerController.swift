@@ -12,6 +12,7 @@ import SDWebImage
 import AVKit
 import AVFoundation
 import ChannelizeAPI
+import VirgilE3Kit
 
 class PhotoViewerController: UIViewController {
     
@@ -24,6 +25,9 @@ class PhotoViewerController: UIViewController {
     
     var photoCollectionView : UICollectionView!
     var miniPhotoCollectionView : UICollectionView!
+    
+    var ethreeObject: EThree?
+    var lookUpResult: FindUsersResult?
     
     var currentVisibleIndex : IndexPath? {
         get{
@@ -111,6 +115,58 @@ class PhotoViewerController: UIViewController {
         self.scrollToItem(index: self.initialIndex)
         
         let imageObject = self.images[initialIndex]
+        if let videoUrlString = imageObject.videoUrl{
+            showProgressView(superView: self.navigationController?.view, string: nil)
+            DispatchQueue.global(qos: .background).async {
+                do {
+                    guard let videoUrl = URL(string: videoUrlString) else {
+                        return
+                    }
+                    let storageUrl = self.getDocumentsDirectory().appendingPathComponent(videoUrl.lastPathComponent)
+                    if FileManager.default.fileExists(atPath: storageUrl.path) {
+                        DispatchQueue.main.async {
+                            disMissProgressView()
+                            let videoController = AVPlayerViewController()
+                            videoController.player = AVPlayer(url: storageUrl)
+                            self.present(videoController, animated: true) {
+                                videoController.player?.play()
+                            }
+                        }
+                    } else {
+                        let apiData = try? Data(contentsOf: videoUrl)
+                        if imageObject.isEncrypted == true {
+                            if let decryptedData = try? self.ethreeObject?.authDecrypt(data: apiData ?? Data(), from: self.lookUpResult?[imageObject.ownerId ?? ""]) {
+                                try decryptedData?.write(to: storageUrl)
+                                DispatchQueue.main.async {
+                                    disMissProgressView()
+                                    let videoController = AVPlayerViewController()
+                                    videoController.player = AVPlayer(url: storageUrl)
+                                    self.present(videoController, animated: true) {
+                                        videoController.player?.play()
+                                    }
+                                }
+                            }
+                        } else {
+                            try apiData?.write(to: storageUrl)
+                            DispatchQueue.main.async {
+                                disMissProgressView()
+                                let videoController = AVPlayerViewController()
+                                videoController.player = AVPlayer(url: storageUrl)
+                                self.present(videoController, animated: true) {
+                                    videoController.player?.play()
+                                }
+                            }
+                        }
+                        
+                    }
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+        
+        
         if let videoUrl = imageObject.videoUrl{
             if let url = URL(string: videoUrl){
                 let videoController = AVPlayerViewController()
@@ -300,12 +356,53 @@ extension PhotoViewerController:UICollectionViewDelegate,UICollectionViewDataSou
             self.photoCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
         } else if collectionView.tag == 100{
             let imageObject = self.images[indexPath.item]
-            if let videoUrl = imageObject.videoUrl{
-                let url = URL(string: videoUrl)
-                let videoController = AVPlayerViewController()
-                videoController.player = AVPlayer(url: url!)
-                self.present(videoController, animated: true) {
-                    videoController.player?.play()
+            if let videoUrlString = imageObject.videoUrl{
+                showProgressView(superView: self.navigationController?.view, string: nil)
+                DispatchQueue.global(qos: .background).async {
+                    do {
+                        guard let videoUrl = URL(string: videoUrlString) else {
+                            return
+                        }
+                        let storageUrl = self.getDocumentsDirectory().appendingPathComponent(videoUrl.lastPathComponent)
+                        if FileManager.default.fileExists(atPath: storageUrl.path) {
+                            DispatchQueue.main.async {
+                                disMissProgressView()
+                                let videoController = AVPlayerViewController()
+                                videoController.player = AVPlayer(url: storageUrl)
+                                self.present(videoController, animated: true) {
+                                    videoController.player?.play()
+                                }
+                            }
+                        } else {
+                            let apiData = try? Data(contentsOf: videoUrl)
+                            if imageObject.isEncrypted == true {
+                                if let decryptedData = try? self.ethreeObject?.authDecrypt(data: apiData ?? Data(), from: self.lookUpResult?[imageObject.ownerId ?? ""]) {
+                                    try decryptedData?.write(to: storageUrl)
+                                    DispatchQueue.main.async {
+                                        disMissProgressView()
+                                        let videoController = AVPlayerViewController()
+                                        videoController.player = AVPlayer(url: storageUrl)
+                                        self.present(videoController, animated: true) {
+                                            videoController.player?.play()
+                                        }
+                                    }
+                                }
+                            } else {
+                                try apiData?.write(to: storageUrl)
+                                DispatchQueue.main.async {
+                                    disMissProgressView()
+                                    let videoController = AVPlayerViewController()
+                                    videoController.player = AVPlayer(url: storageUrl)
+                                    self.present(videoController, animated: true) {
+                                        videoController.player?.play()
+                                    }
+                                }
+                            }
+                            
+                        }
+                    } catch {
+                        print(error.localizedDescription)
+                    }
                 }
             }
         }
@@ -355,15 +452,66 @@ extension PhotoViewerController{
     }
 }
 
-extension PhotoViewerController: MediaCellTapped{
-    func didCellTapped(url: URL) {
-        let videoController = AVPlayerViewController()
-        videoController.player = AVPlayer(url: url)
-        self.present(videoController, animated: true) {
-            videoController.player?.play()
+extension PhotoViewerController: MediaCellTapped {
+    func didCellTapped(item: ChannelizeImages) {
+        showProgressView(superView: self.navigationController?.view, string: nil)
+        if let videoUrlString = item.videoUrl{
+            showProgressView(superView: self.navigationController?.view, string: nil)
+            DispatchQueue.global(qos: .background).async {
+                do {
+                    guard let videoUrl = URL(string: videoUrlString) else {
+                        return
+                    }
+                    let storageUrl = self.getDocumentsDirectory().appendingPathComponent(videoUrl.lastPathComponent)
+                    if FileManager.default.fileExists(atPath: storageUrl.path) {
+                        DispatchQueue.main.async {
+                            disMissProgressView()
+                            let videoController = AVPlayerViewController()
+                            videoController.player = AVPlayer(url: storageUrl)
+                            self.present(videoController, animated: true) {
+                                videoController.player?.play()
+                            }
+                        }
+                    } else {
+                        let apiData = try? Data(contentsOf: videoUrl)
+                        if item.isEncrypted == true {
+                            if let decryptedData = try? self.ethreeObject?.authDecrypt(data: apiData ?? Data(), from: self.lookUpResult?[item.ownerId ?? ""]) {
+                                try decryptedData?.write(to: storageUrl)
+                                DispatchQueue.main.async {
+                                    disMissProgressView()
+                                    let videoController = AVPlayerViewController()
+                                    videoController.player = AVPlayer(url: storageUrl)
+                                    self.present(videoController, animated: true) {
+                                        videoController.player?.play()
+                                    }
+                                }
+                            }
+                        } else {
+                            try apiData?.write(to: storageUrl)
+                            DispatchQueue.main.async {
+                                disMissProgressView()
+                                let videoController = AVPlayerViewController()
+                                videoController.player = AVPlayer(url: storageUrl)
+                                self.present(videoController, animated: true) {
+                                    videoController.player?.play()
+                                }
+                            }
+                        }
+                        
+                    }
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
         }
     }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
 }
+
 
 
 

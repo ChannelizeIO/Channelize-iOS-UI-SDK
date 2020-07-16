@@ -22,7 +22,7 @@ class MessageLoaderView: UIView {
         let indicator = MDCActivityIndicator()
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.radius = 17.5
-        indicator.cycleColors = [CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.primaryColor : CHLightThemeColors.primaryColor]
+        indicator.cycleColors = [CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.tintColor : CHLightThemeColors.tintColor]
         indicator.strokeWidth = 5
         indicator.startAnimating()
         
@@ -68,3 +68,4 @@ class MessageLoaderView: UIView {
     */
 
 }
+

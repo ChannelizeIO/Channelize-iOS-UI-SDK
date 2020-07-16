@@ -117,3 +117,4 @@ class SelectedChatModelCell: UICollectionViewCell {
         }
     }
 }
+

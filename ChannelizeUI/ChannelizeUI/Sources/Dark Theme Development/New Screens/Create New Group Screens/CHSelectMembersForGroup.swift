@@ -45,7 +45,7 @@ class CHSelectMembersForGroup: UIViewController, UITableViewDelegate, UITableVie
         searchBar.setImage(closeIconImage?.imageWithColor(tintColor: CHAppConstant.themeStyle == .dark ? UIColor(hex: "#E6E6E6") : UIColor(hex: "#8b8b8b")), for: .clear, state: .normal)
         searchBar.setImage(getImage("chSearchIcon")?.imageWithColor(tintColor: CHAppConstant.themeStyle == .dark ? UIColor(hex: "#E6E6E6") : UIColor(hex: "#8b8b8b")), for: .search, state: .normal)
         searchBar.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.tintColor : CHLightThemeColors.tintColor
-        //searchBar.addBottomBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor, andWidth: 1.0)
+        //searchBar.addBottomBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor, andWidth: 1.0)
         return searchBar
     }()
     
@@ -74,7 +74,7 @@ class CHSelectMembersForGroup: UIViewController, UITableViewDelegate, UITableVie
         self.tableView.indicatorStyle = CHAppConstant.themeStyle == .dark ? .white : .black
         self.tableView.register(CHTableViewLoadingCell.self, forCellReuseIdentifier: "loadingCell")
         self.tableView.register(CHContactSelectTableCell.self, forCellReuseIdentifier: "userSelectCell")
-        self.tableView.separatorColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor
+        self.tableView.separatorColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor
         self.tableView.allowsMultipleSelection = true
         self.tableView.keyboardDismissMode = .onDrag
         self.tableView.delegate = self
@@ -116,12 +116,7 @@ class CHSelectMembersForGroup: UIViewController, UITableViewDelegate, UITableVie
         self.tableView.setLeftAnchor(relatedConstraint: self.view.leftAnchor, constant: 0)
         self.tableView.setRightAnchor(relatedConstraint: self.view.rightAnchor, constant: 0)
         self.tableView.setTopAnchor(relatedConstraint: self.seletedUsersView.bottomAnchor, constant: 0)
-        if #available(iOS 11.0, *) {
-            self.tableView.setBottomAnchor(relatedConstraint: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
-        } else {
-            self.tableView.setBottomAnchor(relatedConstraint: self.bottomLayoutGuide.topAnchor, constant: 0)
-            // Fallback on earlier versions
-        }
+        self.tableView.setBottomAnchor(relatedConstraint: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         
         self.searchBar.delegate = self
         
@@ -242,7 +237,11 @@ class CHSelectMembersForGroup: UIViewController, UITableViewDelegate, UITableVie
                     }
                 } else {
                     if self.isAllContactsLoaded {
-                        cell.hideIndicatorView()
+                        if self.searchedUsers.count == 0 {
+                            cell.showInfoLabel(withText: CHLocalized(key: "pmNoContactsToAdd"))
+                        } else {
+                            cell.hideIndicatorView()
+                        }
                     }
                 }
             }
@@ -437,4 +436,5 @@ class CHSelectMembersForGroup: UIViewController, UITableViewDelegate, UITableVie
     */
 
 }
+
 

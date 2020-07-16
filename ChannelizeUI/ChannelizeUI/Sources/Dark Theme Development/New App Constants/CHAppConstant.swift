@@ -19,7 +19,8 @@ public class CHAppConstant {
                 return .light
             }
         } else {
-            return .dark
+            return .light
         }
     }
 }
+

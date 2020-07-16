@@ -17,6 +17,7 @@ class CHConversationHeaderView: UIView {
         button.setImage(getImage("chBackButton"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
         return button
     }()
     
@@ -39,7 +40,7 @@ class CHConversationHeaderView: UIView {
     var conversationTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(fontStyle: .medium, size: 14.0)
-        label.textColor = CHAppConstant.themeStyle == .dark ? UIColor.white : UIColor(hex: "#4a505a")
+        label.textColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.navigationHeaderTitleColor : CHLightThemeColors.navigationHeaderTitleColor
         label.backgroundColor = .clear
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -48,7 +49,7 @@ class CHConversationHeaderView: UIView {
     var conversationInfoLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(fontStyle: .regular, size: 12.0)
-        label.textColor = CHAppConstant.themeStyle == .dark ? UIColor.white : UIColor(hex: "#4a505a")
+        label.textColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.navigationHeaderTitleColor : CHLightThemeColors.navigationHeaderTitleColor
         label.backgroundColor = .clear
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -59,6 +60,7 @@ class CHConversationHeaderView: UIView {
         button.setImage(getImage("chMenuOption"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
         return button
     }()
     
@@ -67,7 +69,7 @@ class CHConversationHeaderView: UIView {
         button.setImage(getImage("chVideoCallIcon"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.buttonTintColor : CHLightThemeColors.instance.buttonTintColor
+        button.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
         return button
     }()
     
@@ -76,13 +78,13 @@ class CHConversationHeaderView: UIView {
         button.setImage(getImage("chVoiceCallIcon"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.buttonTintColor : CHLightThemeColors.instance.buttonTintColor
+        button.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
         return button
     }()
     
     var seperatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor
+        view.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -90,7 +92,7 @@ class CHConversationHeaderView: UIView {
     var doneButton: UIButton = {
         let button = UIButton()
         button.setTitle(CHLocalized(key: "pmDone"), for: .normal)
-        button.setTitleColor(CHUIConstant.recentConversationTitleColor, for: .normal)
+        button.setTitleColor(CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor, for: .normal)
         button.titleLabel?.font = CHCustomStyles.mediumSizeRegularFont
         button.backgroundColor = .clear
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -214,7 +216,7 @@ class CHConversationHeaderView: UIView {
             self.profileImageView.image = image
         }
         
-        if CHAppConstant.isCallModuleEnabled {
+        if CHConstants.isChannelizeCallAvailable {
             if conversation?.isGroup == true {
                 self.hideCallButtons()
             }
@@ -331,8 +333,8 @@ class CHConversationHeaderView: UIView {
     
     func hideDoneButton(isGroup: Bool = false) {
         self.doneButton.isHidden = true
-        self.menuOptionButton.isHidden = true
-        if CHCustomOptions.callModuleEnabled {
+        self.menuOptionButton.isHidden = false
+        if CHConstants.isChannelizeCallAvailable {
             if !isGroup {
                 self.videoCallButton.isHidden = false
                 self.voiceCallButton.isHidden = false
@@ -356,3 +358,4 @@ class CHConversationHeaderView: UIView {
     */
 
 }
+

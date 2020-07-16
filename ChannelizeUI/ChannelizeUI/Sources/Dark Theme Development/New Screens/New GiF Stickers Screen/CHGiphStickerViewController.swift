@@ -88,7 +88,7 @@ class CHGiphStickerViewController: UIViewController, UISearchBarDelegate, UIColl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor, andWidth: 0.5)
+        self.view.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor, andWidth: 0.5)
         self.view.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor.white
         self.view.layer.shadowColor = CHAppConstant.themeStyle == .dark ? UIColor.white.cgColor : UIColor.black.cgColor
         self.view.layer.shadowRadius = 5
@@ -431,4 +431,5 @@ class CHGiphStickerViewController: UIViewController, UISearchBarDelegate, UIColl
     */
 
 }
+
 

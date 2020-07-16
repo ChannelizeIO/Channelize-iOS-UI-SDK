@@ -14,6 +14,13 @@ class CHNavigationController: UINavigationController {
         super.viewDidLoad()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.isMovingFromParent {
+            
+        }
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if CHAppConstant.themeStyle == .dark {
             return .lightContent
@@ -34,5 +41,7 @@ class CHNavigationController: UINavigationController {
 extension UINavigationController {
     func updateStatusBarStyle() {
         self.setNeedsStatusBarAppearanceUpdate()
+        self.navigationController?.navigationBar.tintColor = .white//CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
     }
 }
+

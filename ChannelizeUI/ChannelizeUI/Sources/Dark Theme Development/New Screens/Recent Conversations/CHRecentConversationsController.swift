@@ -57,6 +57,7 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.title = "Conversations"
+        self.headerView.assignTitle(text: CHLocalized(key: "pmConversations"))
         Channelize.addConversationEventDelegate(delegate: self, identifier: self.screenIdentifier)
         self.navigationItem.titleView = headerView
         self.navigationItem.setHidesBackButton(true, animated: false)
@@ -66,12 +67,12 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
                 controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: true)
             })
-            let newMessageOption = CHActionSheetAction(title: "New Message", image: nil, actionType: .default, handler: {(action) in
+            let newMessageOption = CHActionSheetAction(title: CHLocalized(key: "pmNewMessage"), image: nil, actionType: .default, handler: {(action) in
                 let controller = CHNewMessageController()
                 controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: true)
             })
-            let newCallOption = CHActionSheetAction(title: "Start a Call", image: nil, actionType: .default, handler: {(action) in
+            let newCallOption = CHActionSheetAction(title: CHLocalized(key: "pmStartNewCall"), image: nil, actionType: .default, handler: {(action) in
                 let controller = CHNewCallViewController()
                 controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: true)
@@ -79,7 +80,7 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
             var controllerActions = [CHActionSheetAction]()
             controllerActions.append(newGroupOption)
             controllerActions.append(newMessageOption)
-            if CHCustomOptions.callModuleEnabled {
+            if CHConstants.isChannelizeCallAvailable {
                 controllerActions.append(newCallOption)
             }
             let controller = CHActionSheetController()

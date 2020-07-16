@@ -11,6 +11,7 @@ import InputBarAccessoryView
 import ChannelizeAPI
 import ObjectMapper
 import DifferenceKit
+import VirgilE3Kit
 
 extension CHConversationViewController: InputBarAccessoryViewDelegate, AutocompleteManagerDelegate, AutocompleteManagerDataSource {
     
@@ -95,8 +96,21 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
         let textMessageData = TextMessageData(messageBody: text, mentionedUsers: mentionedUsers)
         let textMessageItem = TextMessageItem(baseMessageModel: baseMessageData, textMessageData: textMessageData, isDeletedMessage: false)
         
+        var messageTextString: String?
+        if ChVirgilE3Kit.isEndToEndEncryptionEnabled {
+            do {
+                messageTextString = try self.ethreeObject?.authEncrypt(text: textToSend, for: self.myLookUpResults)
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            messageTextString = textToSend
+        }
+        
+        
         let messageQueryBuilder = CHMessageQueryBuilder()
-        messageQueryBuilder.body = text
+        messageQueryBuilder.body = messageTextString
+        messageQueryBuilder.isEncrypted = ChVirgilE3Kit.isEndToEndEncryptionEnabled
         if self.conversation?.id != nil {
             messageQueryBuilder.conversationId = self.conversation?.id
         } else {
@@ -224,7 +238,7 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
         autocompleteManager.tableView.separatorStyle = .singleLine
         autocompleteManager.tableView.separatorInset.left = 55
         autocompleteManager.tableView.separatorInset.right = 5
-        autocompleteManager.tableView.separatorColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor
+        autocompleteManager.tableView.separatorColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor
         autocompleteManager.tableView.rowHeight = 60
         autocompleteManager.tableView.addTopBorder(with: UIColor(white: 0.65, alpha: 1.0), andWidth: 0.5)
         //autocompleteManager.tableView.layer.borderWidth = 0.5

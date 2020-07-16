@@ -61,7 +61,7 @@ class InputTextBarView: InputBarAccessoryView {
         self.sendButton.setSize(CGSize(width: 40, height: 40), animated: false)
         
         inputTextView.backgroundColor = UIColor.clear
-        inputTextView.placeholder = "Type a Message..."
+        inputTextView.placeholder = CHLocalized(key: "pmTypeMessage")
         inputTextView.font = UIFont(fontStyle: .regular, size: 17.0)
         inputTextView.placeholderTextColor = UIColor(hex: "#8a8a8a")
         inputTextView.tintColor = UIColor(hex: "#8a8a8a")
@@ -124,3 +124,4 @@ class InputTextBarView: InputBarAccessoryView {
     }
     
 }
+

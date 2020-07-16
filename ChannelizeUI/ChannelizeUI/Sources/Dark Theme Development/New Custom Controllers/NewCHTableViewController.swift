@@ -96,7 +96,7 @@ class NewCHTableViewController: UIViewController,  UITableViewDataSource, UITabl
         self.tableView.setRightAnchor(relatedConstraint: self.view.rightAnchor, constant: 0)
         self.tableView.setTopAnchor(relatedConstraint: self.extraInfoContainerView.bottomAnchor, constant: 0)
         self.tableView.setBottomAnchor(relatedConstraint: self.bottomStackView.topAnchor, constant: 0)
-        self.tableView.separatorColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor
+        self.tableView.separatorColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor
         self.tableView.delegate = self
         self.tableView.dataSource = self
         //self.tableView.backgroundColor = CHUIConstants.conversationScreenBackgroundColor
@@ -151,15 +151,15 @@ class NewCHTableViewController: UIViewController,  UITableViewDataSource, UITabl
     // MARK: - UIView Related Functions
     func setNavigationColor(animated: Bool = false) {
         self.setNeedsStatusBarAppearanceUpdate()
-        self.view.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor, andWidth: 0.5)
+        self.view.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor, andWidth: 0.5)
         var tintColor: UIColor?
         var imageColor: UIColor = UIColor(hex: "#1c1c1c")
         if CHAppConstant.themeStyle == .dark {
-            tintColor = CHDarkThemeColors.instance.buttonTintColor
-            imageColor = UIColor(hex: "#1c1c1c")
+            tintColor = CHDarkThemeColors.tintColor
+            imageColor = CHDarkThemeColors.conversationHeaderBackGroundColor
         } else {
-            tintColor = CHLightThemeColors.instance.buttonTintColor
-            imageColor = UIColor(hex: "#ffffff")
+            tintColor = CHLightThemeColors.tintColor
+            imageColor = CHLightThemeColors.conversationHeaderBackGroundColor
         }
         
         let animation = CATransition()
@@ -173,22 +173,25 @@ class NewCHTableViewController: UIViewController,  UITableViewDataSource, UITabl
         
         if animated {
             UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve, animations: {
-                self.navigationController?.navigationBar.setBackgroundImage(imageColor.imageWithColor(width: self.view.frame.width, height: self.navigationController?.navigationBar.frame.size.height ?? 0), for: .default)
-                getKeyWindow()?.tintColor = tintColor
+                self.navigationController?.navigationBar.setBackgroundImage(imageColor.imageWithColor(
+                    width: self.view.frame.width, height: self.navigationController?.navigationBar.frame.size.height ?? 0), for: .default)
+                //getKeyWindow()?.tintColor = tintColor
             }, completion: nil)
         } else {
             self.navigationController?.navigationBar.setBackgroundImage(imageColor.imageWithColor(width: self.view.frame.width, height: self.navigationController?.navigationBar.frame.size.height ?? 0), for: .default)
-            getKeyWindow()?.tintColor = tintColor
+            //getKeyWindow()?.tintColor = tintColor
         }
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : CHAppConstant.themeStyle == .dark ? UIColor.white : UIColor(hex: "#4a505a"), NSAttributedString.Key.font: CHCustomStyles.normalSizeRegularFont!]
-        self.tableView.separatorColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.navigationHeaderTitleColor : CHLightThemeColors.navigationHeaderTitleColor, NSAttributedString.Key.font: CHCustomStyles.normalSizeRegularFont!]
+        self.navigationController?.navigationBar.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
+        self.tableView.separatorColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor
         self.tableView.separatorStyle = .singleLine
         self.tableView.indicatorStyle = CHAppConstant.themeStyle == .dark ? .white : .black
         self.tableView.reloadData()
         
         self.tabBarController?.tabBar.barTintColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor.white
-        self.tabBarController?.tabBar.tintColor = UIColor.systemBlue
+        self.tabBarController?.tabBar.tintColor = CHAppConstant.themeStyle == .dark ? UIColor.customSystemBlue : CHLightThemeColors.tintColor
         //self.tabBarController?.tabBar.backgroundImage = UIColor(hex: "#1c1c1c").imageWithColor(width: self.view.frame.width, height: self.navigationController?.navigationBar.frame.size.height ?? 0)
         
     }
 }
+

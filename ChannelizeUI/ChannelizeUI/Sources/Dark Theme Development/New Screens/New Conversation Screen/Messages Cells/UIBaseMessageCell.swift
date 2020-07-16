@@ -239,3 +239,4 @@ class CHBaseMessageCell: UICollectionViewCell {
     }
 }
 
+

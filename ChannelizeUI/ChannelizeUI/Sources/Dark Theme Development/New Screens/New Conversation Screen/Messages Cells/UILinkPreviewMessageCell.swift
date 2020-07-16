@@ -204,3 +204,4 @@ class UILinkPreviewMessageCell: CHBaseMessageCell {
         return view.frame.origin.y+view.frame.height
     }
 }
+

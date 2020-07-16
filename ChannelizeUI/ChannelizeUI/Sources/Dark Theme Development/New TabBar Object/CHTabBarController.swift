@@ -16,9 +16,10 @@ class CHTabBarController: UITabBarController {
         Channelize.connect()
         UIFont.loadMyFonts
         
-        UIApplication.shared.delegate?.window??.tintColor = UIColor.customSystemBlue
+        //UIApplication.shared.delegate?.window??.tintColor = UIColor.systemTeal
         UINavigationBar.appearance(whenContainedInInstancesOf: [UIDocumentBrowserViewController.self]).tintColor = UIColor.customSystemBlue
         UINavigationBar.appearance(whenContainedInInstancesOf: [UIImagePickerController.self]).tintColor = UIColor.customSystemBlue
+        UINavigationBar.appearance(whenContainedInInstancesOf: [CHTabBarController.self]).tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
         
         let recentConversationController = CHRecentConversationsController()
         let recentNavigationController = CHNavigationController(rootViewController: recentConversationController)
@@ -65,7 +66,7 @@ class CHTabBarController: UITabBarController {
             mainSettingsNavigationController.tabBarItem.setImageOnly()
         }
         
-        if CHCustomOptions.callModuleEnabled {
+        if CHConstants.isChannelizeCallAvailable {
             viewControllers = [recentNavigationController, contactsNavigationController, groupsNavigationController, recentCallNavViewController, mainSettingsNavigationController]
         } else {
             viewControllers = [recentNavigationController, contactsNavigationController, groupsNavigationController, mainSettingsNavigationController]

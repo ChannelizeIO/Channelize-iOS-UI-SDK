@@ -90,7 +90,7 @@ class CHContactTableCell: UITableViewCell {
         self.contactNameLabel.textColor = CHUIConstant.contactNameColor
         self.onlineIndicatorView.layer.borderWidth = 2.0
         self.onlineIndicatorView.layer.borderColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c").cgColor : UIColor.white.cgColor
-        self.seperatorLineView.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor
+        self.seperatorLineView.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor
     }
     
     func assignData() {
@@ -123,4 +123,5 @@ class CHContactTableCell: UITableViewCell {
     }
 
 }
+
 

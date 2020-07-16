@@ -11,11 +11,7 @@ import UIKit
 import SDWebImage
 
 protocol MediaCellTapped {
-    func didCellTapped(url:URL)
-}
-
-extension MediaCellTapped{
-    func didCellTapped(url:URL){}
+    func didCellTapped(item: ChannelizeImages)
 }
 
 class PhotoCollectionCell:UICollectionViewCell, UIScrollViewDelegate{
@@ -89,11 +85,10 @@ class PhotoCollectionCell:UICollectionViewCell, UIScrollViewDelegate{
     }
     
     @objc func handleSingleTap(gesture:UITapGestureRecognizer){
-        if let videoUrl = imageObject?.videoUrl{
-            if let url = URL(string: videoUrl){
-                self.delegate?.didCellTapped(url: url)
-            }
+        guard let videoItem = self.imageObject else {
+            return
         }
+        self.delegate?.didCellTapped(item: videoItem)
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -138,5 +133,6 @@ class PhotoCollectionCell:UICollectionViewCell, UIScrollViewDelegate{
         fatalError("init(coder:) has not been implemented")
     }
 }
+
 
 

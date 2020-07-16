@@ -66,12 +66,12 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
                 controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: true)
             })
-            let newMessageOption = CHActionSheetAction(title: "New Message", image: nil, actionType: .default, handler: {(action) in
+            let newMessageOption = CHActionSheetAction(title: CHLocalized(key: "pmNewMessage"), image: nil, actionType: .default, handler: {(action) in
                 let controller = CHNewMessageController()
                 controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: true)
             })
-            let newCallOption = CHActionSheetAction(title: "Start a Call", image: nil, actionType: .default, handler: {(action) in
+            let newCallOption = CHActionSheetAction(title: CHLocalized(key: "pmStartNewCall"), image: nil, actionType: .default, handler: {(action) in
                 let controller = CHNewCallViewController()
                 controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: true)
@@ -80,7 +80,7 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
             var controllerActions = [CHActionSheetAction]()
             controllerActions.append(newGroupOption)
             controllerActions.append(newMessageOption)
-            if CHCustomOptions.callModuleEnabled {
+            if CHConstants.isChannelizeCallAvailable {
                 controllerActions.append(newCallOption)
             }
             
@@ -98,20 +98,18 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
         self.headerView.onBackButtonPressed = {
             if CHCustomOptions.showLogoutButton {
                 let alertController = UIAlertController(title: nil, message: "Logout?", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: CHLocalized(key: "pmLogout"), style: .destructive, handler: {(action) in
+                let okAction = UIAlertAction(title: "Logout", style: .destructive, handler: {(action) in
                     self.logout()
                 })
                 let cancelAction = UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .cancel, handler: nil)
                 alertController.addAction(okAction)
                 alertController.addAction(cancelAction)
+                #if compiler(>=5.1)
                 if #available(iOS 13.0, *) {
                     // Always adopt a light interface style.
-                    if CHAppConstant.themeStyle == .dark {
-                        alertController.overrideUserInterfaceStyle = .dark
-                    } else {
-                        alertController.overrideUserInterfaceStyle = .light
-                    }
+                    alertController.overrideUserInterfaceStyle = .light
                 }
+                #endif
                 self.present(alertController, animated: true, completion: nil)
             } else {
                 ChUI.instance.isCHOpen = false
@@ -127,7 +125,7 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
         self.tableView.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.plainTableBackGroundColor : CHLightThemeColors.instance.plainTableBackGroundColor
         self.headerView.updateViewsColors()
         self.setNavigationColor(animated: false)
-        
+        self.tableView.separatorColor = .clear
         self.tableLoaderFooterView.frame.size.height = 50
         self.tableView.tableFooterView = self.tableLoaderFooterView
         //self.getOnlineContacts()
@@ -334,7 +332,7 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
             
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
-            label.text = "Online"
+            label.text = CHLocalized(key: "pmOnline")
             label.textColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.primaryColor : CHLightThemeColors.primaryColor
             label.font = CHCustomStyles.mediumSizeMediumFont
             backGroundView.addSubview(label)
@@ -351,7 +349,7 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
             backGroundView.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : .white
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
-            label.text = "Offline"
+            label.text = CHLocalized(key: "pmOffline")
             label.textColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.primaryColor : CHLightThemeColors.primaryColor
             label.font = CHCustomStyles.mediumSizeMediumFont
             backGroundView.addSubview(label)
@@ -374,15 +372,15 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
     // MARK: - Other UIView Related Functions
     override func setNavigationColor(animated: Bool = false) {
         self.setNeedsStatusBarAppearanceUpdate()
-        self.tableView.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor, andWidth: 0.3)
+        self.view.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor, andWidth: 0.5)
         var tintColor: UIColor?
         var imageColor: UIColor = UIColor(hex: "#1c1c1c")
         if CHAppConstant.themeStyle == .dark {
             tintColor = CHDarkThemeColors.tintColor
-            imageColor = UIColor(hex: "#1c1c1c")
+            imageColor = CHDarkThemeColors.conversationHeaderBackGroundColor
         } else {
             tintColor = CHLightThemeColors.tintColor
-            imageColor = UIColor(hex: "#ffffff")
+            imageColor = CHLightThemeColors.conversationHeaderBackGroundColor
         }
         
         let animation = CATransition()
@@ -396,21 +394,23 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
         
         if animated {
             UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve, animations: {
-                self.navigationController?.navigationBar.setBackgroundImage(imageColor.imageWithColor(width: self.view.frame.width, height: self.navigationController?.navigationBar.frame.size.height ?? 0), for: .default)
-                getKeyWindow()?.tintColor = tintColor
+                self.navigationController?.navigationBar.setBackgroundImage(imageColor.imageWithColor(
+                    width: self.view.frame.width, height: self.navigationController?.navigationBar.frame.size.height ?? 0), for: .default)
+                //getKeyWindow()?.tintColor = tintColor
             }, completion: nil)
         } else {
             self.navigationController?.navigationBar.setBackgroundImage(imageColor.imageWithColor(width: self.view.frame.width, height: self.navigationController?.navigationBar.frame.size.height ?? 0), for: .default)
-            getKeyWindow()?.tintColor = tintColor
+            //getKeyWindow()?.tintColor = tintColor
         }
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : CHAppConstant.themeStyle == .dark ? UIColor.white : UIColor(hex: "#4a505a")]
-        self.tableView.separatorColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor
-        self.tableView.separatorStyle = .none
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.navigationHeaderTitleColor : CHLightThemeColors.navigationHeaderTitleColor, NSAttributedString.Key.font: CHCustomStyles.normalSizeRegularFont!]
+        self.navigationController?.navigationBar.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
+        self.tableView.separatorColor = .clear
+        self.tableView.separatorStyle = .singleLine
         self.tableView.indicatorStyle = CHAppConstant.themeStyle == .dark ? .white : .black
         self.tableView.reloadData()
         
         self.tabBarController?.tabBar.barTintColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor.white
-        self.tabBarController?.tabBar.tintColor = UIColor.systemBlue
+        self.tabBarController?.tabBar.tintColor = CHAppConstant.themeStyle == .dark ? UIColor.customSystemBlue : CHLightThemeColors.tintColor
     }
     
     private func checkAndSetNoContactView() {
@@ -436,6 +436,7 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
             self.allContacts.removeAll(where: {
                 $0.id == blockerUser?.id
             })
+            ChUserCache.instance.removeUser(user: blockerUser)
             self.checkAndSetNoContactView()
         } else {
             self.onlineContacts.removeAll(where: {
@@ -444,6 +445,7 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
             self.allContacts.removeAll(where: {
                 $0.id == blockedUser?.id
             })
+            ChUserCache.instance.removeUser(user: blockedUser)
             self.checkAndSetNoContactView()
         }
     }
@@ -453,34 +455,10 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
             return
         }
         if unBlockedUser.id == Channelize.getCurrentUserId() {
-            if unBlockerUser.isOnline == true {
-                if self.onlineContacts.filter({
-                    $0.id == unBlockerUser.id
-                }).count == 0 {
-                    self.onlineContacts.append(unBlockerUser)
-                }
-            } else {
-                if self.allContacts.filter({
-                    $0.id == unBlockerUser.id
-                }).count == 0 {
-                    self.allContacts.append(unBlockerUser)
-                }
-            }
+            self.checkStatusAndAppendFriend(user: unBlockerUser)
             self.checkAndSetNoContactView()
         } else {
-            if unBlockedUser.isOnline == true {
-                if self.onlineContacts.filter({
-                    $0.id == unBlockedUser.id
-                }).count == 0 {
-                    self.onlineContacts.append(unBlockedUser)
-                }
-            } else {
-                if self.allContacts.filter({
-                    $0.id == unBlockedUser.id
-                }).count == 0 {
-                    self.allContacts.append(unBlockedUser)
-                }
-            }
+            self.checkStatusAndAppendFriend(user: unBlockedUser)
             self.checkAndSetNoContactView()
         }
     }
@@ -496,7 +474,12 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
             if self.onlineContacts.filter({
                 $0.id == updatedUser.id
             }).count == 0 {
-                self.onlineContacts.append(updatedUser)
+                ChannelizeAPIService.getRelationshipStatus(userId: updatedUser.id ?? "", completion: {(statusModel,errorString) in
+                    if statusModel?.isFollowed == true && statusModel?.hasFollowed == true {
+                        self.onlineContacts.append(updatedUser)
+                    }
+                })
+                //self.onlineContacts.append(updatedUser)
             }
             self.allContacts.removeAll(where: {
                 $0.id == updatedUser.id
@@ -508,7 +491,11 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
             if self.allContacts.filter({
                 $0.id == updatedUser.id
             }).count == 0 {
-                self.allContacts.append(updatedUser)
+                ChannelizeAPIService.getRelationshipStatus(userId: updatedUser.id ?? "", completion: {(statusModel,errorString) in
+                    if statusModel?.isFollowed == true && statusModel?.hasFollowed == true {
+                        self.allContacts.append(updatedUser)
+                    }
+                })
             }
         }
         self.checkAndSetNoContactView()
@@ -531,6 +518,7 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
                 self.allContacts.append(addedFriend)
             }
         }
+        ChUserCache.instance.appendUsers(newUsers: [addedFriend])
         self.checkAndSetNoContactView()
     }
     
@@ -546,4 +534,32 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
         })
         self.checkAndSetNoContactView()
     }
+    
+    func checkStatusAndAppendFriend(user: CHUser?) {
+        guard let userId = user?.id else {
+            return
+        }
+        guard let unwrappedUser = user else {
+            return
+        }
+        ChannelizeAPIService.getRelationshipStatus(userId: userId, completion: {(statusModel,errorString) in
+            if statusModel?.hasFollowed == true {
+                if user?.isOnline == true {
+                    if self.onlineContacts.filter({
+                        $0.id == unwrappedUser.id
+                    }).count == 0 {
+                        self.onlineContacts.append(unwrappedUser)
+                    }
+                } else {
+                    if self.allContacts.filter({
+                        $0.id == unwrappedUser.id
+                    }).count == 0 {
+                        self.allContacts.append(unwrappedUser)
+                    }
+                }
+                ChUserCache.instance.appendUsers(newUsers: [unwrappedUser])
+            }
+        })
+    }
 }
+

@@ -275,3 +275,4 @@ class CHCommonGroupsViewController: NewCHTableViewController, CHConversationEven
     }
 
 }
+

@@ -500,3 +500,4 @@ class CHRecentConversationCell: UITableViewCell {
     }
 }
 
+

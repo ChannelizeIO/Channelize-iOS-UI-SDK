@@ -290,3 +290,4 @@ class CHNewGroupViewController: NewCHTableViewController, UIImagePickerControlle
 
 }
 
+

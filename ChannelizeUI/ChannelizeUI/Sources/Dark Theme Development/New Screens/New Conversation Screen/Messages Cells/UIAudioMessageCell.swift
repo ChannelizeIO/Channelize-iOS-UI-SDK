@@ -371,7 +371,6 @@ class UIAudioMessageCell: CHBaseMessageCell {
     }
     
     func updateProgressView(newProgress: Float, currentTiming: Double) {
-        print(newProgress)
         guard self.audioMessageModel?.playerStatus != .loading else {
             return
         }
@@ -404,4 +403,5 @@ class UIAudioMessageCell: CHBaseMessageCell {
         return !reactionButton.isHidden && reactionButton.point(inside: reactionButton.convert(point, from: self), with: event)
     }
 }
+
 

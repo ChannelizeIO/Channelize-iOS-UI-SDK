@@ -51,12 +51,12 @@ class CHRecentCallsViewController: NewCHTableViewController {
                 controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: true)
             })
-            let newMessageOption = CHActionSheetAction(title: "New Message", image: nil, actionType: .default, handler: {(action) in
+            let newMessageOption = CHActionSheetAction(title: CHLocalized(key: "pmNewMessage"), image: nil, actionType: .default, handler: {(action) in
                 let controller = CHNewMessageController()
                 controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: true)
             })
-            let newCallOption = CHActionSheetAction(title: "Start a Call", image: nil, actionType: .default, handler: {(action) in
+            let newCallOption = CHActionSheetAction(title: CHLocalized(key: "pmStartNewCall"), image: nil, actionType: .default, handler: {(action) in
                 let controller = CHNewCallViewController()
                 controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: true)
@@ -65,7 +65,7 @@ class CHRecentCallsViewController: NewCHTableViewController {
             var controllerActions = [CHActionSheetAction]()
             controllerActions.append(newGroupOption)
             controllerActions.append(newMessageOption)
-            if CHCustomOptions.callModuleEnabled {
+            if CHConstants.isChannelizeCallAvailable {
                 controllerActions.append(newCallOption)
             }
             
@@ -83,20 +83,18 @@ class CHRecentCallsViewController: NewCHTableViewController {
         self.headerView.onBackButtonPressed = {
             if CHCustomOptions.showLogoutButton {
                 let alertController = UIAlertController(title: nil, message: "Logout?", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: CHLocalized(key: "pmLogout"), style: .destructive, handler: {(action) in
+                let okAction = UIAlertAction(title: "Logout", style: .destructive, handler: {(action) in
                     self.logout()
                 })
                 let cancelAction = UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .cancel, handler: nil)
                 alertController.addAction(okAction)
                 alertController.addAction(cancelAction)
+                #if compiler(>=5.1)
                 if #available(iOS 13.0, *) {
                     // Always adopt a light interface style.
-                    if CHAppConstant.themeStyle == .dark {
-                        alertController.overrideUserInterfaceStyle = .dark
-                    } else {
-                        alertController.overrideUserInterfaceStyle = .light
-                    }
+                    alertController.overrideUserInterfaceStyle = .light
                 }
+                #endif
                 self.present(alertController, animated: true, completion: nil)
             } else {
                 ChUI.instance.isCHOpen = false
@@ -246,3 +244,4 @@ class CHRecentCallsViewController: NewCHTableViewController {
     }
 
 }
+

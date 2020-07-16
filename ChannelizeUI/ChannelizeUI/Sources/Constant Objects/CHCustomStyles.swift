@@ -156,6 +156,12 @@ open class CHCustomStyles {
     /// Default Black
     public static var contactNameLabelColor = UIColor.black
     
+    //MARK:- Variables for Contact Screen Customization
+    
+    //MARK:- Variables to Set Custom text and Images for Tab Bar Controllers
+    /// Default True
+    public static var groupScreenTabTitle = CHLocalized(key: "pmGroups")
+    
     //MARK:- Variables for Seachbar
     
     /// Default Clear
@@ -310,3 +316,4 @@ enum ThemeType : String {
     }
 
 }
+

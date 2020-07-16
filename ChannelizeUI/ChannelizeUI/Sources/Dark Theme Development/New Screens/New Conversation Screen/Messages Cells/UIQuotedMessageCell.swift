@@ -17,7 +17,7 @@ class UIQuotedMessageCell: CHBaseMessageCell {
         view.backgroundColor = UIColor.customSystemTeal
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 7.5
-        view.layer.borderColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor.cgColor : CHLightThemeColors.instance.seperatorColor.cgColor
+        view.layer.borderColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor.cgColor : CHLightThemeColors.seperatorColor.cgColor
         view.layer.borderWidth = 0.5
         return view
     }()
@@ -295,4 +295,5 @@ class UIQuotedMessageCell: CHBaseMessageCell {
         return !reactionButton.isHidden && reactionButton.point(inside: reactionButton.convert(point, from: self), with: event)
     }
 }
+
 

@@ -134,12 +134,25 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
             let videoMessageData = VideoMessageData(videoUrlString: nil, thumbnailUrlString: nil, videoSource: .local, thumbLocalImage: thumbnailImage)
             let videoMessageItem = VideoMessageItem(baseMessageModel: baseMessageData, videoMessageData: videoMessageData)
             
+            
+            var apiThumbNailData: Data?
+            var apiVideoData: Data?
+            
+            if ChVirgilE3Kit.isEndToEndEncryptionEnabled {
+                apiThumbNailData = try self.ethreeObject?.authEncrypt(data: thumbnailImage.pngData() ?? Data(), for: self.myLookUpResults)
+                apiVideoData = try self.ethreeObject?.authEncrypt(data: videoData, for: self.myLookUpResults)
+                videoMessageItem.isEncrypted = true
+            } else {
+                apiThumbNailData = thumbnailImage.pngData()
+                apiVideoData = videoData
+                videoMessageItem.isEncrypted = false
+            }
             let videoAttachmentQueryBuilder = CHVideoAttachmentQueryBuilder()
             videoAttachmentQueryBuilder.attachMentIdentifier = uniqueId
             videoAttachmentQueryBuilder.fileExtension = "mov"
             videoAttachmentQueryBuilder.mimeType = ""
-            videoAttachmentQueryBuilder.thumbNailData = thumbnailImage.pngData()
-            videoAttachmentQueryBuilder.videoData = videoData
+            videoAttachmentQueryBuilder.thumbNailData = apiThumbNailData
+            videoAttachmentQueryBuilder.videoData = apiVideoData
             
             let videoMessageQueryBuilder = CHMessageQueryBuilder()
             videoMessageQueryBuilder.id = messageId
@@ -152,6 +165,7 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
             videoMessageQueryBuilder.messageType = .normal
             videoMessageQueryBuilder.ownerId = senderId
             videoMessageQueryBuilder.attachments = [videoAttachmentQueryBuilder]
+            videoMessageQueryBuilder.isEncrypted = ChVirgilE3Kit.isEndToEndEncryptionEnabled
             
             self.noMessageContentView.removeFromSuperview()
             
@@ -246,13 +260,23 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                 let docMessageItem = DocMessageItem(baseMessageModel: baseMessageModel, docMessageData: docMessageData)
                 docMessageItem.docStatus = .uploading
                 
+                var apiDocumentData: Data?
+                
+                if ChVirgilE3Kit.isEndToEndEncryptionEnabled {
+                    apiDocumentData = try self.ethreeObject?.authEncrypt(data: fileData, for: self.myLookUpResults)
+                    docMessageItem.isEncrypted = true
+                } else {
+                    apiDocumentData = fileData
+                    docMessageItem.isEncrypted = false
+                }
+                
                 let docAttachment = CHDocAttachmentQueryBuilder()
                 docAttachment.fileName = fileName
                 docAttachment.mimeType = mimeType
                 docAttachment.size = fileSize
                 docAttachment.fileExtension = fileExtension
                 docAttachment.attachMentIdentifier = uniqueId
-                docAttachment.fileData = fileData
+                docAttachment.fileData = apiDocumentData
                 
                 let messageQueryBuilder = CHMessageQueryBuilder()
                 messageQueryBuilder.id = uniqueId.uuidString
@@ -264,10 +288,12 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                 messageQueryBuilder.messageType = .normal
                 messageQueryBuilder.ownerId = Channelize.getCurrentUserId()
                 messageQueryBuilder.attachments = [docAttachment]
+                messageQueryBuilder.isEncrypted = ChVirgilE3Kit.isEndToEndEncryptionEnabled
                 
                 self.noMessageContentView.removeFromSuperview()
                 
-                self.conversation?.lastReadDictionary?.updateValue(ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
+                self.conversation?.lastReadDictionary?.updateValue(
+                    ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
                 self.conversation?.updateLastMessageOldestRead()
                 
                 let oldItems = self.chatItems.copy()
@@ -349,6 +375,8 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                     }
                 })
             }
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
@@ -621,9 +649,18 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
             let audioMessageData = AudioMessageData(url: nil, duration: duration*1000)
             let audioMessageItem = AudioMessageItem(baseMessageModel: baseMessageData, audioData: audioMessageData)
             
+            var apiAudioData: Data?
+            if ChVirgilE3Kit.isEndToEndEncryptionEnabled {
+                apiAudioData = try self.ethreeObject?.authEncrypt(data: audioData, for: self.myLookUpResults)
+                audioMessageItem.isEncrypted = true
+            } else {
+                apiAudioData = audioData
+                audioMessageItem.isEncrypted = false
+            }
+            
             let audioAttachmentQueryBuilder = CHAudioAttachmentQueryBuilder()
             audioAttachmentQueryBuilder.attachMentIdentifier = uniqueId
-            audioAttachmentQueryBuilder.audioData = audioData
+            audioAttachmentQueryBuilder.audioData = apiAudioData
             audioAttachmentQueryBuilder.duration = duration*1000
             audioAttachmentQueryBuilder.fileExtension = "m4a"
             audioAttachmentQueryBuilder.mimeType = "audio/m4a"
@@ -639,10 +676,11 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
             audioMessageQueryBuilder.messageType = .normal
             audioMessageQueryBuilder.ownerId = senderId
             audioMessageQueryBuilder.attachments = [audioAttachmentQueryBuilder]
-            
+            audioMessageQueryBuilder.isEncrypted = ChVirgilE3Kit.isEndToEndEncryptionEnabled
             self.noMessageContentView.removeFromSuperview()
             
-            self.conversation?.lastReadDictionary?.updateValue(ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
+            self.conversation?.lastReadDictionary?.updateValue(
+                ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
             self.conversation?.updateLastMessageOldestRead()
             
             let oldItems = self.chatItems.copy()
@@ -779,7 +817,6 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
         let imageFormat : ImageFormat = ImageFormat.get(from: imageData ?? Data())
         let mimeType = imageFormat.contentType
         
-        
         let baseMessageData = BaseMessageModel(uid: messageId, senderId: senderId, senderName: senderName, senderImageUrl: senderImageUrl, messageDate: messageDate, status: messageStatus)
         
         SDImageCache.shared.store(image, forKey: messageId, toDisk: true, completion: nil)
@@ -789,16 +826,34 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
         let imageMessageData = ImageMessageData(imageUrlString: nil, imageSource: .local, localImage: nil)
         let imageMessageItem = ImageMessageItem(baseMessageModel: baseMessageData, imageMessageData: imageMessageData)
         
+        var apiImageData: Data?
+        var apiThumbNailData: Data?
+        
+        if ChVirgilE3Kit.isEndToEndEncryptionEnabled {
+            do {
+                apiImageData = try self.ethreeObject?.authEncrypt(data: imageData ?? Data(), for: self.myLookUpResults)
+                apiThumbNailData = try self.ethreeObject?.authEncrypt(data: thumbnailData, for: self.myLookUpResults)
+                imageMessageItem.isEncrypted = true
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            apiImageData = imageData
+            apiThumbNailData = thumbnailData
+            imageMessageItem.isEncrypted = false
+        }
+        
         let imageAttachmentQueryBuilder = CHImageAttachmentQueryBuilder()
         imageAttachmentQueryBuilder.attachMentIdentifier = uniqueId
         imageAttachmentQueryBuilder.fileExtension = imageFormat.rawValue
         imageAttachmentQueryBuilder.mimeType = mimeType
-        imageAttachmentQueryBuilder.imageData = imageData
-        imageAttachmentQueryBuilder.thumbNailData = thumbnailData
+        imageAttachmentQueryBuilder.imageData = apiImageData
+        imageAttachmentQueryBuilder.thumbNailData = apiThumbNailData
         
         let imageMessageQueryBuilder = CHMessageQueryBuilder()
         imageMessageQueryBuilder.id = messageId
         imageMessageQueryBuilder.body = nil
+        imageMessageQueryBuilder.isEncrypted = ChVirgilE3Kit.isEndToEndEncryptionEnabled
         if self.conversation?.id != nil {
             imageMessageQueryBuilder.conversationId = self.conversation?.id
         } else {

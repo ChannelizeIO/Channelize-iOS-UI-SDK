@@ -41,7 +41,7 @@ class CHAudioCaptureView: UIView {
     
     var sendAudioButton : UIButton = {
         let button = UIButton()
-        button.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.buttonTintColor : CHLightThemeColors.instance.buttonTintColor
+        button.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.tintColor : CHLightThemeColors.tintColor
         button.setImage(getImage("chMessageSendButton"), for: .normal)
         button.backgroundColor = .clear
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +54,7 @@ class CHAudioCaptureView: UIView {
         button.titleLabel?.font = UIFont(fontStyle: .regular, size: 18.0)
         button.setTitle(CHLocalized(key: "pmCancel"), for: .normal)
         button.backgroundColor = .clear
-        button.setTitleColor(CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.buttonTintColor : CHLightThemeColors.instance.buttonTintColor, for: .normal)
+        button.setTitleColor(CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.tintColor : CHLightThemeColors.tintColor, for: .normal)
         return button
     }()
     
@@ -76,7 +76,7 @@ class CHAudioCaptureView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setUpViews()
-        self.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor, andWidth: 1.0)
+        self.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor, andWidth: 1.0)
     }
     
     required init?(coder: NSCoder) {
@@ -172,4 +172,5 @@ class CHAudioCaptureView: UIView {
     */
 
 }
+
 

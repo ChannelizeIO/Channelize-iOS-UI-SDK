@@ -9,6 +9,31 @@
 import Foundation
 import ChannelizeAPI
 import UIKit
+import SDWebImage
+import VirgilE3Kit
+
+class CHImageDecryptor: SDWebImageDownloaderDecryptor {
+    var ethreeObject: EThree?
+    var lookUpResults: FindUsersResult?
+    var messageOwner: String?
+    var messageId: String?
+    
+    override func decryptedData(with data: Data, response: URLResponse?) -> Data? {
+        var decryptedData: Data?
+        do {
+            decryptedData = try ethreeObject?.authDecrypt(data: data, from: lookUpResults?[messageOwner ?? ""])
+            SDImageCache.shared.storeImageData(toDisk: decryptedData, forKey: messageId)
+        } catch {
+            print(error.localizedDescription)
+        }
+        return decryptedData
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+}
 
 extension CHConversationViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -227,6 +252,7 @@ extension CHConversationViewController: UICollectionViewDelegate, UICollectionVi
         }
         let videoMessageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "videoMessageCell", for: indexPath) as! UIVideoMessageCell
         videoMessageCell.assignChatItem(chatItem: videoMessageItem)
+        videoMessageCell.assignImageData(videoMessageModel: videoMessageItem, ethreeObject: self.ethreeObject, lookUpResult: self.myLookUpResults, messageOwner: videoMessageItem.senderId)
         videoMessageCell.onReactionButtonPressed = {[weak self] videoCell in
             if let strongSelf = self {
                 let viewPoint = strongSelf.getConvertedPoint(videoCell.reactionButton, baseView: strongSelf.view)
@@ -265,6 +291,7 @@ extension CHConversationViewController: UICollectionViewDelegate, UICollectionVi
         }
         let imageMessageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageMessageCell", for: indexPath) as! UIImageMessageCell
         imageMessageCell.assignChatItem(chatItem: imageMessageItem)
+        imageMessageCell.assignImageData(imageMessageModel: imageMessageItem, ethreeObject: self.ethreeObject, lookUpResult: self.myLookUpResults, messageOwner: imageMessageItem.senderId)
         imageMessageCell.onReactionButtonPressed = {[weak self] cell in
             if let strongSelf = self {
                 let viewPoint = strongSelf.getConvertedPoint(imageMessageCell.reactionButton, baseView: strongSelf.view)
@@ -612,3 +639,4 @@ extension CHConversationViewController: UICollectionViewDelegate, UICollectionVi
     }
     
 }
+

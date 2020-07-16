@@ -108,7 +108,6 @@
 		EB5F6BE72497E626004B7676 /* CHUIConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B152497E622004B7676 /* CHUIConstant.swift */; };
 		EB5F6BE82497E626004B7676 /* CHAppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B162497E622004B7676 /* CHAppColors.swift */; };
 		EB5F6BE92497E626004B7676 /* CHTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B182497E622004B7676 /* CHTabBarController.swift */; };
-		EB5F6BEA2497E626004B7676 /* DarkTheme Doc.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B192497E622004B7676 /* DarkTheme Doc.swift */; };
 		EB5F6BEB2497E626004B7676 /* CHEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B1B2497E623004B7676 /* CHEnums.swift */; };
 		EB5F6BEC2497E626004B7676 /* RealmMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B1D2497E623004B7676 /* RealmMessageModel.swift */; };
 		EB5F6BED2497E626004B7676 /* AddMembersSelectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B1F2497E623004B7676 /* AddMembersSelectedView.swift */; };
@@ -321,7 +320,6 @@
 		EB5F6B152497E622004B7676 /* CHUIConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHUIConstant.swift; sourceTree = "<group>"; };
 		EB5F6B162497E622004B7676 /* CHAppColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHAppColors.swift; sourceTree = "<group>"; };
 		EB5F6B182497E622004B7676 /* CHTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHTabBarController.swift; sourceTree = "<group>"; };
-		EB5F6B192497E622004B7676 /* DarkTheme Doc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DarkTheme Doc.swift"; sourceTree = "<group>"; };
 		EB5F6B1B2497E623004B7676 /* CHEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHEnums.swift; sourceTree = "<group>"; };
 		EB5F6B1D2497E623004B7676 /* RealmMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmMessageModel.swift; sourceTree = "<group>"; };
 		EB5F6B1F2497E623004B7676 /* AddMembersSelectedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMembersSelectedView.swift; sourceTree = "<group>"; };
@@ -521,7 +519,6 @@
 				EB5F6B112497E622004B7676 /* New Cache Classes */,
 				EB5F6B132497E622004B7676 /* New App Constants */,
 				EB5F6B172497E622004B7676 /* New TabBar Object */,
-				EB5F6B192497E622004B7676 /* DarkTheme Doc.swift */,
 			);
 			path = "Dark Theme Development";
 			sourceTree = "<group>";
@@ -1436,7 +1433,6 @@
 				EB5F6BE42497E626004B7676 /* CHAlertViewController.swift in Sources */,
 				EB5F6BE92497E626004B7676 /* CHTabBarController.swift in Sources */,
 				EB5F6BA62497E626004B7676 /* CHConversationController+MQTT.swift in Sources */,
-				EB5F6BEA2497E626004B7676 /* DarkTheme Doc.swift in Sources */,
 				EB5F6BBE2497E626004B7676 /* CHTextMessageItem.swift in Sources */,
 				EB5F6C122497E626004B7676 /* ReactionView.swift in Sources */,
 				EB5F6BC42497E626004B7676 /* OptionsSelectorTableController.swift in Sources */,

@@ -270,3 +270,4 @@ class QuotedMessageItem: ChannelizeChatItem {
     }
     
 }
+

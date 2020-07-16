@@ -98,7 +98,7 @@ class CHGroupConversationCell: UITableViewCell {
          let conversationTitle = conversationData.isGroup == true ? conversationData.title ?? "" : conversationData.conversationPartner?.displayName?.capitalized ?? ""
          
          self.titleLabel.text = conversationTitle
-         self.memberCountLabel.text = "\(conversationData.membersCount ?? 0) Members"
+        self.memberCountLabel.text = String(format: CHLocalized(key: "pmMembersCountText"), "\(conversationData.membersCount ?? 0)")
          
          if let lastUpdatedDate = conversationData.lastMessage?.createdAt {
              let lastUpdatedTimeString = getTimeStamp(lastUpdatedDate)
@@ -131,3 +131,4 @@ class CHGroupConversationCell: UITableViewCell {
      }
 
 }
+

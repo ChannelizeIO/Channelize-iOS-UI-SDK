@@ -28,6 +28,7 @@ class AudioMessageItem: ChannelizeChatItem {
     var currentUploadProgress: Double?
     var playerStatus: AudioModelStatus = .stopped
     var playerProgress: Float = 0.0
+    var isEncrypted: Bool?
     
     init(baseMessageModel: BaseMessageModel, audioData: AudioMessageData?) {
         super.init(baseMessageModel: baseMessageModel, messageType: .audio)
@@ -48,6 +49,7 @@ class AudioMessageItem: ChannelizeChatItem {
         item.reactionCountsInfo = self.reactionCountsInfo
         item.myMessageReactions = self.myMessageReactions
         item.reactions = self.reactions
+        item.isEncrypted = self.isEncrypted
         item.showUnreadMessageLabel = self.showUnreadMessageLabel
         return item
     }
@@ -71,8 +73,10 @@ class AudioMessageItem: ChannelizeChatItem {
             audioSource.reactionCountsInfo == self.reactionCountsInfo &&
             audioSource.reactions == self.reactions &&
             audioSource.myMessageReactions == self.myMessageReactions &&
-            audioSource.showUnreadMessageLabel == self.showUnreadMessageLabel
+            audioSource.showUnreadMessageLabel == self.showUnreadMessageLabel &&
+            audioSource.isEncrypted == self.isEncrypted
         return check
     }
 }
+
 

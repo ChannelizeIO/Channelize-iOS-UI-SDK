@@ -287,3 +287,4 @@ class UILocationMessageCell: CHBaseMessageCell {
     }
 }
 
+

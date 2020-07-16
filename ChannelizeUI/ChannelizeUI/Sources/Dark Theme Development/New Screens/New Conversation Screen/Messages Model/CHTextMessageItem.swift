@@ -134,3 +134,4 @@ class TextMessageItem: ChannelizeChatItem {
     }
     
 }
+

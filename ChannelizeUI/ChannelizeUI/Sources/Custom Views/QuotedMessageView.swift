@@ -66,7 +66,7 @@ class QuotedMessageView: UIView {
         let button = UIButton()
         button.tintColor = .white
         button.backgroundColor = .clear
-        button.imageView?.tintColor = UIColor.customSystemBlue
+        button.imageView?.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.tintColor : CHLightThemeColors.tintColor
         button.imageView?.contentMode = .scaleAspectFit
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(getImage("chCloseIcon"), for: .normal)
@@ -98,7 +98,7 @@ class QuotedMessageView: UIView {
         self.containerView.addSubview(typeOfMessageLabel)
         self.containerView.addSubview(closeViewButton)
         
-        self.containerView.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor, andWidth: 0.5)
+        self.containerView.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor, andWidth: 0.5)
         self.closeViewButton.addTarget(self, action: #selector(didPressCloseButton(sender:)), for: .touchUpInside)
     }
     
@@ -212,4 +212,5 @@ class QuotedMessageView: UIView {
     */
 
 }
+
 

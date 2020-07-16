@@ -88,3 +88,4 @@ class LinkMessageItem: ChannelizeChatItem {
         return check
     }
 }
+

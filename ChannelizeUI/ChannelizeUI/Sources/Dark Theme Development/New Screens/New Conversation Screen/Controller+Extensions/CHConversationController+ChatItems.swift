@@ -136,7 +136,17 @@ extension CHConversationViewController {
             let textChatItem = TextMessageItem(baseMessageModel: baseMessageData, textMessageData: textMessageData, isDeletedMessage: true)
             return textChatItem
         case .text:
-            let textMessageData = TextMessageData(messageBody: message.body, mentionedUsers: message.mentionedUser)
+            var messageBody: String?
+            if message.isEncrypted == true {
+                do {
+                    messageBody = try self.ethreeObject?.authDecrypt(text: message.body ?? "", from: self.myLookUpResults?[message.owner?.id ?? ""])
+                } catch {
+                    print(error.localizedDescription)
+                }
+            } else {
+                messageBody = message.body
+            }
+            let textMessageData = TextMessageData(messageBody: messageBody, mentionedUsers: message.mentionedUser)
             let textChatItem = TextMessageItem(baseMessageModel: baseMessageData, textMessageData: textMessageData, isDeletedMessage: false)
             if CHCustomOptions.enableMessageReactions {
                 textChatItem.myMessageReactions = message.myReactions ?? []
@@ -170,6 +180,7 @@ extension CHConversationViewController {
                 audioMessageItem.reactionCountsInfo = message.reactionsCount ?? [:]
                 audioMessageItem.reactions = createMessageReactionModels(chatItem: audioMessageItem)
             }
+            audioMessageItem.isEncrypted = message.isEncrypted
             return audioMessageItem
         case .video:
             let videoMessageData = VideoMessageData(videoUrlString: message.attachments?.first?.fileUrl, thumbnailUrlString: message.attachments?.first?.thumbnailUrl)
@@ -179,6 +190,7 @@ extension CHConversationViewController {
                 videoChatItem.reactionCountsInfo = message.reactionsCount ?? [:]
                 videoChatItem.reactions = createMessageReactionModels(chatItem: videoChatItem)
             }
+            videoChatItem.isEncrypted = message.isEncrypted
             return videoChatItem
         case .image:
             let imageMessageData = ImageMessageData(imageUrlString: message.attachments?.first?.fileUrl)
@@ -188,6 +200,7 @@ extension CHConversationViewController {
                 imageChatItem.reactionCountsInfo = message.reactionsCount ?? [:]
                 imageChatItem.reactions = createMessageReactionModels(chatItem: imageChatItem)
             }
+            imageChatItem.isEncrypted = message.isEncrypted
             return imageChatItem
         case .doc:
             let fileName = message.attachments?.first?.name
@@ -210,6 +223,7 @@ extension CHConversationViewController {
                     docMessageModel.docStatus = .availableLocal
                 }
             }
+            docMessageModel.isEncrypted = message.isEncrypted
             return docMessageModel
         case .metaMessage:
             if let firstAttachment = message.attachments?.first {
@@ -228,7 +242,16 @@ extension CHConversationViewController {
             }
             return nil
         case .quotedMessage:
-            let messageBody = message.body
+            var messageBody: String?
+            if message.isEncrypted == true {
+                do {
+                    messageBody = try self.ethreeObject?.authDecrypt(text: message.body ?? "", from: self.myLookUpResults?[message.owner?.id ?? ""])
+                } catch {
+                    print(error.localizedDescription)
+                }
+            } else {
+                messageBody = message.body
+            }
             let quotedMessageData = QuotedMessageData(messageBody: messageBody, mentionedUsers: message.mentionedUser, quotedMessageModel: nil)
             let quotedMessageItem = QuotedMessageItem(baseMessageModel: baseMessageData, parentMessage: message.parentMessage, isDeletedMessage: false, quotedMessageData: quotedMessageData)
             if CHCustomOptions.enableMessageReactions {
@@ -345,3 +368,4 @@ extension CHConversationViewController {
     }
 
 }
+

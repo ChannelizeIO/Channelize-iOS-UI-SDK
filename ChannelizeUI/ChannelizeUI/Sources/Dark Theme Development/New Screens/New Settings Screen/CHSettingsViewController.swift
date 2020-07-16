@@ -12,7 +12,7 @@ import Reachability
 
 class CHSettingsViewController: NewCHTableViewController {
 
-    var settings = [CHLocalized(key: "pmIm"),CHLocalized(key: "pmDefaultLanguage"),CHLocalized(key: "pmBlockedUsers"),CHLocalized(key: "pmNotifications"),CHLocalized(key: "pmVideoCallResolution"),"Dark Theme"]
+    var settings = [CHLocalized(key: "pmIm"), CHLocalized(key: "pmBlockedUsers"), CHLocalized(key: "pmNotifications"),CHLocalized(key: "pmDarkTheme")]
     let statusArray = [CHLocalized(key: "pmOffline"), CHLocalized(key: "pmOnline")]
     let videoQualityArray = ["1280x720","960x720","840x480","640x480","480x480","640x360","480x360","360x360","424x240","320x240","240x240","320x180","240x180"]
     let mySwitch: UISwitch = UISwitch()
@@ -40,13 +40,16 @@ class CHSettingsViewController: NewCHTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if CHConstants.isChannelizeCallAvailable {
+            settings.insert(CHLocalized(key: "pmVideoCallResolution"), at: 3)
+        }
         self.navigationItem.titleView = self.headerView
-        self.headerView.assignTitle(text: "Settings")
+        self.headerView.assignTitle(text: CHLocalized(key: "pmSettings"))
         self.tableView.tableFooterView = UIView()
         self.tableView.tableHeaderView = UIView()
         self.tableView.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.plainTableBackGroundColor : CHLightThemeColors.instance.plainTableBackGroundColor
         self.tableView.register(CHUserSettingsTableCell.self, forCellReuseIdentifier: "chSettingCell")
-        self.tableView.separatorColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor
+        self.tableView.separatorColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor
         self.themeSwitchView.addTarget(self, action: #selector(themeChanged(sender:)), for: .valueChanged)
         NotificationCenter.default.addObserver(self, selector: #selector(processStatusBarChangeNotification), name: NSNotification.Name(rawValue: "changeBarStyle"), object: nil)
         
@@ -56,12 +59,12 @@ class CHSettingsViewController: NewCHTableViewController {
                 controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: true)
             })
-            let newMessageOption = CHActionSheetAction(title: "New Message", image: nil, actionType: .default, handler: {(action) in
+            let newMessageOption = CHActionSheetAction(title: CHLocalized(key: "pmNewMessage"), image: nil, actionType: .default, handler: {(action) in
                 let controller = CHNewMessageController()
                 controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: true)
             })
-            let newCallOption = CHActionSheetAction(title: "Start a Call", image: nil, actionType: .default, handler: {(action) in
+            let newCallOption = CHActionSheetAction(title: CHLocalized(key: "pmStartNewCall"), image: nil, actionType: .default, handler: {(action) in
                 let controller = CHNewCallViewController()
                 controller.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(controller, animated: true)
@@ -70,7 +73,7 @@ class CHSettingsViewController: NewCHTableViewController {
             var controllerActions = [CHActionSheetAction]()
             controllerActions.append(newGroupOption)
             controllerActions.append(newMessageOption)
-            if CHCustomOptions.callModuleEnabled {
+            if CHConstants.isChannelizeCallAvailable {
                 controllerActions.append(newCallOption)
             }
             
@@ -88,22 +91,21 @@ class CHSettingsViewController: NewCHTableViewController {
         self.headerView.onBackButtonPressed = {
             if CHCustomOptions.showLogoutButton {
                 let alertController = UIAlertController(title: nil, message: "Logout?", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: CHLocalized(key: "pmLogout"), style: .destructive, handler: {(action) in
+                let okAction = UIAlertAction(title: "Logout", style: .destructive, handler: {(action) in
                     self.logout()
                 })
                 let cancelAction = UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .cancel, handler: nil)
                 alertController.addAction(okAction)
                 alertController.addAction(cancelAction)
+                #if compiler(>=5.1)
                 if #available(iOS 13.0, *) {
                     // Always adopt a light interface style.
-                    if CHAppConstant.themeStyle == .dark {
-                        alertController.overrideUserInterfaceStyle = .dark
-                    } else {
-                        alertController.overrideUserInterfaceStyle = .light
-                    }
+                    alertController.overrideUserInterfaceStyle = .light
                 }
+                #endif
                 self.present(alertController, animated: true, completion: nil)
             } else {
+    
                 ChUI.instance.isCHOpen = false
                 ChUserCache.instance.users.removeAll()
                 self.navigationController?.parent?.navigationController?.popViewController(animated: true)
@@ -179,36 +181,39 @@ class CHSettingsViewController: NewCHTableViewController {
             showDiscloseIndicator = true
             cellAccessoryView = nil
         } else if indexPath.row == 1 {
-            let locale = NSLocale.autoupdatingCurrent
-            let language = UserDefaults.standard.value(forKey: ChannelizeKeys.currentLanguage.key()) as? String
-            if( language != nil && locale.localizedString(forLanguageCode: language!) != nil){
-                secondaryText = locale.localizedString(forLanguageCode: language!)
-            }else{
-                secondaryText = locale.localizedString(forLanguageCode: "en")
-            }
-            showDiscloseIndicator = false
-            cellAccessoryView = nil
-        } else if indexPath.row == 2 {
+            
             secondaryText = nil
             showDiscloseIndicator = true
             cellAccessoryView = nil
-        } else if indexPath.row == 3 {
+        } else if indexPath.row == 2 {
+            
             secondaryText = nil
             showDiscloseIndicator = false
             let isOn = UserDefaults.standard.value(forKey: ChannelizeKeys.isNotificationOn.key()) as? Bool ?? false
             mySwitch.setOn(isOn, animated: false)
             mySwitch.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
             cellAccessoryView = mySwitch
+        } else if indexPath.row == 3 {
+            
+            if CHConstants.isChannelizeCallAvailable {
+                secondaryText = UserDefaults.standard.value(forKey: "CHVideoCallQuality") as? String ?? VideoCallQuality.Quality960x720.rawValue
+                showDiscloseIndicator = true
+                cellAccessoryView = nil
+            } else {
+                secondaryText = nil
+                showDiscloseIndicator = false
+                cellAccessoryView = self.themeSwitchView
+                let isOnDarkTheme = UserDefaults.standard.value(forKey: "CHDarkThemOn") as? Bool ?? false
+                self.themeSwitchView.setOn(isOnDarkTheme, animated: false)
+            }
         } else if indexPath.row == 4 {
-            secondaryText = UserDefaults.standard.value(forKey: "CHVideoCallQuality") as? String ?? VideoCallQuality.Quality960x720.rawValue
-            showDiscloseIndicator = true
-            cellAccessoryView = nil
-        } else if indexPath.row == 5 {
             secondaryText = nil
             showDiscloseIndicator = false
             cellAccessoryView = self.themeSwitchView
             let isOnDarkTheme = UserDefaults.standard.value(forKey: "CHDarkThemOn") as? Bool ?? false
             self.themeSwitchView.setOn(isOnDarkTheme, animated: false)
+        } else if indexPath.row == 5 {
+            
         }
         settingCell.assignData(mainText: cellSetting, secondaryText: secondaryText, showDiscloseIndicator: showDiscloseIndicator, cellExtraView: cellAccessoryView)
         return settingCell
@@ -231,18 +236,20 @@ class CHSettingsViewController: NewCHTableViewController {
             controller.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(controller, animated: true)
             break
-        case 4:
-            let controller = OptionsSelectorTableController()
-            controller.dataString = videoQualityArray
-            controller.onVideoQualityOptionChange = {
-                self.tableView.reloadData()
+        case 3:
+            if CHConstants.isChannelizeCallAvailable {
+                let controller = OptionsSelectorTableController()
+                controller.dataString = videoQualityArray
+                controller.onVideoQualityOptionChange = {
+                    self.tableView.reloadData()
+                }
+                controller.title = settings[indexPath.item]
+                controller.selectorType = .videoQuality
+                controller.hidesBottomBarWhenPushed = true
+                self.navigationController?.pushViewController(controller, animated: true)
             }
-            controller.title = settings[indexPath.item]
-            controller.selectorType = .videoQuality
-            controller.hidesBottomBarWhenPushed = true
-            self.navigationController?.pushViewController(controller, animated: true)
             break
-        case 2:
+        case 1:
             let controller = CHBlockedViewController()
             controller.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(controller, animated: true)
@@ -355,4 +362,5 @@ class CHSettingsViewController: NewCHTableViewController {
     */
 
 }
+
 

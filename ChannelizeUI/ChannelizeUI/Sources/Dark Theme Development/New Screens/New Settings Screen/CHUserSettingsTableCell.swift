@@ -99,3 +99,4 @@ class CHUserSettingsTableCell: UITableViewCell {
     }
 
 }
+

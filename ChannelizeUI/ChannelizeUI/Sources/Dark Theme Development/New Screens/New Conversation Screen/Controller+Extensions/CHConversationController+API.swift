@@ -82,15 +82,17 @@ extension CHConversationViewController {
         })
     }
     
-    func getConversationMembers() {
+    func getConversationMembers(completion: ((Bool,String?) ->Void)? = nil) {
         guard let conversationId = self.conversation?.id else {
             print("Invalid Conversation Id")
+            completion?(false,"Invalid Conversation Id")
             return
         }
         ChannelizeAPIService.getConversationsMembers(conversationId: conversationId, completion: {(members,errorString) in
             guard errorString == nil else {
                 print("Fail to get Members")
                 print("Errors: \(errorString ?? "")")
+                completion?(false,errorString)
                 return
             }
             self.conversation?.members = members
@@ -99,12 +101,11 @@ extension CHConversationViewController {
                 self.headerView.updatePartnerStatus(conversation: self.conversation)
                 self.headerView.updateBlockStatus(conversation: self.conversation)
                 self.blockStatusView.updateBlockStatusView(conversation: self.conversation, relationModel: nil)
-                //self.blockStatusView.updateBlockStatusView(conversation: self.conversation)
             } else {
                 self.headerView.updateGroupMembersInfo(conversation: self.conversation)
                 self.blockStatusView.updateBlockStatusView(conversation: self.conversation, relationModel: nil)
-                //self.blockStatusView.updateBlockStatusView(conversation: self.conversation)
             }
+            completion?(true,nil)
         })
     }
     

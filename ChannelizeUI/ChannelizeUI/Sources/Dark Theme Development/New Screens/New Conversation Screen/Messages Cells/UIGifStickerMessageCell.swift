@@ -222,3 +222,4 @@ class UIGifStickerMessageCell: CHBaseMessageCell {
         return !reactionButton.isHidden && reactionButton.point(inside: reactionButton.convert(point, from: self), with: event)
     }
 }
+

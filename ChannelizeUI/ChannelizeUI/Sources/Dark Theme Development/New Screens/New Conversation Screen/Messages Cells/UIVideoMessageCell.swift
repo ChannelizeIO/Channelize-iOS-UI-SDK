@@ -9,6 +9,7 @@
 import UIKit
 import SDWebImage
 import MaterialComponents.MaterialProgressView
+import VirgilE3Kit
 
 class UIVideoMessageCell: CHBaseMessageCell {
     
@@ -255,20 +256,52 @@ class UIVideoMessageCell: CHBaseMessageCell {
         }
         self.reactionsContainerView.assignReactions(reactions: videoMessageModel.reactions)
         
+//        if videoMessageModel.videoMessageData?.videoSource == .local {
+//            self.imageView.image = videoMessageModel.videoMessageData?.thumbLocalImage
+//        } else {
+//
+//            self.imageView.image = videoMessageModel.videoMessageData?.thumbLocalImage
+//            if let imageUrlString = videoMessageModel.videoMessageData?.thumbNailUrl {
+//                self.imageView.sd_imageTransition = videoMessageModel.videoMessageData?.thumbLocalImage == nil ? .fade : .none
+//                self.imageView.sd_imageIndicator = videoMessageModel.videoMessageData?.thumbLocalImage == nil ? (CHAppConstant.themeStyle == .dark ? SDWebImageActivityIndicator.white : SDWebImageActivityIndicator.gray) : .none
+//                let imageUrl = URL(string: imageUrlString)
+//                self.imageView.sd_setImage(with: imageUrl, placeholderImage: videoMessageModel.videoMessageData?.thumbLocalImage, options: [.refreshCached,.continueInBackground], completed: {(image,error,cache,url) in
+//                    if image != nil {
+//                        videoMessageModel.videoMessageData?.thumbLocalImage = nil
+//                    }
+//                })
+//            }
+//        }
+    }
+    
+    func assignImageData(videoMessageModel: VideoMessageItem, ethreeObject: EThree?, lookUpResult: FindUsersResult?, messageOwner: String?) {
+        
         if videoMessageModel.videoMessageData?.videoSource == .local {
             self.imageView.image = videoMessageModel.videoMessageData?.thumbLocalImage
         } else {
+            let imageDecryptor = CHImageDecryptor()
+            imageDecryptor.ethreeObject = ethreeObject
+            imageDecryptor.lookUpResults = lookUpResult
+            imageDecryptor.messageOwner = messageOwner
             
             self.imageView.image = videoMessageModel.videoMessageData?.thumbLocalImage
             if let imageUrlString = videoMessageModel.videoMessageData?.thumbNailUrl {
                 self.imageView.sd_imageTransition = videoMessageModel.videoMessageData?.thumbLocalImage == nil ? .fade : .none
                 self.imageView.sd_imageIndicator = videoMessageModel.videoMessageData?.thumbLocalImage == nil ? (CHAppConstant.themeStyle == .dark ? SDWebImageActivityIndicator.white : SDWebImageActivityIndicator.gray) : .none
                 let imageUrl = URL(string: imageUrlString)
-                self.imageView.sd_setImage(with: imageUrl, placeholderImage: videoMessageModel.videoMessageData?.thumbLocalImage, options: [.refreshCached,.continueInBackground], completed: {(image,error,cache,url) in
-                    if image != nil {
-                        videoMessageModel.videoMessageData?.thumbLocalImage = nil
-                    }
-                })
+                if videoMessageModel.isEncrypted == true {
+                    self.imageView.sd_setImage(with: imageUrl, placeholderImage: videoMessageModel.videoMessageData?.thumbLocalImage, options: [.refreshCached,.continueInBackground], context: [.downloadDecryptor: imageDecryptor], progress: nil, completed: {(image,error,cache,url) in
+                        if image != nil {
+                            videoMessageModel.videoMessageData?.thumbLocalImage = nil
+                        }
+                    })
+                } else {
+                    self.imageView.sd_setImage(with: imageUrl, placeholderImage: videoMessageModel.videoMessageData?.thumbLocalImage, options: [.refreshCached,.continueInBackground], completed: {(image,error,cache,url) in
+                        if image != nil {
+                            videoMessageModel.videoMessageData?.thumbLocalImage = nil
+                        }
+                    })
+                }
             }
         }
     }
@@ -301,4 +334,5 @@ class UIVideoMessageCell: CHBaseMessageCell {
         return !reactionButton.isHidden && reactionButton.point(inside: reactionButton.convert(point, from: self), with: event)
     }
 }
+
 

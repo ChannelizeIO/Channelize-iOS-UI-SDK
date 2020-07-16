@@ -160,3 +160,4 @@ class CHUIConstant {
     static var docMessageBubbleSize = CGSize(width: 230, height: 110)
 }
 
+

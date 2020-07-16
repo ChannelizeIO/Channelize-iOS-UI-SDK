@@ -15,12 +15,13 @@ import MapKit
 import AVFoundation
 import Photos
 import SDWebImage
+import VirgilE3Kit
 
 class CHConversationViewController: UIViewController, UIGestureRecognizerDelegate {
 
     var headerView: CHConversationHeaderView = {
         let view = CHConversationHeaderView()
-        view.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.conversationHeaderBackGroundColor : CHLightThemeColors.conversationHeaderBackGroundColor
+        //view.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.conversationHeaderBackGroundColor : CHLightThemeColors.conversationHeaderBackGroundColor
         return view
     }()
     
@@ -39,7 +40,7 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
     
     var inputBar: InputTextBarView = {
         let inputBar = InputTextBarView()
-        inputBar.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor, andWidth: 1.0)
+        inputBar.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor, andWidth: 1.0)
         return inputBar
     }()
     
@@ -131,6 +132,10 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
     var conversationId: String?
     var currentInputBarHeight: CGFloat = 22
     
+    // MARK: - End to End Encyptions Methods
+    var ethreeObject: EThree? = ChVirgilE3Kit.currentEthreeObject
+    var myLookUpResults: FindUsersResult?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.edgesForExtendedLayout = []
@@ -169,7 +174,13 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
                 ChannelizeAPIService.joinReactionsSubscribers(conversationId: self.conversation?.id ?? "")
                 self.headerView.updateBlockStatus(conversation: self.conversation)
                 self.blockStatusView.updateBlockStatusView(conversation: self.conversation, relationModel: nil)
-                self.getMessages()
+                if ChVirgilE3Kit.isEndToEndEncryptionEnabled {
+                    self.findUsersPublicKeys(completion: { completed in
+                        self.getMessages()
+                    })
+                } else {
+                    self.getMessages()
+                }
             })
         } else {
             if self.conversation?.id == nil {
@@ -181,7 +192,13 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
                         ChannelizeAPIService.joinReactionsSubscribers(conversationId: self.conversation?.id ?? "")
                         self.headerView.updateBlockStatus(conversation: self.conversation)
                         self.blockStatusView.updateBlockStatusView(conversation: self.conversation, relationModel: nil)
-                        self.getMessages()
+                        if ChVirgilE3Kit.isEndToEndEncryptionEnabled {
+                            self.findUsersPublicKeys(completion: { completed in
+                                self.getMessages()
+                            })
+                        } else {
+                            self.getMessages()
+                        }
                     } else {
                         ChannelizeAPIService.getRelationshipStatus(userId: self.conversation?.conversationPartner?.id ?? "", completion: {(relationModel,errorString) in
                             self.loaderView.hideSpinnerView()
@@ -196,12 +213,21 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
                 ChUI.instance.chCurrentChatId = self.conversation?.id
                 ChannelizeAPIService.joinReactionsSubscribers(conversationId: self.conversation?.id ?? "")
                 if self.conversation?.members == nil {
-                    self.getConversationMembers()
+                    self.getConversationMembers(completion: {(status,errorString) in
+                        if status {
+                            if ChVirgilE3Kit.isEndToEndEncryptionEnabled {
+                                self.findUsersPublicKeys(completion: { completed in
+                                    self.getMessages()
+                                })
+                            } else {
+                                self.getMessages()
+                            }
+                        }
+                    })
                 } else {
                     self.headerView.updateBlockStatus(conversation: self.conversation)
                     self.blockStatusView.updateBlockStatusView(conversation: self.conversation, relationModel: nil)
                 }
-                self.getMessages()
             }
         }
         
@@ -243,6 +269,25 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
             ChannelizeAPIService.leaveReactionsSubscribers(conversationId: self.conversation?.id ?? "")
         }
         self.navigationController?.setToolbarHidden(true, animated: true)
+    }
+    
+    func findUsersPublicKeys(completion: @escaping(Bool) -> Void) {
+        let membersIds = self.conversation?.members?.compactMap({ $0.user?.id ?? ""}) ?? []
+        
+        self.ethreeObject?.findUsers(with: membersIds, forceReload: false, checkResult: true, completion: {(result,error) in
+            if error == nil {
+                self.myLookUpResults = result
+                completion(true)
+            } else {
+                if error as? FindUsersError == FindUsersError.duplicateCards {
+                    completion(false)
+                } else if error as? FindUsersError == FindUsersError.cardWasNotFound {
+                    completion(false)
+                } else if error as? FindUsersError == FindUsersError.missingCachedCard {
+                    completion(false)
+                }
+            }
+        })
     }
     
     @objc func moveToBottom(){
@@ -478,23 +523,23 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
             self.view.endEditing(true)
             let generator = UIImpactFeedbackGenerator(style: .light)
             generator.impactOccurred()
-            let photoAction = CHActionSheetAction(title: "Share Photos", image: nil, actionType: .default, handler: {(action) in
+            let photoAction = CHActionSheetAction(title: CHLocalized(key: "pmSharePhotos"), image: nil, actionType: .default, handler: {(action) in
                 self.openImageSelector()
             })
             
-            let videoAction = CHActionSheetAction(title: "Share Video", image: nil, actionType: .default, handler: {(action) in
+            let videoAction = CHActionSheetAction(title: CHLocalized(key: "pmShareVideos"), image: nil, actionType: .default, handler: {(action) in
                 self.openVideoPicker()
             })
             
-            let documentAction = CHActionSheetAction(title: "Share Document", image: nil, actionType: .default, handler: {(action) in
+            let documentAction = CHActionSheetAction(title: CHLocalized(key: "pmShareDocuments"), image: nil, actionType: .default, handler: {(action) in
                 self.openDocumentPicker()
             })
             
-            let locationAction = CHActionSheetAction(title: "Share Location", image: nil, actionType: .default, handler: {(action) in
+            let locationAction = CHActionSheetAction(title: CHLocalized(key: "pmShareLocation"), image: nil, actionType: .default, handler: {(action) in
                 self.openLocationSelectController()
             })
             
-            let gifStickerAction = CHActionSheetAction(title: "Share Stickers and GIFs", image: nil, actionType: .default, handler: {(action) in
+            let gifStickerAction = CHActionSheetAction(title: CHLocalized(key: "pmShareStickersGifs"), image: nil, actionType: .default, handler: {(action) in
                 self.openGiphyStickerViewController()
             })
             

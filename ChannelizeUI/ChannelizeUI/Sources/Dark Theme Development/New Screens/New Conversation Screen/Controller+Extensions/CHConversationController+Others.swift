@@ -699,7 +699,13 @@ extension CHConversationViewController: ReactionPopOverControllerDelegate, UIPop
             var data: Data?
             DispatchQueue.global(qos: .background).async {
                 do {
-                    data = try Data(contentsOf: URL(string: url)!)
+                    if self.audioModel?.isEncrypted == true {
+                        if let apiData = try? Data(contentsOf: URL(string: url)!) {
+                            data = try self.ethreeObject?.authDecrypt(data: apiData, from: self.myLookUpResults?[self.audioModel?.senderId ?? ""])
+                        }
+                    } else {
+                        data = try Data(contentsOf: URL(string: url)!)
+                    }
                 } catch {
                     print("Unable to load data: \(error)")
                 }
@@ -810,11 +816,11 @@ extension CHConversationViewController: ReactionPopOverControllerDelegate, UIPop
         for object in filteredItems{
             if object.messageType == .image {
                 let imageModel = object as? ImageMessageItem
-                let chImage = ChannelizeImages(imageUrlString: imageModel?.imageMessageData?.imageUrlString, videoUrlString: nil, owner: imageModel?.senderName, date: imageModel?.messageDate)
+                let chImage = ChannelizeImages(imageUrlString: imageModel?.imageMessageData?.imageUrlString, videoUrlString: nil, owner: imageModel?.senderName, date: imageModel?.messageDate, ownerId: model?.senderId, isEncrypted: imageModel?.isEncrypted)
                 channelizeImages.append(chImage)
             } else if object.messageType == .video {
                 let videoModel = object as? VideoMessageItem
-                let chImage = ChannelizeImages(imageUrlString: videoModel?.videoMessageData?.thumbNailUrl, videoUrlString: videoModel?.videoMessageData?.videoUrlString, owner: videoModel?.senderName, date: videoModel?.messageDate)
+                let chImage = ChannelizeImages(imageUrlString: videoModel?.videoMessageData?.thumbNailUrl, videoUrlString: videoModel?.videoMessageData?.videoUrlString, owner: videoModel?.senderName, date: videoModel?.messageDate, ownerId: model?.senderId, isEncrypted: videoModel?.isEncrypted)
                 channelizeImages.append(chImage)
             }
         }
@@ -823,6 +829,8 @@ extension CHConversationViewController: ReactionPopOverControllerDelegate, UIPop
             let offset = 0
             let chatId = self.conversation?.id ?? ""
             let controller = PhotoViewerController(imagesArray: channelizeImages, index: tappedPhotoIndex, offset: offset, chatId: chatId, messageCount: self.chatItems.count)
+            controller.ethreeObject = self.ethreeObject
+            controller.lookUpResult = self.myLookUpResults
             let navigationController = UINavigationController(rootViewController: controller)
             navigationController.modalPresentationStyle = .currentContext
             navigationController.modalTransitionStyle = .crossDissolve
@@ -847,22 +855,111 @@ extension CHConversationViewController: ReactionPopOverControllerDelegate, UIPop
                 let fileName = fileUrl.lastPathComponent
                 let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
                 let fileURL = documentsURL.appendingPathComponent(fileName)
+                let tempFileURL = documentsURL.appendingPathComponent("2nd-\(fileName)")
                 let destination: DownloadRequest.DownloadFileDestination = {_,_ in
-                    return(fileURL,[])
+                    return(tempFileURL,[])
                 }
+                
+//                Alamofire.request(fileUrl).downloadProgress(closure: { progress in
+//                    docMessageModel.uploadProgress = progress.fractionCompleted
+//                    if let docMessageCell = self.collectionView.cellForItem(at: cellIndexPath) as? UIDocMessageCell {
+//                        docMessageCell.updateProgress(fromValue: docMessageModel.uploadProgress, toValue: progress.fractionCompleted)
+//                    }
+//                    }).responseData(completionHandler: { response in
+//                        if let downloadedData = response.result.value {
+//                            if docMessageModel.isEncrypted == true {
+//                                do {
+//                                    let decryptedData = try self.ethreeObject?.authDecrypt(data: downloadedData, from: self.myLookUpResults?[docMessageModel.senderId])
+//                                    try decryptedData?.write(to: fileURL)
+//                                } catch {
+//                                    print(error.localizedDescription)
+//                                }
+//                            } else {
+//                                try? downloadedData.write(to: fileURL)
+//                            }
+//                            docMessageModel.docStatus = .availableLocal
+//                            self.collectionView.performBatchUpdates({
+//                                self.collectionView.reloadItems(at: [cellIndexPath])
+//                            }, completion: nil)
+//                        }
+//                    })
+                
+//                Alamofire.download(fileUrl).downloadProgress(closure: { progress in
+//                    docMessageModel.uploadProgress = progress.fractionCompleted
+//                    if let docMessageCell = self.collectionView.cellForItem(at: cellIndexPath) as? UIDocMessageCell {
+//                        docMessageCell.updateProgress(fromValue: docMessageModel.uploadProgress, toValue: progress.fractionCompleted)
+//                    }
+//                    }).responseData(completionHandler: { response in
+//                        if let downloadedData = response.value {
+//                            if docMessageModel.isEncrypted == true {
+//                                do {
+//                                    let decryptedData = try self.ethreeObject?.authDecrypt(data: downloadedData, from: self.myLookUpResults?[docMessageModel.senderId])
+//                                    try decryptedData?.write(to: fileURL)
+//                                } catch {
+//                                    print(error.localizedDescription)
+//                                }
+//                            } else {
+//                                try? downloadedData.write(to: fileURL)
+//                            }
+//                            docMessageModel.docStatus = .availableLocal
+//                            self.collectionView.performBatchUpdates({
+//                                self.collectionView.reloadItems(at: [cellIndexPath])
+//                            }, completion: nil)
+//                        }
+//                    })
+                    
+//                    .responseData(completionHandler: {(res: DownloadResponse<Data>) in
+//                    switch res.result {
+//                    case .success(let downloadedData):
+//                        if docMessageModel.isEncrypted == true {
+//                            do {
+//                                let decryptedData = try self.ethreeObject?.authDecrypt(data: downloadedData, from: self.myLookUpResults?[docMessageModel.senderId])
+//                                try decryptedData?.write(to: fileURL)
+//                            } catch {
+//                                print(error.localizedDescription)
+//                            }
+//                        } else {
+//                            try? downloadedData.write(to: fileURL)
+//                        }
+//                        docMessageModel.docStatus = .availableLocal
+//                        self.collectionView.performBatchUpdates({
+//                            self.collectionView.reloadItems(at: [cellIndexPath])
+//                        }, completion: nil)
+//                        break
+//                    case .failure(let error):
+//                        print(error.localizedDescription)
+//                        break
+//                    }
+//                })
                 
                 Alamofire.download(fileUrl, to: destination).downloadProgress(closure: { progress  in
                     docMessageModel.uploadProgress = progress.fractionCompleted
                     if let docMessageCell = self.collectionView.cellForItem(at: cellIndexPath) as? UIDocMessageCell {
                         docMessageCell.updateProgress(fromValue: docMessageModel.uploadProgress, toValue: progress.fractionCompleted)
                     }
-                    }).response(completionHandler: { (downloadResponse) in
-                        print(downloadResponse.destinationURL?.absoluteString ?? "")
-                        docMessageModel.docStatus = .availableLocal
-                        self.collectionView.performBatchUpdates({
-                            self.collectionView.reloadItems(at: [cellIndexPath])
-                        }, completion: nil)
-                    })
+                    }).responseData(completionHandler: { response in
+                        if let downloadedData = response.result.value {
+                            if docMessageModel.isEncrypted == true {
+                                do {
+                                    let decryptedData = try self.ethreeObject?.authDecrypt(data: downloadedData, from: self.myLookUpResults?[docMessageModel.senderId])
+                                    try decryptedData?.write(to: fileURL)
+                                } catch {
+                                    print(error.localizedDescription)
+                                }
+                            } else {
+                                try? downloadedData.write(to: fileURL)
+                            }
+                            do {
+                                try FileManager.default.removeItem(atPath: tempFileURL.path)
+                            } catch {
+                                print(error.localizedDescription)
+                            }
+                            docMessageModel.docStatus = .availableLocal
+                            self.collectionView.performBatchUpdates({
+                                self.collectionView.reloadItems(at: [cellIndexPath])
+                            }, completion: nil)
+                        }
+                })
             }
             
         }

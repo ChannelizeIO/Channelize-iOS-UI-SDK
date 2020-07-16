@@ -27,7 +27,8 @@ public class CHDarkThemeColors {
     public static var seperatorColor: UIColor = UIColor(hex: "#38383a")
     public static var conversationHeaderBackGroundColor: UIColor = UIColor(hex: "#1c1c1c")
     public static var incomingTextMessageBackGroundColor = UIColor(hex: "#232124")
-
+    public static var navigationHeaderTitleColor = UIColor.white
+    
     // Text Color for incoming text and quoted messages.
     public static var incomingTextMessageColor = UIColor(hex: "#ffffff")
 
@@ -60,7 +61,7 @@ public class CHLightThemeColors {
     public static var plainTableBackGroundColor = UIColor.white
     public static var seperatorColor: UIColor = UIColor(hex: "#c6c6c8")
     public static var conversationHeaderBackGroundColor: UIColor = UIColor(hex: "#ffffff")
-    
+    public static var navigationHeaderTitleColor = UIColor(hex: "#4a505a")
     // Background color for incoming Text and Quoted Messages.
     public static var incomingTextMessageBackGroundColor = UIColor(hex: "#e6e6e6")
 
@@ -79,4 +80,5 @@ public class CHLightThemeColors {
     public var plainTableBackGroundColor = UIColor.white
     
 }
+
 

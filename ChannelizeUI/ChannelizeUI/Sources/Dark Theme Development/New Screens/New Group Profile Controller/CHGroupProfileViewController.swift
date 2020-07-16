@@ -139,11 +139,11 @@ class CHGroupProfileViewController: UITableViewController, CHConversationEventDe
     }
     
     @objc private func galleyButtonPressed(sender: UIButton) {
-        let cameraAction = CHActionSheetAction(title: "Camera", image: nil, actionType: .default, handler: {(action) in
+        let cameraAction = CHActionSheetAction(title: CHLocalized(key: "pmCamera"), image: nil, actionType: .default, handler: {(action) in
             self.openPhotoPicker(sourceType: .camera)
         })
         
-        let galleryAction = CHActionSheetAction(title: "Gallery", image: nil, actionType: .default, handler: {(action) in
+        let galleryAction = CHActionSheetAction(title: CHLocalized(key: "pmGallery"), image: nil, actionType: .default, handler: {(action) in
             self.openPhotoPicker(sourceType: .photoLibrary)
         })
         let actionSheetController = CHActionSheetController()
@@ -212,7 +212,7 @@ class CHGroupProfileViewController: UITableViewController, CHConversationEventDe
             let cell = tableView.dequeueReusableCell(withIdentifier: "addMemberCell", for: indexPath)
             cell.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor.white
             cell.textLabel?.textColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.tintColor : CHLightThemeColors.tintColor
-            cell.textLabel?.text = "Add Members"
+            cell.textLabel?.text = CHLocalized(key: "pmAddMembers")
             cell.textLabel?.font = CHCustomStyles.normalSizeRegularFont
             cell.selectionStyle = .none
             return cell
@@ -223,16 +223,16 @@ class CHGroupProfileViewController: UITableViewController, CHConversationEventDe
                 cell.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor.white
                 cell.textLabel?.font = CHCustomStyles.normalSizeRegularFont
                 if self.conversation?.isMute == true {
-                    cell.textLabel?.text = "UnMute Conversation"
+                    cell.textLabel?.text = CHLocalized(key: "pmUnmuteConversation")
                 } else {
-                    cell.textLabel?.text = "Mute Conversation"
+                    cell.textLabel?.text = CHLocalized(key: "pmMuteConversation")
                 }
                 cell.accessibilityHint = "muteActionCell"
                 cell.selectionStyle = .none
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "actionCell", for: indexPath)
-                cell.textLabel?.text = "Leave Conversation"
+                cell.textLabel?.text = CHLocalized(key: "pmLeaveConversation")
                 cell.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor.white
                 cell.textLabel?.font = CHCustomStyles.normalSizeRegularFont
                 cell.textLabel?.textColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.tintColor : CHLightThemeColors.tintColor
@@ -245,7 +245,7 @@ class CHGroupProfileViewController: UITableViewController, CHConversationEventDe
             cell.textLabel?.textColor = UIColor.customSystemRed
             cell.textLabel?.font = CHCustomStyles.normalSizeRegularFont
             cell.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor.white
-            cell.textLabel?.text = "Delete Conversation"
+            cell.textLabel?.text = CHLocalized(key: "pmDeleteConversation")
             cell.accessibilityHint = "deleteConversationActionCell"
             cell.selectionStyle = .none
             return cell
@@ -271,7 +271,7 @@ class CHGroupProfileViewController: UITableViewController, CHConversationEventDe
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 2 {
-            return "Members"
+            return CHLocalized(key: "pmMembers")
         } else {
             return nil
         }
@@ -284,7 +284,7 @@ class CHGroupProfileViewController: UITableViewController, CHConversationEventDe
                 textField.text = self.conversation?.title
                 textField.accessibilityHint = "editGroupTitle"
             })
-            let doneAction = CHActionSheetAction(title: "Done", image: nil, actionType: .default, handler: {(action) in
+            let doneAction = CHActionSheetAction(title: CHLocalized(key: "pmDone"), image: nil, actionType: .default, handler: {(action) in
                 let textfield = controller.textFields.first(where: {
                     $0.accessibilityHint == "editGroupTitle"
                 })
@@ -294,7 +294,7 @@ class CHGroupProfileViewController: UITableViewController, CHConversationEventDe
             let cancelAction = CHActionSheetAction(title: CHLocalized(key: "pmCancel"), image: nil, actionType: .cancel, handler: {(action) in
                 
             })
-            controller.alertTitle = "Edit Group Title"
+            controller.alertTitle = CHLocalized(key: "pmEditGroupTitle")
             controller.actions = [doneAction,cancelAction]
             controller.modalPresentationStyle = .overCurrentContext
             controller.modalTransitionStyle = .crossDissolve
@@ -360,8 +360,12 @@ class CHGroupProfileViewController: UITableViewController, CHConversationEventDe
             userProfileViewController.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(userProfileViewController, animated: true)
         })
-        let sendMessageAction = CHActionSheetAction(title: "Send Message", image: nil, actionType: .default, handler: {(action) in
-            
+        let sendMessageAction = CHActionSheetAction(title: CHLocalized(key: "pmMessage"), image: nil, actionType: .default, handler: {(action) in
+            let controller = CHConversationViewController()
+            let conversation = CHConversation()
+            conversation.conversationPartner = user.user
+            controller.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(controller, animated: true)
         })
         let voiceCallAction = CHActionSheetAction(title: CHLocalized(key: "pmVoiceCall"), image: nil, actionType: .default, handler: {[weak self](action) in
             self?.showVoiceCallController(user: user.user)
@@ -381,7 +385,7 @@ class CHGroupProfileViewController: UITableViewController, CHConversationEventDe
         
         let controller = CHActionSheetController()
         controller.actions.append(InfoAction)
-        if CHCustomOptions.callModuleEnabled {
+        if CHConstants.isChannelizeCallAvailable {
             controller.actions.append(voiceCallAction)
             controller.actions.append(videoCallAction)
         }
@@ -451,11 +455,11 @@ class CHGroupProfileViewController: UITableViewController, CHConversationEventDe
     }
         
     func presentCameraSettings() {
-        let alertController = UIAlertController(title: "Error",
-                                                message: "Camera access is denied",
+        let alertController = UIAlertController(title: CHLocalized(key: "pmError"),
+                                                message: CHLocalized(key: "pmAllowCameraPermission"),
                                                 preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .default))
-        alertController.addAction(UIAlertAction(title: "Settings", style: .cancel) { _ in
+        alertController.addAction(UIAlertAction(title: CHLocalized(key: "pmCancel"), style: .default))
+        alertController.addAction(UIAlertAction(title: CHLocalized(key: "pmSettings"), style: .cancel) { _ in
             if let url = URL(string: UIApplication.openSettingsURLString) {
                 UIApplication.shared.open(url, options: [:], completionHandler: { _ in
                     // Handle
@@ -971,4 +975,5 @@ class CHGroupProfileViewController2: UIViewController, UITableViewDelegate, UITa
 
 }
 */
+
 

@@ -34,6 +34,7 @@ class VideoMessageData: Equatable {
 class VideoMessageItem: ChannelizeChatItem {
     var videoMessageData: VideoMessageData?
     var uploadProgress: Double?
+    var isEncrypted: Bool?
     init(baseMessageModel: BaseMessageModel, videoMessageData: VideoMessageData?) {
         super.init(baseMessageModel: baseMessageModel, messageType: .video)
         self.videoMessageData = videoMessageData
@@ -51,6 +52,7 @@ class VideoMessageItem: ChannelizeChatItem {
         item.reactions = self.reactions
         item.reactionCountsInfo = self.reactionCountsInfo
         item.showUnreadMessageLabel = self.showUnreadMessageLabel
+        item.isEncrypted = self.isEncrypted
         return item
     }
     
@@ -67,8 +69,10 @@ class VideoMessageItem: ChannelizeChatItem {
             videoMessage.isMessageSelectorOn == self.isMessageSelectorOn &&
             videoMessage.isMessageSelected == self.isMessageSelected &&
             videoMessage.videoMessageData == self.videoMessageData &&
-            videoMessage.showUnreadMessageLabel == self.showUnreadMessageLabel
+            videoMessage.showUnreadMessageLabel == self.showUnreadMessageLabel &&
+            videoMessage.isEncrypted == self.isEncrypted
         return check
     }
 }
+
 

@@ -48,6 +48,7 @@ class DocMessageItem: ChannelizeChatItem {
     var docMessageData: DocMessageData?
     var docStatus: DocMessageStatus = .notAvailableLocal
     var uploadProgress: Double = 0.0
+    var isEncrypted: Bool?
     init(baseMessageModel: BaseMessageModel, docMessageData: DocMessageData?) {
         super.init(baseMessageModel: baseMessageModel, messageType: .doc)
         self.docMessageData = docMessageData
@@ -65,6 +66,7 @@ class DocMessageItem: ChannelizeChatItem {
         item.reactions = self.reactions
         item.reactionCountsInfo = self.reactionCountsInfo
         item.docStatus = self.docStatus
+        item.isEncrypted = self.isEncrypted
         return item
     }
     
@@ -84,10 +86,12 @@ class DocMessageItem: ChannelizeChatItem {
             docMessage.docStatus == self.docStatus &&
             docMessage.reactions == self.reactions &&
             docMessage.myMessageReactions == self.myMessageReactions &&
-            docMessage.reactionCountsInfo == self.reactionCountsInfo
+            docMessage.reactionCountsInfo == self.reactionCountsInfo &&
+            docMessage.isEncrypted == self.isEncrypted
         print(check)
         return check
     }
     
 }
+
 

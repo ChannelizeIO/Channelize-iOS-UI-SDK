@@ -101,3 +101,4 @@ class LocationMessageItem: ChannelizeChatItem {
     
 }
 
+

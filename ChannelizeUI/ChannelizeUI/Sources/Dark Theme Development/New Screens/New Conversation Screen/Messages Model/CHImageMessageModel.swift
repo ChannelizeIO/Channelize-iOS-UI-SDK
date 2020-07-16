@@ -31,6 +31,7 @@ class ImageMessageData: Equatable {
 class ImageMessageItem: ChannelizeChatItem {
     var imageMessageData: ImageMessageData?
     var uploadProgress: Double?
+    var isEncrypted: Bool?
     init(baseMessageModel: BaseMessageModel, imageMessageData: ImageMessageData?) {
         super.init(baseMessageModel: baseMessageModel, messageType: .image)
         self.imageMessageData = imageMessageData
@@ -48,6 +49,7 @@ class ImageMessageItem: ChannelizeChatItem {
         item.reactions = self.reactions
         item.reactionCountsInfo = self.reactionCountsInfo
         item.showUnreadMessageLabel = self.showUnreadMessageLabel
+        item.isEncrypted = self.isEncrypted
         return item
     }
     
@@ -64,8 +66,10 @@ class ImageMessageItem: ChannelizeChatItem {
             imageMessage.isMessageSelectorOn == self.isMessageSelectorOn &&
             imageMessage.isMessageSelected == self.isMessageSelected &&
             imageMessage.imageMessageData == self.imageMessageData &&
-            imageMessage.showUnreadMessageLabel == self.showUnreadMessageLabel
+            imageMessage.showUnreadMessageLabel == self.showUnreadMessageLabel &&
+            imageMessage.isEncrypted == self.isEncrypted
         return check
     }
 }
+
 

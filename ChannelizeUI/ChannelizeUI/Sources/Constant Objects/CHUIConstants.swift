@@ -50,3 +50,4 @@ public class CHUIConstants {
     public static var conversationUpdatedTimeFont = UIFont(fontStyle: .robotoSlabRegualar, size: CHUIConstants.smallFontSize)
 }
 
+

@@ -19,7 +19,7 @@ class CreateGroupHeaderViewCell: UITableViewCell, UITextFieldDelegate {
         imageView.layer.masksToBounds = true
         imageView.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#4c4c4c") : UIColor(hex: "#eaeaea")
         imageView.isUserInteractionEnabled = false
-        imageView.layer.borderColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor.cgColor : CHLightThemeColors.instance.seperatorColor.cgColor
+        imageView.layer.borderColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor.cgColor : CHLightThemeColors.seperatorColor.cgColor
         imageView.layer.borderWidth = 1.0
         return imageView
     }()
@@ -113,4 +113,5 @@ class CreateGroupHeaderViewCell: UITableViewCell, UITextFieldDelegate {
         self.selectedImageView.image = image
     }
 }
+
 
