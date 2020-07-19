@@ -75,7 +75,7 @@ class AssetListController: UICollectionViewController {
         size = CGSize(width: width, height: width)
         option.isSynchronous = false
         option.isNetworkAccessAllowed = true
-        let rightButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(processPhoto))
+        let rightButton = UIBarButtonItem(title: CHLocalized(key: "pmDone"), style: .done, target: self, action: #selector(processPhoto))
         navigationItem.rightBarButtonItem = rightButton
         collectionView!.register(CollectionPhotoListCell.self, forCellWithReuseIdentifier: "photoCell")
         
@@ -510,6 +510,7 @@ extension AssetListController : PHPhotoLibraryChangeObserver{
         }
     }
 }
+
 
 
 

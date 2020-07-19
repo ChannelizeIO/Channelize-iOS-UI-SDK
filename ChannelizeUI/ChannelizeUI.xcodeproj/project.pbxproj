@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1842519124C1D74100D02A95 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1842518B24C1CA5100D02A95 /* CallKit.framework */; };
 		18B07DEC2449DCDD003D1610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEB2449DCDD003D1610 /* AppDelegate.swift */; };
 		18B07DF02449DCDD003D1610 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEF2449DCDD003D1610 /* ViewController.swift */; };
 		18B07DF32449DCDD003D1610 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18B07DF12449DCDD003D1610 /* Main.storyboard */; };
@@ -149,7 +150,6 @@
 		EB5F6C142497E626004B7676 /* ReactionPopOverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B542497E625004B7676 /* ReactionPopOverController.swift */; };
 		EB5F6C152497E626004B7676 /* EmojiCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B552497E625004B7676 /* EmojiCollectionCell.swift */; };
 		EB5F6C162497E626004B7676 /* MessageReactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B562497E625004B7676 /* MessageReactionView.swift */; };
-		EB5F6C172497E626004B7676 /* PhotosPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B572497E625004B7676 /* PhotosPickerController.swift */; };
 		EB5F6C182497E626004B7676 /* AssetListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B582497E625004B7676 /* AssetListController.swift */; };
 		EB5F6C192497E626004B7676 /* AudioCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B592497E625004B7676 /* AudioCaptureView.swift */; };
 		EB5F6C1A2497E626004B7676 /* BadgeSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B5A2497E625004B7676 /* BadgeSwift.swift */; };
@@ -215,6 +215,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1842518B24C1CA5100D02A95 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
+		1842518D24C1CA5800D02A95 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		18B07DE82449DCDD003D1610 /* ChannelizeUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChannelizeUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B07DEB2449DCDD003D1610 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18B07DEF2449DCDD003D1610 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -361,7 +363,6 @@
 		EB5F6B542497E625004B7676 /* ReactionPopOverController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionPopOverController.swift; sourceTree = "<group>"; };
 		EB5F6B552497E625004B7676 /* EmojiCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiCollectionCell.swift; sourceTree = "<group>"; };
 		EB5F6B562497E625004B7676 /* MessageReactionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageReactionView.swift; sourceTree = "<group>"; };
-		EB5F6B572497E625004B7676 /* PhotosPickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosPickerController.swift; sourceTree = "<group>"; };
 		EB5F6B582497E625004B7676 /* AssetListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetListController.swift; sourceTree = "<group>"; };
 		EB5F6B592497E625004B7676 /* AudioCaptureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCaptureView.swift; sourceTree = "<group>"; };
 		EB5F6B5A2497E625004B7676 /* BadgeSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeSwift.swift; sourceTree = "<group>"; };
@@ -420,6 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				527CE5FD14775297AB9FF59C /* Pods_ChannelizeUI.framework in Frameworks */,
+				1842519124C1D74100D02A95 /* CallKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +431,8 @@
 		146B4141CF73A5C45FDA0AAD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1842518D24C1CA5800D02A95 /* PushKit.framework */,
+				1842518B24C1CA5100D02A95 /* CallKit.framework */,
 				78173D39087F5201AFEFEF09 /* Pods_ChannelizeUI.framework */,
 			);
 			name = Frameworks;
@@ -923,27 +927,10 @@
 		EB5F6B472497E625004B7676 /* UI Screens */ = {
 			isa = PBXGroup;
 			children = (
-				EB5F6B482497E625004B7676 /* Settings Screen */,
-				EB5F6B492497E625004B7676 /* Groups List Screen */,
 				EB5F6B4A2497E625004B7676 /* Recent Conversation Screen */,
 				EB5F6B4E2497E625004B7676 /* Conversation Screen */,
-				EB5F6B7B2497E625004B7676 /* Contacts List Screen */,
 			);
 			path = "UI Screens";
-			sourceTree = "<group>";
-		};
-		EB5F6B482497E625004B7676 /* Settings Screen */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Settings Screen";
-			sourceTree = "<group>";
-		};
-		EB5F6B492497E625004B7676 /* Groups List Screen */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Groups List Screen";
 			sourceTree = "<group>";
 		};
 		EB5F6B4A2497E625004B7676 /* Recent Conversation Screen */ = {
@@ -973,7 +960,6 @@
 			children = (
 				EB5F6B502497E625004B7676 /* CircularProgressBar.swift */,
 				EB5F6B512497E625004B7676 /* Reaction View */,
-				EB5F6B572497E625004B7676 /* PhotosPickerController.swift */,
 				EB5F6B582497E625004B7676 /* AssetListController.swift */,
 				EB5F6B592497E625004B7676 /* AudioCaptureView.swift */,
 				EB5F6B5A2497E625004B7676 /* BadgeSwift.swift */,
@@ -1040,18 +1026,10 @@
 		EB5F6B6E2497E625004B7676 /* Collection View Cells */ = {
 			isa = PBXGroup;
 			children = (
-				EB5F6B6F2497E625004B7676 /* ShimmeringCells */,
 				EB5F6B702497E625004B7676 /* Other Cells */,
 				EB5F6B762497E625004B7676 /* New ChatItem Cells */,
 			);
 			path = "Collection View Cells";
-			sourceTree = "<group>";
-		};
-		EB5F6B6F2497E625004B7676 /* ShimmeringCells */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ShimmeringCells;
 			sourceTree = "<group>";
 		};
 		EB5F6B702497E625004B7676 /* Other Cells */ = {
@@ -1075,13 +1053,6 @@
 				EB5F6B7A2497E625004B7676 /* CHQuotedMessageCell.swift */,
 			);
 			path = "New ChatItem Cells";
-			sourceTree = "<group>";
-		};
-		EB5F6B7B2497E625004B7676 /* Contacts List Screen */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Contacts List Screen";
 			sourceTree = "<group>";
 		};
 		EB5F6B7C2497E625004B7676 /* Helpers */ = {
@@ -1367,7 +1338,6 @@
 				EB5F6C1B2497E626004B7676 /* SimpleFloatingActionButton.swift in Sources */,
 				EB5F6BDB2497E626004B7676 /* CHSelectedUsersAndConverstionView.swift in Sources */,
 				EB5F6C272497E626004B7676 /* NSURLExtension.swift in Sources */,
-				EB5F6C172497E626004B7676 /* PhotosPickerController.swift in Sources */,
 				EB5F6BC32497E626004B7676 /* CHLocationSharingViewController.swift in Sources */,
 				EB5F6BEB2497E626004B7676 /* CHEnums.swift in Sources */,
 				EB5F6BDF2497E626004B7676 /* MiniPhotoCollectionCell.swift in Sources */,

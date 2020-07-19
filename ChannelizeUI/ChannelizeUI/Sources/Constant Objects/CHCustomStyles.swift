@@ -234,6 +234,11 @@ class CHStyle{
         return style
     }()
     
+    class var hasNotchAvailable: Bool {
+        let maxLength = max(UIScreen.main.bounds.size.width,UIScreen.main.bounds.size.height)
+        return (UIDevice.current.userInterfaceIdiom == .phone && maxLength >= 812.0)
+    }
+    
     class var isIPhoneX:Bool{
         let maxLength = max(UIScreen.main.bounds.size.width,UIScreen.main.bounds.size.height)
         return (UIDevice.current.userInterfaceIdiom == .phone && maxLength == 812.0)

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import MobileCoreServices
 
 func loadImageFromDiskWith(fileName: String) -> UIImage? {
 
@@ -504,5 +505,202 @@ func getLastSeen(lastSeenDate: Date?) -> String {
             timestampDate, currentDate: date, numericDates: false)
     }
     return ""
+}
+
+
+
+class ImageEncoder {
+    func encodeImage(storageUrl: URL, image: UIImage?, format: CHImageFormat, maxPixelSize: CGSize) -> Bool {
+        guard let originalImage = image else {
+            return false
+        }
+
+        guard let imageRef = originalImage.cgImage else {
+            return false
+        }
+
+        var imageFormat = format
+
+        if format == .undefined {
+            let hasAlpha = self.cgImageContainsAlpha(imageRef)
+            if hasAlpha {
+                imageFormat = .png
+            } else {
+                imageFormat = .jpeg
+            }
+        }
+
+        let imageUTType = Data.sd_UTType(from: imageFormat)
+
+        var imageDestination: CGImageDestination? = nil
+        imageDestination = CGImageDestinationCreateWithURL(storageUrl as CFURL, imageUTType, 1, nil)
+
+        guard let newImageDestination = imageDestination else {
+            return false
+        }
+
+        var properties: [AnyHashable : Any] = [:]
+        let exifOrientation = self.exifOrientation(fromImageOrientation: originalImage.imageOrientation)
+        properties[kCGImagePropertyOrientation as String] = NSNumber(value: exifOrientation.rawValue)
+        //properties[kCGImageDestinationLossyCompressionQuality as String] = NSNumber(value: 1.0)
+        
+
+        let pixelWidth = CGFloat(imageRef.width)
+        let pixelHeight = CGFloat(imageRef.height)
+        if maxPixelSize.width > 0 && maxPixelSize.height > 0 && pixelWidth > maxPixelSize.width && pixelHeight > maxPixelSize.height {
+            let pixelRatio = CGFloat(pixelWidth / pixelHeight)
+            let maxPixelSizeRatio: CGFloat = maxPixelSize.width / maxPixelSize.height
+            var finalPixelSize: CGFloat
+            if pixelRatio > maxPixelSizeRatio {
+                finalPixelSize = maxPixelSize.width
+            } else {
+                finalPixelSize = maxPixelSize.height
+            }
+            properties[kCGImageDestinationImageMaxPixelSize as String] = NSNumber(value: Float(finalPixelSize))
+        }
+
+        CGImageDestinationAddImage(newImageDestination, imageRef, properties as CFDictionary)
+        if CGImageDestinationFinalize(newImageDestination) == false {
+            return false
+        }
+        return true
+    }
+
+    func cgImageContainsAlpha(_ cgImage: CGImage?) -> Bool {
+        if cgImage == nil {
+            return false
+        }
+        let alphaInfo = cgImage?.alphaInfo
+        let hasAlpha = !(alphaInfo == CGImageAlphaInfo.none || alphaInfo == .noneSkipFirst || alphaInfo == .noneSkipLast)
+        return hasAlpha
+    }
+
+    func exifOrientation(fromImageOrientation imageOrientation: UIImage.Orientation) -> CGImagePropertyOrientation {
+        var exifOrientation: CGImagePropertyOrientation = .up
+        switch imageOrientation {
+            case .up:
+                exifOrientation = .up
+            case .down:
+                exifOrientation = .down
+            case .left:
+                exifOrientation = .left
+            case .right:
+                exifOrientation = .right
+            case .upMirrored:
+                exifOrientation = .upMirrored
+            case .downMirrored:
+                exifOrientation = .downMirrored
+            case .leftMirrored:
+                exifOrientation = .leftMirrored
+            case .rightMirrored:
+                exifOrientation = .rightMirrored
+            default:
+                break
+        }
+        return exifOrientation
+    }
+
+    func get(from data: Data) -> CHImageFormat {
+        switch data[0] {
+        case 0x89:
+            return .png
+        case 0xFF:
+            return .jpeg
+        case 0x47:
+            return .gif
+        case 0x49, 0x4D:
+            return .tiff
+        case 0x52 where data.count >= 12:
+            let subdata = data[0...11]
+
+            if let dataString = String(data: subdata, encoding: .ascii),
+                dataString.hasPrefix("RIFF"),
+                dataString.hasSuffix("WEBP")
+            {
+                return .webP
+            }
+            break
+        case 0x00 where data.count >= 12 :
+            let subdata = data[8...11]
+
+            if let dataString = String(data: subdata, encoding: .ascii),
+                Set(["heic", "heix", "hevc", "hevx"]).contains(dataString)
+                ///OLD: "ftypheic", "ftypheix", "ftyphevc", "ftyphevx"
+            {
+                return .heic
+            }
+            break
+        case 0x25:
+            if (data.count) >= 4 {
+                //%PDF
+                var testString: String? = nil
+                if let range = Range(NSRange(location: 1, length: 3)) {
+                    let subdata = data.subdata(in: range)
+                    testString = String(data: subdata, encoding: .ascii)
+                    if testString?.lowercased() == "PDF".lowercased() {
+                        return .pdf
+                    }
+                }
+            }
+        case 0x3c:
+            if (data.count) > 100 {
+                // Check end with SVG tag
+                var testString: String? = nil
+                if let range = Range(NSRange(location: data.count - 100, length: 100)) {
+                    let subdata = data.subdata(in: range)
+                    testString = String(data: subdata, encoding: .ascii)
+                    if testString?.contains("</svg>") == true {
+                        return .svg
+                    }
+                }
+            }
+            break
+        default:
+            break
+        }
+        return .undefined
+    }
+}
+
+enum CHImageFormat : Int {
+    case undefined = -1
+    case jpeg = 0
+    case png = 1
+    case gif = 2
+    case tiff = 3
+    case webP = 4
+    case heic = 5
+    case heif = 6
+    case pdf = 7
+    case svg = 8
+}
+
+extension Data {
+    static func sd_UTType(from format: CHImageFormat) -> CFString {
+        var UTType: CFString?
+        switch format {
+        case .jpeg:
+                UTType = kUTTypeJPEG
+        case .png:
+                UTType = kUTTypePNG
+        case .gif:
+                UTType = kUTTypeGIF
+        case .tiff:
+                UTType = kUTTypeTIFF
+        case .webP:
+                UTType = "public.webp" as CFString
+        case .heic:
+                UTType = "public.heic" as CFString
+        case .heif:
+                UTType = "public.heif" as CFString
+        case .pdf:
+                UTType = kUTTypePDF
+        case .svg:
+                UTType = kUTTypeScalableVectorGraphics
+        default:
+            UTType = kUTTypePNG
+        }
+        return UTType ?? "" as CFString
+    }
 }
 

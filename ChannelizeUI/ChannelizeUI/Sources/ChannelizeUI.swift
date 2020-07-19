@@ -22,7 +22,16 @@ public class ChUI {
         return instance
     }()
     
+    public init() {
+        
+    }
+    
     var mapKey: String?
+    
+    var isEndToEndEncryptionEnabled = false
+    var virgilAppId: String?
+    var virgilAppKeyId: String?
+    var virgilAppKey: String?
     
     // MARK: - Configure Channelize
     public static func configure() {
@@ -50,6 +59,13 @@ public class ChUI {
                 Channelize.setUserOnline()
             }
             if(!instance.isCHOpen) {
+//                ChannelizeAPIService.getEnabledModules(completion: {(modules,errorString) in
+//                    if let enabledModules = modules {
+//                       // self.instance.processModulesKeys(modulesArray: enabledModules)
+//                    }
+//                })
+                
+                self.instance.checkIsAllUserSearchIsEnabled()
                 instance.isCHOpen = true
                 instance.notificationData = data
                 let tabBarController = CHTabBarController()
@@ -67,6 +83,64 @@ public class ChUI {
     func getMapKey() -> String {
         return self.mapKey ?? ""
     }
+    
+    func checkIsAllUserSearchIsEnabled() {
+        ChannelizeAPIService.isAllUsearchEnable(completion: {(isEnabled,errorString) in
+            guard errorString == nil else {
+                return
+            }
+            CHCustomOptions.isAllUserSearchEnabled = isEnabled
+        })
+    }
+    
+    private func processModulesKeys(modulesArray: NSArray) {
+        modulesArray.forEach({
+            if let moduleInfo = $0 as? NSDictionary {
+                if moduleInfo.value(forKey: "identifier") as? String == "end-to-end-encryption" {
+                    if let settingsArray = moduleInfo.value(forKey: "settings") as? NSArray {
+                        settingsArray.forEach({
+                            if let singleSettingInfo = $0 as? [String:String] {
+                                
+                                print(singleSettingInfo)
+                                if singleSettingInfo["key"] == "appId" {
+                                    self.virgilAppId = singleSettingInfo["value"]
+                                    self.setVirgilAppId()
+                                } else if singleSettingInfo["key"] == "appKeyId" {
+                                    self.virgilAppKeyId = singleSettingInfo["value"]
+                                } else if singleSettingInfo["key"] == "appKey" {
+                                    self.virgilAppKey = singleSettingInfo["value"]
+                                }
+                            }
+                        })
+                    }
+                    
+                    ChVirgilE3Kit.initializeEthree(completion: { (successfull,error) in
+                        if successfull {
+                            ChVirgilE3Kit.checkAndRegisterUser(completion: {(status,error) in
+                                
+                            })
+                        }
+                    })
+                    ChVirgilE3Kit.isEndToEndEncryptionEnabled = true
+                }
+            }
+        })
+    }
+    
+    
+    func setVirgilAppId() {
+        UserDefaults.standard.set(self.virgilAppId, forKey: "channelize_virgile_appId")
+    }
+    
+    func getSavedVirgilAppId() -> String {
+        return UserDefaults.standard.value(forKey: "channelize_virgile_appId") as? String ?? ""
+    }
+    
+    func getVirgilAppId() -> String {
+        return self.virgilAppId ?? ""
+    }
+    
+    
     
 }
 

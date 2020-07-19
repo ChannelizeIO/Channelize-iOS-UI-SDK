@@ -9,7 +9,6 @@
 import UIKit
 import SDWebImage
 import MaterialComponents.MaterialProgressView
-import VirgilE3Kit
 
 class UIImageMessageCell: CHBaseMessageCell {
     
@@ -237,9 +236,6 @@ class UIImageMessageCell: CHBaseMessageCell {
         } else {
             self.messageStatusViewContainer.isHidden = true
         }
-    }
-    
-    func assignImageData(imageMessageModel: ImageMessageItem, ethreeObject: EThree?, lookUpResult: FindUsersResult?, messageOwner: String?) {
         if imageMessageModel.imageMessageData?.imageSource == .local {
             if let localImage = imageMessageModel.imageMessageData?.localImage {
                 SDImageCache.shared.store(localImage, forKey: imageMessageModel.messageId, completion: nil)
@@ -248,41 +244,21 @@ class UIImageMessageCell: CHBaseMessageCell {
         if let image = SDImageCache.shared.imageFromCache(forKey: imageMessageModel.messageId) {
             self.imageView.image = image
         } else {
-            self.imageView.image = imageMessageModel.imageMessageData?.localImage
-            if let imageUrlString = imageMessageModel.imageMessageData?.imageUrlString {
-                let imageDecryptor = CHImageDecryptor()
-                imageDecryptor.ethreeObject = ethreeObject
-                imageDecryptor.lookUpResults = lookUpResult
-                imageDecryptor.messageOwner = messageOwner
-                imageDecryptor.messageId = imageMessageModel.messageId
+            if imageMessageModel.imageMessageData?.imageSource == .local {
+                self.imageView.image = imageMessageModel.imageMessageData?.localImage
+            } else {
                 
-                self.imageView.sd_imageTransition = imageMessageModel.imageMessageData?.localImage == nil ? .fade : .none
-                self.imageView.sd_imageIndicator = imageMessageModel.imageMessageData?.localImage == nil ? (CHAppConstant.themeStyle == .dark ? SDWebImageActivityIndicator.white : SDWebImageActivityIndicator.gray) : .none
-                let imageUrl = URL(string: imageUrlString)
-                if imageMessageModel.isEncrypted == true {
-                    self.imageView.sd_imageIndicator?.startAnimatingIndicator()
-                    SDWebImageDownloader.shared.downloadImage(with: imageUrl, options: [.continueInBackground], context: [.downloadDecryptor: imageDecryptor], progress: nil, completed: {(image,data,error,isFinished) in
-                        if isFinished {
-                            self.imageView.sd_imageIndicator?.stopAnimatingIndicator()
-                            if let _image = SDImageCache.shared.imageFromCache(forKey: imageMessageModel.messageId) {
-                                self.imageView.image = _image
-                            }
-                        }
-                    })
-                    
-//                    self.imageView.sd_setImage(with: imageUrl, placeholderImage: imageMessageModel.imageMessageData?.localImage, options: [.refreshCached,.continueInBackground,.avoidAutoSetImage,.waitStoreCache], context: [.downloadDecryptor: imageDecryptor], progress: nil, completed: {(image,error,cache,url) in
-//                        if image != nil {
-//                            imageMessageModel.imageMessageData?.localImage = nil
-//                        }
-//                    })
-                } else {
-                    self.imageView.sd_setImage(with: imageUrl, placeholderImage: imageMessageModel.imageMessageData?.localImage, options: [.continueInBackground], completed: {(image,error,cache,url) in
+                self.imageView.image = imageMessageModel.imageMessageData?.localImage
+                if let imageUrlString = imageMessageModel.imageMessageData?.imageUrlString {
+                    self.imageView.sd_imageTransition = imageMessageModel.imageMessageData?.localImage == nil ? .fade : .none
+                    self.imageView.sd_imageIndicator = imageMessageModel.imageMessageData?.localImage == nil ? (CHAppConstant.themeStyle == .dark ? SDWebImageActivityIndicator.white : SDWebImageActivityIndicator.gray) : .none
+                    let imageUrl = URL(string: imageUrlString)
+                    self.imageView.sd_setImage(with: imageUrl, placeholderImage: imageMessageModel.imageMessageData?.localImage, options: [.refreshCached,.continueInBackground], completed: {(image,error,cache,url) in
                         if image != nil {
                             imageMessageModel.imageMessageData?.localImage = nil
                         }
                     })
                 }
-                
             }
         }
     }

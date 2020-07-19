@@ -40,3 +40,4 @@ class BaseMessageModel: Equatable {
         self.isIncoming = senderId == Channelize.getCurrentUserId() ? false : true
     }
 }
+

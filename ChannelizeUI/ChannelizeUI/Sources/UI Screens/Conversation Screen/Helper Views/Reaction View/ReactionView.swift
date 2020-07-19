@@ -136,3 +136,4 @@ class ReactionButton: UIControl {
         self.countLabel.text = "\(model.counts ?? 0)"
     }
 }
+

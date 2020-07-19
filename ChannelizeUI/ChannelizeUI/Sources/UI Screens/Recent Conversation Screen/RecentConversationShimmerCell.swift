@@ -109,3 +109,4 @@ class RecentConversationShimmerCell: UITableViewCell {
         }
     }
 }
+

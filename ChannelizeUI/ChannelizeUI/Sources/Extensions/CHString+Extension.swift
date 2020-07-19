@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CommonCrypto
 
 public extension String {
     
@@ -64,5 +65,18 @@ extension Array where Element: Comparable {
     func containsSameElements(as other: [Element]) -> Bool {
         return self.count == other.count && self.sorted() == other.sorted()
     }
+}
+
+
+public extension String {
+
+  var sha256: String {
+      let data = Data(utf8)
+      var hash = [UInt8](repeating: 0,  count: Int(CC_SHA256_DIGEST_LENGTH))
+      data.withUnsafeBytes { buffer in
+          _ = CC_SHA256(buffer.baseAddress, CC_LONG(buffer.count), &hash)
+      }
+      return hash.map { String(format: "%02hhx", $0) }.joined()
+  }
 }
 

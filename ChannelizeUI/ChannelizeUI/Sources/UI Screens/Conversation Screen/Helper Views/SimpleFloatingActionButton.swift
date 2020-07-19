@@ -121,7 +121,7 @@ class SimpleFloatingActionButton: UIButton {
     
     //Setup the frame view
     private func setupViewFrame(){
-        let value:CGFloat = 160
+        let value:CGFloat = CHStyle.hasNotchAvailable == true ? 190 : 160
         //Defaull Value
         var dim: CGFloat = UIScreen.main.bounds.height / 20
         var y: CGFloat = UIScreen.main.bounds.height - dim - value //120
@@ -275,4 +275,5 @@ class SimpleFloatingActionButton: UIButton {
     }
     
 }
+
 

@@ -74,3 +74,4 @@ class EmojiCollectionCell: UICollectionViewCell {
         self.isSelectedDotView.isHidden = model?.isSelected == true ? false : true
     }
 }
+

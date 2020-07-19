@@ -32,3 +32,4 @@ class ImageResizer: NSObject, SDWebImageManagerDelegate {
     }
 }
 
+
