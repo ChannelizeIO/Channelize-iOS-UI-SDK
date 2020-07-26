@@ -10,7 +10,7 @@
 <plist version="1.0">
     <dict>
         <key>PUBLIC_KEY</key>
-        <string>INSERT_YOUR_API_KEY</string>
+        <string>INSERT_YOUR_PUBLIC_KEY</string>
         <key>MAP_API_KEY</key>
         <string>INSERT_YOUR_MAP_KEY</string>
         <key>GIPHY_API_KEY</key>

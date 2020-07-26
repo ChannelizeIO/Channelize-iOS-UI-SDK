@@ -126,6 +126,7 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
         //self.navigationItem.rightBarButtonItems = [chatPlusBarButton]
         
         NotificationCenter.default.addObserver(self, selector: #selector(processStatusBarChangeNotification), name: NSNotification.Name(rawValue: "changeBarStyle"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(processLocaleChangeNotification(notification:)), name: NSLocale.currentLocaleDidChangeNotification, object: nil)
         
         self.tableView.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor.white
         self.tableView.register(CHRecentConversationCell.self, forCellReuseIdentifier: "recentConversationCell")
@@ -414,6 +415,10 @@ class CHRecentConversationsController: NewCHTableViewController, UITableViewData
         self.tableView.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor.white
         self.headerView.updateViewsColors()
         self.setNavigationColor(animated: true)
+    }
+    
+    @objc func processLocaleChangeNotification(notification: NSNotification) {
+        self.tableView.reloadData()
     }
     
     @objc func backButtonPressed(sender: UIBarButtonItem) {

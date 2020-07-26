@@ -241,6 +241,8 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
         self.loaderView.center.y = self.view.frame.height/2 - 50
         self.loaderView.setUpViews()
         // Do any additional setup after loading the view.
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(processLocaleChangeNotification(notification:)), name: NSLocale.currentLocaleDidChangeNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -632,6 +634,13 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
     
     @objc func userDidTapOnCollectionView() {
         self.view.endEditing(true)
+    }
+    
+    @objc func processLocaleChangeNotification(notification: NSNotification) {
+        guard self.collectionView != nil else {
+            return
+        }
+        self.collectionView.reloadData()
     }
     /*
     // MARK: - Navigation

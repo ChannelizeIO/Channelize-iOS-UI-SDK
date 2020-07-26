@@ -1,26 +1,23 @@
 PODS:
   - AgoraRtcEngine_iOS (2.9.0)
   - Alamofire (4.8.2)
-  - AlamofireObjectMapper (5.2.0):
-    - Alamofire (~> 4.7)
-    - ObjectMapper (~> 3.4)
-  - AWSAuthCore (2.9.3):
-    - AWSCore (= 2.9.3)
-  - AWSCognitoIdentityProvider (2.9.3):
+  - AWSAuthCore (2.15.0):
+    - AWSCore (= 2.15.0)
+  - AWSCognitoIdentityProvider (2.15.0):
     - AWSCognitoIdentityProviderASF (= 1.0.1)
-    - AWSCore (= 2.9.3)
+    - AWSCore (= 2.15.0)
   - AWSCognitoIdentityProviderASF (1.0.1)
-  - AWSCore (2.9.3)
-  - AWSIoT (2.9.3):
-    - AWSCore (= 2.9.3)
-  - AWSMobileClient (2.9.3):
-    - AWSAuthCore (= 2.9.3)
-    - AWSCognitoIdentityProvider (= 2.9.3)
-  - ChannelizeAPI (4.20.8):
+  - AWSCore (2.15.0)
+  - AWSIoT (2.15.0):
+    - AWSCore (= 2.15.0)
+  - AWSMobileClient (2.15.0):
+    - AWSAuthCore (= 2.15.0)
+    - AWSCognitoIdentityProvider (= 2.15.0)
+  - ChannelizeAPI (4.20.10):
     - Alamofire (= 4.8.2)
-    - AlamofireObjectMapper (= 5.2.0)
-    - AWSIoT (= 2.9.3)
-    - AWSMobileClient (= 2.9.3)
+    - AWSIoT
+    - AWSMobileClient
+    - ObjectMapper
   - ChannelizeCall (4.20.8):
     - AgoraRtcEngine_iOS (= 2.9.0)
     - ChannelizeAPI (>= 4.20.8)
@@ -33,15 +30,15 @@ PODS:
     - DifferenceKit/Core
   - FLAnimatedImage (1.0.12)
   - InputBarAccessoryView (4.2.2)
-  - MaterialComponents/ActivityIndicator (109.5.0):
+  - MaterialComponents/ActivityIndicator (111.0.0):
     - MaterialComponents/Palettes
     - MaterialComponents/private/Application
     - MDFInternationalization
     - MotionAnimator (~> 2.0)
-  - MaterialComponents/Palettes (109.5.0)
-  - MaterialComponents/private/Application (109.5.0)
-  - MaterialComponents/private/Math (109.5.0)
-  - MaterialComponents/ProgressView (109.5.0):
+  - MaterialComponents/Palettes (111.0.0)
+  - MaterialComponents/private/Application (111.0.0)
+  - MaterialComponents/private/Math (111.0.0)
+  - MaterialComponents/ProgressView (111.0.0):
     - MaterialComponents/Palettes
     - MaterialComponents/private/Math
     - MDFInternationalization
@@ -49,15 +46,45 @@ PODS:
   - MotionAnimator (2.8.1):
     - MotionInterchange (~> 1.6)
   - MotionInterchange (1.6.0)
-  - ObjectMapper (3.5.3)
+  - ObjectMapper (4.2.0)
   - ReachabilitySwift (5.0.0)
-  - SDWebImage/Core (5.8.0)
+  - SDWebImage/Core (5.8.4)
   - SDWebImageFLPlugin (0.4.0):
     - FLAnimatedImage (>= 1.0.11)
     - SDWebImage/Core (~> 5.6)
+  - VirgilCrypto (5.5.0):
+    - VirgilCryptoFoundation (= 0.15.2)
+  - VirgilCryptoFoundation (0.15.2):
+    - VSCCrypto/Common (= 0.15.2)
+    - VSCCrypto/Foundation (= 0.15.2)
+  - VirgilCryptoPythia (0.15.2):
+    - VirgilCryptoFoundation (= 0.15.2)
+    - VSCCrypto/Common (= 0.15.2)
+    - VSCCrypto/Foundation (= 0.15.2)
+    - VSCCrypto/Pythia (= 0.15.2)
+  - VirgilCryptoRatchet (0.15.2):
+    - VirgilCryptoFoundation (= 0.15.2)
+    - VSCCrypto/Common (= 0.15.2)
+    - VSCCrypto/Foundation (= 0.15.2)
+    - VSCCrypto/Ratchet (= 0.15.2)
+  - VirgilE3Kit (2.1.1):
+    - VirgilSDKPythia (~> 0.9.1)
+    - VirgilSDKRatchet (~> 0.7.0)
+  - VirgilSDK (7.2.1):
+    - VirgilCrypto (~> 5.5)
+  - VirgilSDKPythia (0.9.1):
+    - VirgilCryptoPythia (~> 0.15.2)
+    - VirgilSDK (~> 7.2.1)
+  - VirgilSDKRatchet (0.7.0):
+    - VirgilCryptoRatchet (~> 0.15.2)
+    - VirgilSDK (~> 7.2)
+  - VSCCrypto/Common (0.15.2)
+  - VSCCrypto/Foundation (0.15.2)
+  - VSCCrypto/Pythia (0.15.2)
+  - VSCCrypto/Ratchet (0.15.2)
 
 DEPENDENCIES:
-  - ChannelizeAPI (>= 4.20.8)
+  - ChannelizeAPI (>= 4.20.10)
   - ChannelizeCall (>= 4.20.8)
   - DifferenceKit
   - InputBarAccessoryView (= 4.2.2)
@@ -65,12 +92,12 @@ DEPENDENCIES:
   - MaterialComponents/ProgressView
   - ReachabilitySwift
   - SDWebImageFLPlugin
+  - VirgilE3Kit
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - AgoraRtcEngine_iOS
     - Alamofire
-    - AlamofireObjectMapper
     - AWSAuthCore
     - AWSCognitoIdentityProvider
     - AWSCognitoIdentityProviderASF
@@ -90,31 +117,48 @@ SPEC REPOS:
     - ReachabilitySwift
     - SDWebImage
     - SDWebImageFLPlugin
+    - VirgilCrypto
+    - VirgilCryptoFoundation
+    - VirgilCryptoPythia
+    - VirgilCryptoRatchet
+    - VirgilE3Kit
+    - VirgilSDK
+    - VirgilSDKPythia
+    - VirgilSDKRatchet
+    - VSCCrypto
 
 SPEC CHECKSUMS:
   AgoraRtcEngine_iOS: b316f64bc07f7973f0239316b2b4f79ec369e25c
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
-  AlamofireObjectMapper: 92b6ce2423a9d159e686f6a1d514a009bf903ddc
-  AWSAuthCore: 616e8c65607d7d4b29a1320e62fe2c6586f2f396
-  AWSCognitoIdentityProvider: 827e8d7ec506dd09ed4f72afe7be587a6dd85af5
+  AWSAuthCore: 284f1bc07187fad68ba52a0af088fe84f7af538e
+  AWSCognitoIdentityProvider: 451b1a39c5c73afa9fc2bf8d29cb0892e9b3b34c
   AWSCognitoIdentityProviderASF: f94f1a502e72ef3d0a1de93e10bf7a79c8698118
-  AWSCore: 5cbb6c6ccfad4b55e494c2e8df87781512f7881e
-  AWSIoT: d7debf750a8f485a9e93177fda7a345a9121053b
-  AWSMobileClient: 57b907ae11832376a2d7cf07eba5fbe2c6b8cfa4
-  ChannelizeAPI: 6e75643846438e7a93a67cfa60f54a67efc78cff
+  AWSCore: b732e43f2afaef25c3a7dd9408b8c594213397bd
+  AWSIoT: e1a8a2484295de367b0ef6ffebb6e15ad557e66b
+  AWSMobileClient: 633ec8c81dadec097e1fdb62e372e0af9b6dd706
+  ChannelizeAPI: c9885f69fd1489b7b79a7ce087489b697d1fbb48
   ChannelizeCall: 78d131a6e8830b1aecd36d13d354bc3e38777e74
   DifferenceKit: 516f12e336ed65a3a0665847b5c3cb5cad4bd4ea
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   InputBarAccessoryView: 2b937602598e2fab3149f37f51dd7ad795653812
-  MaterialComponents: 7698cdf7eacb5f192456dbbe597aa7a8857fa3ef
+  MaterialComponents: 533042da998b97ad13a6f544268f8026e8161cc5
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
   MotionAnimator: ee16aa30567c5bae0fb2750c132915829cfaaf8a
   MotionInterchange: ead0e3ae1f3a5fb539e289debbc7ae036160a10d
-  ObjectMapper: 97111c97e054a6ee25917662106689f0b4127b37
+  ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
-  SDWebImage: 84000f962cbfa70c07f19d2234cbfcf5d779b5dc
+  SDWebImage: cf6922231e95550934da2ada0f20f2becf2ceba9
   SDWebImageFLPlugin: 6c2295fb1242d44467c6c87dc5db6b0a13228fd8
+  VirgilCrypto: 48116c3abee03662dbae40d0957df5160c2a7128
+  VirgilCryptoFoundation: a804f11b826cefed157d7ef3d99f897e811cd971
+  VirgilCryptoPythia: 794e30acc757038e7fa9dfec46dcf73ef09363ff
+  VirgilCryptoRatchet: 09331bfbb7f93002a18f82cb6aa3b5fa6b801d9b
+  VirgilE3Kit: 11331f7461ae181a08082b77c49df884fad44b85
+  VirgilSDK: 6ac72d992d329bf4a30020850a2df6880d06592d
+  VirgilSDKPythia: 7c431d8bf85805c9b0f1fb8cb56058c1f6df59ed
+  VirgilSDKRatchet: d2f820c431cb3fa237351f558f7c0159c1bb0dea
+  VSCCrypto: 6cb5595d080b0a343819f44524f41df8587dab6c
 
-PODFILE CHECKSUM: 090f5601a76323b2dfd26c109e6360e811c63fb0
+PODFILE CHECKSUM: c46a9014c63260fd9722fa4228d1255db6f75df1
 
 COCOAPODS: 1.9.1

@@ -46,7 +46,7 @@ class CHLocationSharingViewController: UITableViewController, UISearchBarDelegat
         searchBar.textField?.textColor = CHAppConstant.themeStyle == .dark ? UIColor.white : UIColor.black
         searchBar.setBackgroundImage(UIImage(), for: .any, barMetrics: UIBarMetrics.default)
         searchBar.setTextFieldBackgroundColor(color: CHAppConstant.themeStyle == .dark ? UIColor(hex: "#2c2c2c") : UIColor(hex: "#e6e6e6"))
-        searchBar.tintColor = CHAppConstant.themeStyle == .dark ? UIColor.white : CHUIConstant.appTintColor
+        searchBar.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
         searchBar.addBottomBorder(with: .white, andWidth: 0.5)
         return searchBar
     }()

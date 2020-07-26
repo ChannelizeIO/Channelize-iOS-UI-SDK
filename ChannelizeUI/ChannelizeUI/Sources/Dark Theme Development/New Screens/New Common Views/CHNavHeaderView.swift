@@ -47,7 +47,7 @@ class CHNavHeaderView: UIView {
     
     var seperatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor
+        view.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -109,8 +109,11 @@ class CHNavHeaderView: UIView {
     }
     
     func updateViewsColors() {
-        self.titleLabel.textColor = CHUIConstant.recentConversationTitleColor
-        self.seperatorView.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.instance.seperatorColor : CHLightThemeColors.instance.seperatorColor
+        self.titleLabel.textColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.navigationHeaderTitleColor : CHLightThemeColors.navigationHeaderTitleColor
+        self.seperatorView.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor
+        self.backButton.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
+        self.searchButton.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
+        self.chatOptionButton.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
     }
     
     override var intrinsicContentSize: CGSize {
@@ -138,4 +141,5 @@ class CHNavHeaderView: UIView {
     */
 
 }
+
 

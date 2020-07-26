@@ -38,15 +38,17 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
     
     var tableLoaderFooterView: UIActivityIndicatorView = {
         let loaderView = CHAppConstant.themeStyle == .dark ? UIActivityIndicatorView(style: .white) : UIActivityIndicatorView(style: .gray)
-        loaderView.startAnimating()
+        loaderView.stopAnimating()
         return loaderView
     }()
     
     init() {
         super.init(tableStyle: .grouped)
         self.getOnlineContacts()
-        self.setNavigationColor(animated: false)
-        self.headerView.updateViewsColors()
+        //self.setNavigationColor(animated: false)
+        //self.headerView.updateViewsColors()
+        self.screenIdentifier = UUID()
+        Channelize.addUserEventDelegate(delegate: self, identifier: self.screenIdentifier)
     }
     
     required init?(coder: NSCoder) {
@@ -55,8 +57,8 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.screenIdentifier = UUID()
-        Channelize.addUserEventDelegate(delegate: self, identifier: self.screenIdentifier)
+        //self.screenIdentifier = UUID()
+        //Channelize.addUserEventDelegate(delegate: self, identifier: self.screenIdentifier)
         
         
         self.headerView.assignTitle(text: CHLocalized(key: "pmContacts"))
@@ -367,50 +369,6 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
         self.tableView.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor.white
         self.setNavigationColor(animated: false)
         self.headerView.updateViewsColors()
-    }
-    
-    // MARK: - Other UIView Related Functions
-    override func setNavigationColor(animated: Bool = false) {
-        self.setNeedsStatusBarAppearanceUpdate()
-        self.view.addTopBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor, andWidth: 0.5)
-        var tintColor: UIColor?
-        var imageColor: UIColor = UIColor(hex: "#1c1c1c")
-        if CHAppConstant.themeStyle == .dark {
-            tintColor = CHDarkThemeColors.tintColor
-            imageColor = CHDarkThemeColors.conversationHeaderBackGroundColor
-        } else {
-            tintColor = CHLightThemeColors.tintColor
-            imageColor = CHLightThemeColors.conversationHeaderBackGroundColor
-        }
-        
-        let animation = CATransition()
-        animation.duration = 0.2
-        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
-        animation.type = CATransitionType.fade
-
-        if animated {
-            navigationController?.navigationBar.layer.add(animation, forKey: nil)
-        }
-        
-        if animated {
-            UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve, animations: {
-                self.navigationController?.navigationBar.setBackgroundImage(imageColor.imageWithColor(
-                    width: self.view.frame.width, height: self.navigationController?.navigationBar.frame.size.height ?? 0), for: .default)
-                //getKeyWindow()?.tintColor = tintColor
-            }, completion: nil)
-        } else {
-            self.navigationController?.navigationBar.setBackgroundImage(imageColor.imageWithColor(width: self.view.frame.width, height: self.navigationController?.navigationBar.frame.size.height ?? 0), for: .default)
-            //getKeyWindow()?.tintColor = tintColor
-        }
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.navigationHeaderTitleColor : CHLightThemeColors.navigationHeaderTitleColor, NSAttributedString.Key.font: CHCustomStyles.normalSizeRegularFont!]
-        self.navigationController?.navigationBar.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
-        self.tableView.separatorColor = .clear
-        self.tableView.separatorStyle = .singleLine
-        self.tableView.indicatorStyle = CHAppConstant.themeStyle == .dark ? .white : .black
-        self.tableView.reloadData()
-        
-        self.tabBarController?.tabBar.barTintColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor.white
-        self.tabBarController?.tabBar.tintColor = CHAppConstant.themeStyle == .dark ? UIColor.customSystemBlue : CHLightThemeColors.tintColor
     }
     
     private func checkAndSetNoContactView() {

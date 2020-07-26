@@ -135,7 +135,8 @@ func getTimeStamp(_ date: Date)-> String{
     //let timestampDate = Date(jsonDate: date)
     let dateFormatter = DateFormatter()
     if Calendar.current.isDateInToday(date){
-        dateFormatter.dateFormat = "hh:mm a"
+        dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "jm", options: 0, locale: NSLocale.current)
+        //dateFormatter.dateFormat = "hh:mm a"
     }else if Calendar.current.isDateInYesterday(date){
         dateFormatter.dateFormat = "EEEE"
     }else{

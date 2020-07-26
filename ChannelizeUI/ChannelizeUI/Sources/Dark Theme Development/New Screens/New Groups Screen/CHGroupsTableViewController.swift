@@ -51,6 +51,7 @@ class CHGroupsTableViewController: NewCHTableViewController, CHConversationEvent
         self.headerView.updateViewsColors()
         self.navigationItem.titleView = headerView
         NotificationCenter.default.addObserver(self, selector: #selector(processStatusBarChangeNotification), name: NSNotification.Name(rawValue: "changeBarStyle"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(processLocaleChangeNotification(notification:)), name: NSLocale.currentLocaleDidChangeNotification, object: nil)
         
         self.tableView.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor.white
         self.tableView.register(CHGroupConversationCell.self, forCellReuseIdentifier: "groupInfoCell")
@@ -225,6 +226,11 @@ class CHGroupsTableViewController: NewCHTableViewController, CHConversationEvent
         self.setNavigationColor(animated: true)
         self.noGroupsView.updateColors()
     }
+    
+    @objc func processLocaleChangeNotification(notification: NSNotification) {
+        self.tableView.reloadData()
+    }
+    
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         self.checkAndSetNoContentView()

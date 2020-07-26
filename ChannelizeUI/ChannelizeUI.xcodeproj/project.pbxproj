@@ -13,9 +13,10 @@
 		18B07DF32449DCDD003D1610 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18B07DF12449DCDD003D1610 /* Main.storyboard */; };
 		18B07DF52449DCDF003D1610 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18B07DF42449DCDF003D1610 /* Assets.xcassets */; };
 		18B07DF82449DCDF003D1610 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18B07DF62449DCDF003D1610 /* LaunchScreen.storyboard */; };
+		18BC631124CDBDA200188A32 /* ChVirgilE3Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BC631024CDBDA200188A32 /* ChVirgilE3Kit.swift */; };
 		18F83E2824AB6EFC00E87A8A /* CHConversationCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F83E2724AB6EFC00E87A8A /* CHConversationCache.swift */; };
 		18F83E2A24AB725F00E87A8A /* ChannelizeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F83E2924AB725F00E87A8A /* ChannelizeUI.swift */; };
-		527CE5FD14775297AB9FF59C /* Pods_ChannelizeUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78173D39087F5201AFEFEF09 /* Pods_ChannelizeUI.framework */; };
+		D15EE23311985171294D19FE /* Pods_ChannelizeUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 753BB9B6592A86EA975C3798 /* Pods_ChannelizeUI.framework */; };
 		EB5F6B8D2497E626004B7676 /* ChannelizeActionIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6A9E2497E620004B7676 /* ChannelizeActionIcons.xcassets */; };
 		EB5F6B8E2497E626004B7676 /* SelectedChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6AA02497E620004B7676 /* SelectedChatModel.swift */; };
 		EB5F6B8F2497E626004B7676 /* ChannelizeUIIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6AA12497E622004B7676 /* ChannelizeUIIcons.xcassets */; };
@@ -224,11 +225,12 @@
 		18B07DF42449DCDF003D1610 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18B07DF72449DCDF003D1610 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		18B07DF92449DCDF003D1610 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18BC631024CDBDA200188A32 /* ChVirgilE3Kit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChVirgilE3Kit.swift; sourceTree = "<group>"; };
 		18F83E2724AB6EFC00E87A8A /* CHConversationCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHConversationCache.swift; sourceTree = "<group>"; };
 		18F83E2924AB725F00E87A8A /* ChannelizeUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelizeUI.swift; sourceTree = "<group>"; };
-		78173D39087F5201AFEFEF09 /* Pods_ChannelizeUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChannelizeUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		798FEF3DE085F47FA3D54FBE /* Pods-ChannelizeUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelizeUI.debug.xcconfig"; path = "Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI.debug.xcconfig"; sourceTree = "<group>"; };
-		9F569F07C0898B73C5C89A4F /* Pods-ChannelizeUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelizeUI.release.xcconfig"; path = "Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI.release.xcconfig"; sourceTree = "<group>"; };
+		462DF6000D3FFE6127C92203 /* Pods-ChannelizeUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelizeUI.debug.xcconfig"; path = "Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI.debug.xcconfig"; sourceTree = "<group>"; };
+		753BB9B6592A86EA975C3798 /* Pods_ChannelizeUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChannelizeUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9534122098D27FD4AEEA6951 /* Pods-ChannelizeUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelizeUI.release.xcconfig"; path = "Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI.release.xcconfig"; sourceTree = "<group>"; };
 		EB5F6A9E2497E620004B7676 /* ChannelizeActionIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChannelizeActionIcons.xcassets; sourceTree = "<group>"; };
 		EB5F6AA02497E620004B7676 /* SelectedChatModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedChatModel.swift; sourceTree = "<group>"; };
 		EB5F6AA12497E622004B7676 /* ChannelizeUIIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChannelizeUIIcons.xcassets; sourceTree = "<group>"; };
@@ -420,8 +422,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				527CE5FD14775297AB9FF59C /* Pods_ChannelizeUI.framework in Frameworks */,
 				1842519124C1D74100D02A95 /* CallKit.framework in Frameworks */,
+				D15EE23311985171294D19FE /* Pods_ChannelizeUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,7 +435,7 @@
 			children = (
 				1842518D24C1CA5800D02A95 /* PushKit.framework */,
 				1842518B24C1CA5100D02A95 /* CallKit.framework */,
-				78173D39087F5201AFEFEF09 /* Pods_ChannelizeUI.framework */,
+				753BB9B6592A86EA975C3798 /* Pods_ChannelizeUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -485,7 +487,6 @@
 				EB5F6B1A2497E623004B7676 /* Enums */,
 				EB5F6B822497E625004B7676 /* Extensions */,
 				EB5F6B2F2497E624004B7676 /* Fonts */,
-				EB5F6B2D2497E624004B7676 /* Global Objects */,
 				EB5F6B7C2497E625004B7676 /* Helpers */,
 				EB5F6B252497E623004B7676 /* Image Resources */,
 				EB5F6B442497E624004B7676 /* Other Models */,
@@ -500,8 +501,8 @@
 		E0078465EB47BB8C61346A69 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				798FEF3DE085F47FA3D54FBE /* Pods-ChannelizeUI.debug.xcconfig */,
-				9F569F07C0898B73C5C89A4F /* Pods-ChannelizeUI.release.xcconfig */,
+				462DF6000D3FFE6127C92203 /* Pods-ChannelizeUI.debug.xcconfig */,
+				9534122098D27FD4AEEA6951 /* Pods-ChannelizeUI.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -876,13 +877,6 @@
 			path = "Image Resources";
 			sourceTree = "<group>";
 		};
-		EB5F6B2D2497E624004B7676 /* Global Objects */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Global Objects";
-			sourceTree = "<group>";
-		};
 		EB5F6B2F2497E624004B7676 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -920,6 +914,7 @@
 			children = (
 				EB5F6B452497E624004B7676 /* ChannelizeImages.swift */,
 				EB5F6B462497E624004B7676 /* BaseMessageModel.swift */,
+				18BC631024CDBDA200188A32 /* ChVirgilE3Kit.swift */,
 			);
 			path = "Other Models";
 			sourceTree = "<group>";
@@ -1103,13 +1098,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 18B07DFC2449DCDF003D1610 /* Build configuration list for PBXNativeTarget "ChannelizeUI" */;
 			buildPhases = (
-				D5761F4C47C9A9D54DCD6379 /* [CP] Check Pods Manifest.lock */,
+				628343561DD44CD3C29A69A0 /* [CP] Check Pods Manifest.lock */,
 				A02A191AD5C9233D60CA7B62 /* [CP] Prepare Artifacts */,
 				18B07DE42449DCDD003D1610 /* Sources */,
 				18B07DE52449DCDD003D1610 /* Frameworks */,
 				18B07DE62449DCDD003D1610 /* Resources */,
-				9D3012B51779E786744D86EC /* [CP] Embed Pods Frameworks */,
 				18B07F6A2449EBB1003D1610 /* Embed Frameworks */,
+				A479CE11AD15A1A8289BC7CE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1193,41 +1188,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		9D3012B51779E786744D86EC /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A02A191AD5C9233D60CA7B62 /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-artifacts-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-artifacts-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-artifacts.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D5761F4C47C9A9D54DCD6379 /* [CP] Check Pods Manifest.lock */ = {
+		628343561DD44CD3C29A69A0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1247,6 +1208,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A02A191AD5C9233D60CA7B62 /* [CP] Prepare Artifacts */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-artifacts-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Prepare Artifacts";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-artifacts-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-artifacts.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A479CE11AD15A1A8289BC7CE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1316,6 +1311,7 @@
 				EB5F6BB82497E626004B7676 /* CHGifStickerMessageItem.swift in Sources */,
 				EB5F6C132497E626004B7676 /* EmojiReactionModel.swift in Sources */,
 				EB5F6C342497E626004B7676 /* MimeTypeFinder.swift in Sources */,
+				18BC631124CDBDA200188A32 /* ChVirgilE3Kit.swift in Sources */,
 				EB5F6B9D2497E626004B7676 /* UIImageMessageCell.swift in Sources */,
 				EB5F6BCB2497E626004B7676 /* NoContactsView.swift in Sources */,
 				EB5F6C3E2497E626004B7676 /* CHUISearchBar+Extension.swift in Sources */,
@@ -1558,7 +1554,7 @@
 		};
 		18B07DFD2449DCDF003D1610 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 798FEF3DE085F47FA3D54FBE /* Pods-ChannelizeUI.debug.xcconfig */;
+			baseConfigurationReference = 462DF6000D3FFE6127C92203 /* Pods-ChannelizeUI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -1582,7 +1578,7 @@
 		};
 		18B07DFE2449DCDF003D1610 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9F569F07C0898B73C5C89A4F /* Pods-ChannelizeUI.release.xcconfig */;
+			baseConfigurationReference = 9534122098D27FD4AEEA6951 /* Pods-ChannelizeUI.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

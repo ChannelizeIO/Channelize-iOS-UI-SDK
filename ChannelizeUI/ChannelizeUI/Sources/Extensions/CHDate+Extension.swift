@@ -37,7 +37,8 @@ extension Date {
     
     func toRelateTimeString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "jm", options: 0, locale: NSLocale.current)
+        //dateFormatter.dateFormat = "HH:mm"
         let dateString = dateFormatter.string(from: self)
         return dateString
     }

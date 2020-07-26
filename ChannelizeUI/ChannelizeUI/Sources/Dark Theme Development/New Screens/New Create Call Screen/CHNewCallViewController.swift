@@ -39,7 +39,7 @@ class CHNewCallViewController: NewCHTableViewController, UISearchBarDelegate {
         let closeIconImage = getImage("chCloseIcon")?.selfResize(targetSize: CGSize(width: 17.5, height: 17.5))
         searchBar.setImage(closeIconImage?.imageWithColor(tintColor: CHAppConstant.themeStyle == .dark ? UIColor(hex: "#E6E6E6") : UIColor(hex: "#8b8b8b")), for: .clear, state: .normal)
         searchBar.setImage(getImage("chSearchIcon")?.imageWithColor(tintColor: CHAppConstant.themeStyle == .dark ? UIColor(hex: "#E6E6E6") : UIColor(hex: "#8b8b8b")), for: .search, state: .normal)
-        searchBar.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.tintColor : CHLightThemeColors.tintColor
+        searchBar.tintColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.buttonsTintColor : CHLightThemeColors.buttonsTintColor
         searchBar.addBottomBorder(with: CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.seperatorColor : CHLightThemeColors.seperatorColor, andWidth: 1.0)
         return searchBar
     }()
@@ -144,6 +144,7 @@ class CHNewCallViewController: NewCHTableViewController, UISearchBarDelegate {
                     self.isSearchingContact = false
                     self.searchedContacts.removeAll()
                     self.searchedContacts = recievedUsers
+                    self.tableView.reloadData()
                     //ChUserCache.instance.appendUsers(newUsers: recievedUsers)
                 }
             })
@@ -162,6 +163,7 @@ class CHNewCallViewController: NewCHTableViewController, UISearchBarDelegate {
                     self.searchedContacts.removeAll()
                     self.searchedContacts = recievedUsers
                     ChUserCache.instance.appendUsers(newUsers: recievedUsers)
+                    self.tableView.reloadData()
                 }
             })
         }

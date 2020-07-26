@@ -734,52 +734,45 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
     }
     
     func accessSelectedAssets(assets: [PHAsset]) {
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .background).async {
             autoreleasepool {
                 var allAssets = assets
                 for asset in allAssets{
                     let imageManager = PHImageManager.default()
                     let fetchOption = PHImageRequestOptions()
-                    fetchOption.isSynchronous = true
+                    fetchOption.isSynchronous = false
                     fetchOption.isNetworkAccessAllowed = true
                     fetchOption.deliveryMode = .highQualityFormat
-                    
-                    imageManager.requestImageData(for: asset, options: fetchOption, resultHandler: {data,_,orientation,_ in
-                        autoreleasepool {
-                            let imageWidth = asset.pixelWidth
-                            let imageHeight = asset.pixelHeight
-                            var imageSize = CGSize.zero
-        
-                            if imageWidth > 1500 || imageHeight > 1500 {
-                                if imageWidth > imageHeight {
-                                    let scaleFactor = CGFloat(imageHeight)/CGFloat(imageWidth)
-                                    let newHeight = scaleFactor * 1500
-                                    imageSize = CGSize(width: 1500, height: newHeight)
-                                } else {
-                                    let scaleFactor = CGFloat(imageWidth)/CGFloat(imageHeight)
-                                    let newWidth = scaleFactor * 1500
-                                    imageSize = CGSize(width: newWidth, height: 1500)
-                                }
-                            }  else {
-                                imageSize = CGSize(width: imageWidth, height: imageHeight)
-                            }
-                            
+                    imageManager.requestImageData(for: asset, options: fetchOption, resultHandler: { (data,utiType,orientation,info) in
+                        DispatchQueue.main.async {
                             if let imageData = data {
+                                let imageExtension : ImageFormat = ImageFormat.get(from: imageData)
                                 let messageId = UUID()
-                                let imageName = "\(messageId.uuidString.lowercased()).jpeg"
+                                let imageName = "\(messageId.uuidString.lowercased()).\(imageExtension.rawValue)"
                                 let fileName = self.getDocumentsDirectory().appendingPathComponent(imageName)
-                                print(fileName)
                                 do {
                                     try imageData.write(to: fileName)
                                 } catch {
                                     print(error.localizedDescription)
                                 }
-                                if let scaledImage = CoreGraphics.resizedImage(at: fileName, for: imageSize) {
-                                    DispatchQueue.main.async {
-                                        self.createImageUploadRequest(with: scaledImage, messageId: messageId)
-                                        allAssets.removeAll(where: {
-                                            $0.localIdentifier == asset.localIdentifier
-                                        })
+                                let originalImage = UIImage(contentsOfFile: fileName.path)
+                                
+                                let resources = PHAssetResource.assetResources(for: asset)
+                                let resourceFileName = resources.first?.originalFilename ?? "\(UUID().uuidString).\(imageExtension.rawValue)"
+                                let storageUrl = self.getDocumentsDirectory().appendingPathComponent(resourceFileName)
+                                let imageFormat = ImageEncoder().get(from: imageData)
+                                
+                                let isImageEncoded = ImageEncoder().encodeImage(storageUrl: storageUrl, image: originalImage, format: imageFormat, maxPixelSize: CGSize(width: 1500, height: 1500))
+                                
+                                if isImageEncoded {
+                                    if let encodedImage = UIImage(contentsOfFile: storageUrl.path) {
+                                        do {
+                                            try FileManager.default.removeItem(atPath: fileName.path)
+                                            //try FileManager.default.removeItem(atPath: storageUrl.path)
+                                        } catch {
+                                            print(error.localizedDescription)
+                                        }
+                                        self.createImageUploadRequest(with: encodedImage, messageId: messageId)
                                     }
                                 }
                             }
@@ -847,6 +840,7 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
         imageAttachmentQueryBuilder.attachMentIdentifier = uniqueId
         imageAttachmentQueryBuilder.fileExtension = imageFormat.rawValue
         imageAttachmentQueryBuilder.mimeType = mimeType
+        imageAttachmentQueryBuilder.fileName = "\(self.randomString()).\(imageFormat.rawValue)"
         imageAttachmentQueryBuilder.imageData = apiImageData
         imageAttachmentQueryBuilder.thumbNailData = apiThumbNailData
         
@@ -908,6 +902,11 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                 }
             }
         })
+    }
+    
+    func randomString(length:Int = 6) -> String{
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0..<length).map{ _ in letters.randomElement()! })
     }
     
     // MARK: - GIF and Sticker Search Controller

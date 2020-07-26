@@ -174,7 +174,11 @@ class CHUserProfileViewController: UITableViewController, CHConversationEventDel
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 2
+        if CHCustomOptions.enableViewProfileButton {
+            return 3
+        } else {
+            return 2
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -190,6 +194,30 @@ class CHUserProfileViewController: UITableViewController, CHConversationEventDel
                 cell.textLabel?.text = CHLocalized(key: "pmBlockUser")
             }
             return cell
+        } else if indexPath.row == 1 {
+            if CHCustomOptions.enableViewProfileButton {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "userProfileActionCell", for: indexPath)
+                cell.textLabel?.text = CHLocalized(key: "pmViewProfile")
+                cell.textLabel?.textColor = UIColor.customSystemBlue
+                cell.selectionStyle = .none
+                cell.textLabel?.font = CHCustomStyles.normalSizeRegularFont
+                cell.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor(hex: "#ffffff")
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "userProfileActionCell", for: indexPath)
+                cell.textLabel?.text = CHLocalized(key: "pmGroupsInCommon")
+                cell.textLabel?.textColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.primaryColor : CHLightThemeColors.primaryColor
+                cell.backgroundColor = CHAppConstant.themeStyle == .dark ? UIColor(hex: "#1c1c1c") : UIColor(hex: "#ffffff")
+                cell.textLabel?.font = CHCustomStyles.normalSizeRegularFont
+                
+                let accessoryImageView = UIImageView(image: getImage("chRightArrowIcon"))
+                accessoryImageView.contentMode = .scaleAspectFit
+                accessoryImageView.tintColor = CHUIConstant.settingsSceenDiscloseIndicatorColor
+                cell.accessoryView = accessoryImageView
+                cell.accessoryType = .none
+                cell.selectionStyle = .none
+                return cell
+            }
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "userProfileActionCell", for: indexPath)
             cell.textLabel?.text = CHLocalized(key: "pmGroupsInCommon")
@@ -218,10 +246,19 @@ class CHUserProfileViewController: UITableViewController, CHConversationEventDel
             } else {
                 self.callBlockContactApi()
             }
-        } else {
-            let controller = CHCommonGroupsViewController()
-            controller.userId = self.user?.id ?? ""
-            self.navigationController?.pushViewController(controller, animated: true)
+        } else if indexPath.row == 1 {
+            if CHCustomOptions.enableViewProfileButton {
+                if let userId = self.user?.id {
+                    print("Channelize -> Posting Notification For View Profile")
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "chViewProfileNotification"), object: nil, userInfo: ["userId" : userId])
+                    ChUI.instance.isCHOpen = false
+                    self.navigationController?.parent?.navigationController?.popViewController(animated: true)
+                }
+            } else {
+                let controller = CHCommonGroupsViewController()
+                controller.userId = self.user?.id ?? ""
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
         }
     }
     

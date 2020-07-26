@@ -107,23 +107,28 @@ class PhotoCollectionCell:UICollectionViewCell, UIScrollViewDelegate{
     
     func assignData() {
         if let object = imageObject{
-            self.photoImageView.sd_imageTransition = .fade
-            self.photoImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            if let imageUrlString = object.imageUrl{
-                if let imageUrl = URL(string: imageUrlString){
-                    self.photoImageView.sd_setImage(with: imageUrl, completed: nil)
+            
+            if let image = SDImageCache.shared.imageFromCache(forKey: object.messageId) {
+                self.photoImageView.image = image
+            } else {
+                self.photoImageView.sd_imageTransition = .fade
+                self.photoImageView.sd_imageIndicator = CHAppConstant.themeStyle == .dark ? SDWebImageActivityIndicator.white : SDWebImageActivityIndicator.gray
+                if let imageUrlString = object.imageUrl{
+                    if let imageUrl = URL(string: imageUrlString){
+                        self.photoImageView.sd_setImage(with: imageUrl, completed: nil)
+                    }
                 }
-            }
-            if object.videoUrl != nil{
-                self.videoPlayIconView.isHidden = false
-                self.singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(gesture:)))
-                self.singleTapGestureRecognizer?.numberOfTapsRequired = 1
-                self.scrollView.addGestureRecognizer(self.singleTapGestureRecognizer!)
-            } else{
-                self.videoPlayIconView.isHidden = true
-                self.doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(gesture:)))
-                self.doubleTapGestureRecognizer?.numberOfTapsRequired = 2
-                self.scrollView.addGestureRecognizer(self.doubleTapGestureRecognizer!)
+                if object.videoUrl != nil{
+                    self.videoPlayIconView.isHidden = false
+                    self.singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(gesture:)))
+                    self.singleTapGestureRecognizer?.numberOfTapsRequired = 1
+                    self.scrollView.addGestureRecognizer(self.singleTapGestureRecognizer!)
+                } else{
+                    self.videoPlayIconView.isHidden = true
+                    self.doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(gesture:)))
+                    self.doubleTapGestureRecognizer?.numberOfTapsRequired = 2
+                    self.scrollView.addGestureRecognizer(self.doubleTapGestureRecognizer!)
+                }
             }
             //self.videoPlayIconView.image = UIImage(named: "ic_play_circle")
         }

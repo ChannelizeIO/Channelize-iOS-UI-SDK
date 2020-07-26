@@ -816,11 +816,11 @@ extension CHConversationViewController: ReactionPopOverControllerDelegate, UIPop
         for object in filteredItems{
             if object.messageType == .image {
                 let imageModel = object as? ImageMessageItem
-                let chImage = ChannelizeImages(imageUrlString: imageModel?.imageMessageData?.imageUrlString, videoUrlString: nil, owner: imageModel?.senderName, date: imageModel?.messageDate, ownerId: model?.senderId, isEncrypted: imageModel?.isEncrypted)
+                let chImage = ChannelizeImages(messageId: imageModel?.messageId ?? "", imageUrlString: imageModel?.imageMessageData?.imageUrlString, videoUrlString: nil, owner: imageModel?.senderName, date: imageModel?.messageDate, ownerId: model?.senderId, isEncrypted: imageModel?.isEncrypted)
                 channelizeImages.append(chImage)
             } else if object.messageType == .video {
                 let videoModel = object as? VideoMessageItem
-                let chImage = ChannelizeImages(imageUrlString: videoModel?.videoMessageData?.thumbNailUrl, videoUrlString: videoModel?.videoMessageData?.videoUrlString, owner: videoModel?.senderName, date: videoModel?.messageDate, ownerId: model?.senderId, isEncrypted: videoModel?.isEncrypted)
+                let chImage = ChannelizeImages(messageId: videoModel?.messageId ?? "", imageUrlString: videoModel?.videoMessageData?.thumbNailUrl, videoUrlString: videoModel?.videoMessageData?.videoUrlString, owner: videoModel?.senderName, date: videoModel?.messageDate, ownerId: model?.senderId, isEncrypted: videoModel?.isEncrypted)
                 channelizeImages.append(chImage)
             }
         }

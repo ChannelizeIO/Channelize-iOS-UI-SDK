@@ -136,7 +136,7 @@ class PhotoViewerController: UIViewController {
                         let apiData = try? Data(contentsOf: videoUrl)
                         if imageObject.isEncrypted == true {
                             if let decryptedData = try? self.ethreeObject?.authDecrypt(data: apiData ?? Data(), from: self.lookUpResult?[imageObject.ownerId ?? ""]) {
-                                try decryptedData?.write(to: storageUrl)
+                                try decryptedData.write(to: storageUrl)
                                 DispatchQueue.main.async {
                                     disMissProgressView()
                                     let videoController = AVPlayerViewController()
@@ -377,7 +377,7 @@ extension PhotoViewerController:UICollectionViewDelegate,UICollectionViewDataSou
                             let apiData = try? Data(contentsOf: videoUrl)
                             if imageObject.isEncrypted == true {
                                 if let decryptedData = try? self.ethreeObject?.authDecrypt(data: apiData ?? Data(), from: self.lookUpResult?[imageObject.ownerId ?? ""]) {
-                                    try decryptedData?.write(to: storageUrl)
+                                    try decryptedData.write(to: storageUrl)
                                     DispatchQueue.main.async {
                                         disMissProgressView()
                                         let videoController = AVPlayerViewController()
@@ -476,7 +476,7 @@ extension PhotoViewerController: MediaCellTapped {
                         let apiData = try? Data(contentsOf: videoUrl)
                         if item.isEncrypted == true {
                             if let decryptedData = try? self.ethreeObject?.authDecrypt(data: apiData ?? Data(), from: self.lookUpResult?[item.ownerId ?? ""]) {
-                                try decryptedData?.write(to: storageUrl)
+                                try decryptedData.write(to: storageUrl)
                                 DispatchQueue.main.async {
                                     disMissProgressView()
                                     let videoController = AVPlayerViewController()
