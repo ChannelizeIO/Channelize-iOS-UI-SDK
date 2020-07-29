@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1811E0B424D1ADF200DE487C /* ChannelizeUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1811E0B324D1ADF200DE487C /* ChannelizeUI.bundle */; };
 		1842519124C1D74100D02A95 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1842518B24C1CA5100D02A95 /* CallKit.framework */; };
 		18B07DEC2449DCDD003D1610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEB2449DCDD003D1610 /* AppDelegate.swift */; };
 		18B07DF02449DCDD003D1610 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEF2449DCDD003D1610 /* ViewController.swift */; };
@@ -17,9 +18,7 @@
 		18F83E2824AB6EFC00E87A8A /* CHConversationCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F83E2724AB6EFC00E87A8A /* CHConversationCache.swift */; };
 		18F83E2A24AB725F00E87A8A /* ChannelizeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F83E2924AB725F00E87A8A /* ChannelizeUI.swift */; };
 		D15EE23311985171294D19FE /* Pods_ChannelizeUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 753BB9B6592A86EA975C3798 /* Pods_ChannelizeUI.framework */; };
-		EB5F6B8D2497E626004B7676 /* ChannelizeActionIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6A9E2497E620004B7676 /* ChannelizeActionIcons.xcassets */; };
 		EB5F6B8E2497E626004B7676 /* SelectedChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6AA02497E620004B7676 /* SelectedChatModel.swift */; };
-		EB5F6B8F2497E626004B7676 /* ChannelizeUIIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6AA12497E622004B7676 /* ChannelizeUIIcons.xcassets */; };
 		EB5F6B902497E626004B7676 /* CHRecentCallTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6AA52497E622004B7676 /* CHRecentCallTableCell.swift */; };
 		EB5F6B912497E626004B7676 /* CHDetailedCallLogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6AA62497E622004B7676 /* CHDetailedCallLogCell.swift */; };
 		EB5F6B922497E626004B7676 /* CHDetailedCallLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6AA72497E622004B7676 /* CHDetailedCallLogController.swift */; };
@@ -117,27 +116,6 @@
 		EB5F6BEF2497E626004B7676 /* Abloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B212497E623004B7676 /* Abloader.swift */; };
 		EB5F6BF12497E626004B7676 /* MessageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B232497E623004B7676 /* MessageBadgeView.swift */; };
 		EB5F6BF22497E626004B7676 /* DetailedCallLogHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B242497E623004B7676 /* DetailedCallLogHeaderView.swift */; };
-		EB5F6BF32497E626004B7676 /* noContacts.png in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B262497E623004B7676 /* noContacts.png */; };
-		EB5F6BF42497E626004B7676 /* noResultFound.png in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B272497E623004B7676 /* noResultFound.png */; };
-		EB5F6BF52497E626004B7676 /* noMessages.png in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B282497E623004B7676 /* noMessages.png */; };
-		EB5F6BF62497E626004B7676 /* noGroups.png in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B292497E623004B7676 /* noGroups.png */; };
-		EB5F6BF72497E626004B7676 /* noConversations.png in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B2A2497E623004B7676 /* noConversations.png */; };
-		EB5F6BF92497E626004B7676 /* RobotoSlab-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B302497E624004B7676 /* RobotoSlab-Medium.ttf */; };
-		EB5F6BFA2497E626004B7676 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B312497E624004B7676 /* Roboto-Medium.ttf */; };
-		EB5F6BFB2497E626004B7676 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B322497E624004B7676 /* Roboto-Light.ttf */; };
-		EB5F6BFC2497E626004B7676 /* RobotoSlab-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B332497E624004B7676 /* RobotoSlab-SemiBold.ttf */; };
-		EB5F6BFD2497E626004B7676 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B342497E624004B7676 /* Roboto-Regular.ttf */; };
-		EB5F6BFE2497E626004B7676 /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B352497E624004B7676 /* Roboto-MediumItalic.ttf */; };
-		EB5F6BFF2497E626004B7676 /* RobotoSlab-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B362497E624004B7676 /* RobotoSlab-Bold.ttf */; };
-		EB5F6C002497E626004B7676 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B372497E624004B7676 /* Roboto-ThinItalic.ttf */; };
-		EB5F6C012497E626004B7676 /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B382497E624004B7676 /* Roboto-BoldItalic.ttf */; };
-		EB5F6C022497E626004B7676 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B392497E624004B7676 /* Roboto-LightItalic.ttf */; };
-		EB5F6C032497E626004B7676 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B3A2497E624004B7676 /* Roboto-Italic.ttf */; };
-		EB5F6C042497E626004B7676 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B3B2497E624004B7676 /* Roboto-BlackItalic.ttf */; };
-		EB5F6C052497E626004B7676 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B3C2497E624004B7676 /* Roboto-Bold.ttf */; };
-		EB5F6C062497E626004B7676 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B3D2497E624004B7676 /* Roboto-Thin.ttf */; };
-		EB5F6C072497E626004B7676 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B3E2497E624004B7676 /* Roboto-Black.ttf */; };
-		EB5F6C082497E626004B7676 /* RobotoSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5F6B3F2497E624004B7676 /* RobotoSlab-Regular.ttf */; };
 		EB5F6C0A2497E626004B7676 /* CHCustomStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B422497E624004B7676 /* CHCustomStyles.swift */; };
 		EB5F6C0B2497E626004B7676 /* CHUIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B432497E624004B7676 /* CHUIConstants.swift */; };
 		EB5F6C0C2497E626004B7676 /* ChannelizeImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F6B452497E624004B7676 /* ChannelizeImages.swift */; };
@@ -216,6 +194,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1811E0B324D1ADF200DE487C /* ChannelizeUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ChannelizeUI.bundle; sourceTree = "<group>"; };
 		1842518B24C1CA5100D02A95 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
 		1842518D24C1CA5800D02A95 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		18B07DE82449DCDD003D1610 /* ChannelizeUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChannelizeUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -231,9 +210,7 @@
 		462DF6000D3FFE6127C92203 /* Pods-ChannelizeUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelizeUI.debug.xcconfig"; path = "Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI.debug.xcconfig"; sourceTree = "<group>"; };
 		753BB9B6592A86EA975C3798 /* Pods_ChannelizeUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChannelizeUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9534122098D27FD4AEEA6951 /* Pods-ChannelizeUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChannelizeUI.release.xcconfig"; path = "Target Support Files/Pods-ChannelizeUI/Pods-ChannelizeUI.release.xcconfig"; sourceTree = "<group>"; };
-		EB5F6A9E2497E620004B7676 /* ChannelizeActionIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChannelizeActionIcons.xcassets; sourceTree = "<group>"; };
 		EB5F6AA02497E620004B7676 /* SelectedChatModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedChatModel.swift; sourceTree = "<group>"; };
-		EB5F6AA12497E622004B7676 /* ChannelizeUIIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChannelizeUIIcons.xcassets; sourceTree = "<group>"; };
 		EB5F6AA52497E622004B7676 /* CHRecentCallTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHRecentCallTableCell.swift; sourceTree = "<group>"; };
 		EB5F6AA62497E622004B7676 /* CHDetailedCallLogCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHDetailedCallLogCell.swift; sourceTree = "<group>"; };
 		EB5F6AA72497E622004B7676 /* CHDetailedCallLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHDetailedCallLogController.swift; sourceTree = "<group>"; };
@@ -331,27 +308,6 @@
 		EB5F6B212497E623004B7676 /* Abloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Abloader.swift; sourceTree = "<group>"; };
 		EB5F6B232497E623004B7676 /* MessageBadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBadgeView.swift; sourceTree = "<group>"; };
 		EB5F6B242497E623004B7676 /* DetailedCallLogHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedCallLogHeaderView.swift; sourceTree = "<group>"; };
-		EB5F6B262497E623004B7676 /* noContacts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noContacts.png; sourceTree = "<group>"; };
-		EB5F6B272497E623004B7676 /* noResultFound.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noResultFound.png; sourceTree = "<group>"; };
-		EB5F6B282497E623004B7676 /* noMessages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noMessages.png; sourceTree = "<group>"; };
-		EB5F6B292497E623004B7676 /* noGroups.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noGroups.png; sourceTree = "<group>"; };
-		EB5F6B2A2497E623004B7676 /* noConversations.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noConversations.png; sourceTree = "<group>"; };
-		EB5F6B302497E624004B7676 /* RobotoSlab-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Medium.ttf"; sourceTree = "<group>"; };
-		EB5F6B312497E624004B7676 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
-		EB5F6B322497E624004B7676 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
-		EB5F6B332497E624004B7676 /* RobotoSlab-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-SemiBold.ttf"; sourceTree = "<group>"; };
-		EB5F6B342497E624004B7676 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
-		EB5F6B352497E624004B7676 /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
-		EB5F6B362497E624004B7676 /* RobotoSlab-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Bold.ttf"; sourceTree = "<group>"; };
-		EB5F6B372497E624004B7676 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
-		EB5F6B382497E624004B7676 /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
-		EB5F6B392497E624004B7676 /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-LightItalic.ttf"; sourceTree = "<group>"; };
-		EB5F6B3A2497E624004B7676 /* Roboto-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Italic.ttf"; sourceTree = "<group>"; };
-		EB5F6B3B2497E624004B7676 /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
-		EB5F6B3C2497E624004B7676 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
-		EB5F6B3D2497E624004B7676 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
-		EB5F6B3E2497E624004B7676 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
-		EB5F6B3F2497E624004B7676 /* RobotoSlab-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Regular.ttf"; sourceTree = "<group>"; };
 		EB5F6B422497E624004B7676 /* CHCustomStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHCustomStyles.swift; sourceTree = "<group>"; };
 		EB5F6B432497E624004B7676 /* CHUIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHUIConstants.swift; sourceTree = "<group>"; };
 		EB5F6B452497E624004B7676 /* ChannelizeImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelizeImages.swift; sourceTree = "<group>"; };
@@ -477,16 +433,14 @@
 		18B07DFF2449EA40003D1610 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1811E0B324D1ADF200DE487C /* ChannelizeUI.bundle */,
 				EB76B7F32471A91C0002BE57 /* ChannelizeUI.h */,
-				EB5F6A9E2497E620004B7676 /* ChannelizeActionIcons.xcassets */,
-				EB5F6AA12497E622004B7676 /* ChannelizeUIIcons.xcassets */,
 				EB5F6A9F2497E620004B7676 /* Common Cells */,
 				EB5F6B412497E624004B7676 /* Constant Objects */,
 				EB5F6B1E2497E623004B7676 /* Custom Views */,
 				EB5F6AA22497E622004B7676 /* Dark Theme Development */,
 				EB5F6B1A2497E623004B7676 /* Enums */,
 				EB5F6B822497E625004B7676 /* Extensions */,
-				EB5F6B2F2497E624004B7676 /* Fonts */,
 				EB5F6B7C2497E625004B7676 /* Helpers */,
 				EB5F6B252497E623004B7676 /* Image Resources */,
 				EB5F6B442497E624004B7676 /* Other Models */,
@@ -868,36 +822,8 @@
 		EB5F6B252497E623004B7676 /* Image Resources */ = {
 			isa = PBXGroup;
 			children = (
-				EB5F6B262497E623004B7676 /* noContacts.png */,
-				EB5F6B272497E623004B7676 /* noResultFound.png */,
-				EB5F6B282497E623004B7676 /* noMessages.png */,
-				EB5F6B292497E623004B7676 /* noGroups.png */,
-				EB5F6B2A2497E623004B7676 /* noConversations.png */,
 			);
 			path = "Image Resources";
-			sourceTree = "<group>";
-		};
-		EB5F6B2F2497E624004B7676 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				EB5F6B302497E624004B7676 /* RobotoSlab-Medium.ttf */,
-				EB5F6B312497E624004B7676 /* Roboto-Medium.ttf */,
-				EB5F6B322497E624004B7676 /* Roboto-Light.ttf */,
-				EB5F6B332497E624004B7676 /* RobotoSlab-SemiBold.ttf */,
-				EB5F6B342497E624004B7676 /* Roboto-Regular.ttf */,
-				EB5F6B352497E624004B7676 /* Roboto-MediumItalic.ttf */,
-				EB5F6B362497E624004B7676 /* RobotoSlab-Bold.ttf */,
-				EB5F6B372497E624004B7676 /* Roboto-ThinItalic.ttf */,
-				EB5F6B382497E624004B7676 /* Roboto-BoldItalic.ttf */,
-				EB5F6B392497E624004B7676 /* Roboto-LightItalic.ttf */,
-				EB5F6B3A2497E624004B7676 /* Roboto-Italic.ttf */,
-				EB5F6B3B2497E624004B7676 /* Roboto-BlackItalic.ttf */,
-				EB5F6B3C2497E624004B7676 /* Roboto-Bold.ttf */,
-				EB5F6B3D2497E624004B7676 /* Roboto-Thin.ttf */,
-				EB5F6B3E2497E624004B7676 /* Roboto-Black.ttf */,
-				EB5F6B3F2497E624004B7676 /* RobotoSlab-Regular.ttf */,
-			);
-			path = Fonts;
 			sourceTree = "<group>";
 		};
 		EB5F6B412497E624004B7676 /* Constant Objects */ = {
@@ -1153,34 +1079,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB5F6BF42497E626004B7676 /* noResultFound.png in Resources */,
-				EB5F6BF72497E626004B7676 /* noConversations.png in Resources */,
-				EB5F6BFD2497E626004B7676 /* Roboto-Regular.ttf in Resources */,
+				1811E0B424D1ADF200DE487C /* ChannelizeUI.bundle in Resources */,
 				EB76B9382471A9220002BE57 /* IHProgressHUD.bundle in Resources */,
-				EB5F6BFE2497E626004B7676 /* Roboto-MediumItalic.ttf in Resources */,
-				EB5F6C032497E626004B7676 /* Roboto-Italic.ttf in Resources */,
-				EB5F6BFA2497E626004B7676 /* Roboto-Medium.ttf in Resources */,
-				EB5F6BF52497E626004B7676 /* noMessages.png in Resources */,
-				EB5F6B8F2497E626004B7676 /* ChannelizeUIIcons.xcassets in Resources */,
-				EB5F6BF92497E626004B7676 /* RobotoSlab-Medium.ttf in Resources */,
-				EB5F6BFF2497E626004B7676 /* RobotoSlab-Bold.ttf in Resources */,
-				EB5F6BFB2497E626004B7676 /* Roboto-Light.ttf in Resources */,
-				EB5F6BF32497E626004B7676 /* noContacts.png in Resources */,
-				EB5F6C052497E626004B7676 /* Roboto-Bold.ttf in Resources */,
 				18B07DF82449DCDF003D1610 /* LaunchScreen.storyboard in Resources */,
-				EB5F6C072497E626004B7676 /* Roboto-Black.ttf in Resources */,
 				18B07DF52449DCDF003D1610 /* Assets.xcassets in Resources */,
 				18B07DF32449DCDD003D1610 /* Main.storyboard in Resources */,
-				EB5F6C022497E626004B7676 /* Roboto-LightItalic.ttf in Resources */,
-				EB5F6BFC2497E626004B7676 /* RobotoSlab-SemiBold.ttf in Resources */,
-				EB5F6C062497E626004B7676 /* Roboto-Thin.ttf in Resources */,
-				EB5F6C012497E626004B7676 /* Roboto-BoldItalic.ttf in Resources */,
-				EB5F6B8D2497E626004B7676 /* ChannelizeActionIcons.xcassets in Resources */,
-				EB5F6C042497E626004B7676 /* Roboto-BlackItalic.ttf in Resources */,
-				EB5F6C082497E626004B7676 /* RobotoSlab-Regular.ttf in Resources */,
-				EB5F6BF62497E626004B7676 /* noGroups.png in Resources */,
 				EBF930B6247791FF0054CE1A /* CHLocalizable.strings in Resources */,
-				EB5F6C002497E626004B7676 /* Roboto-ThinItalic.ttf in Resources */,
 				EBF930B42477902D0054CE1A /* Channelize-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

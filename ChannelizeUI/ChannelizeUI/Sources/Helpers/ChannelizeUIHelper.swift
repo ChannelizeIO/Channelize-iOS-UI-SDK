@@ -68,8 +68,21 @@ func getStringFromDate(date: Date?) -> String? {
 }
 
 func getImage(_ name: String) -> UIImage? {
-    let bundle = Bundle.init(identifier: "com.channelize.ChannelizeUI")
-    return UIImage(named: name, in: bundle, compatibleWith: nil)
+    var imageBundle = Bundle.init(for: ChUI.self)
+    if let resourcePath = imageBundle.path(forResource: "ChannelizeUI", ofType: "bundle") {
+        if let resourceBundle = Bundle(path: resourcePath) {
+            resourceBundle.load()
+            imageBundle = resourceBundle
+        }
+    }
+    if let processedImage = UIImage(named: name, in: imageBundle, compatibleWith: nil) {
+        return processedImage
+    } else {
+        let assetsImageBundle = Bundle.init(for: ChUI.self)
+        return UIImage(named: name, in: assetsImageBundle, compatibleWith: nil)
+    }
+//    let bundle = Bundle.init(identifier: "com.channelize.ChannelizeUI")
+//    return UIImage(named: name, in: bundle, compatibleWith: nil)
 }
 
 func getViewOriginXEnd(view: UIView) -> CGFloat {

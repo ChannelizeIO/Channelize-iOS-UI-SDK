@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name          = 'ChannelizeUI'
-  spec.version       = '4.10.37'
+  spec.version       = '4.10.38'
   spec.license       = { :type => 'GPL', :file => 'LICENSE' }
   spec.homepage      = 'https://channelize.io/'
   spec.authors       = { "Channelize" => 'support@channelize.io' }
