@@ -135,7 +135,7 @@ class PhotoViewerController: UIViewController {
                     } else {
                         let apiData = try? Data(contentsOf: videoUrl)
                         if imageObject.isEncrypted == true {
-                            if let decryptedData = try? self.ethreeObject?.authDecrypt(data: apiData ?? Data(), from: self.lookUpResult?[imageObject.ownerId ?? ""]) {
+                            if let decryptedData = try self.ethreeObject?.authDecrypt(data: apiData ?? Data(), from: self.lookUpResult?[imageObject.ownerId ?? ""]) {
                                 try decryptedData.write(to: storageUrl)
                                 DispatchQueue.main.async {
                                     disMissProgressView()
@@ -376,7 +376,7 @@ extension PhotoViewerController:UICollectionViewDelegate,UICollectionViewDataSou
                         } else {
                             let apiData = try? Data(contentsOf: videoUrl)
                             if imageObject.isEncrypted == true {
-                                if let decryptedData = try? self.ethreeObject?.authDecrypt(data: apiData ?? Data(), from: self.lookUpResult?[imageObject.ownerId ?? ""]) {
+                                if let decryptedData = try self.ethreeObject?.authDecrypt(data: apiData ?? Data(), from: self.lookUpResult?[imageObject.ownerId ?? ""]) {
                                     try decryptedData.write(to: storageUrl)
                                     DispatchQueue.main.async {
                                         disMissProgressView()
@@ -475,7 +475,7 @@ extension PhotoViewerController: MediaCellTapped {
                     } else {
                         let apiData = try? Data(contentsOf: videoUrl)
                         if item.isEncrypted == true {
-                            if let decryptedData = try? self.ethreeObject?.authDecrypt(data: apiData ?? Data(), from: self.lookUpResult?[item.ownerId ?? ""]) {
+                            if let decryptedData = try self.ethreeObject?.authDecrypt(data: apiData ?? Data(), from: self.lookUpResult?[item.ownerId ?? ""]) {
                                 try decryptedData.write(to: storageUrl)
                                 DispatchQueue.main.async {
                                     disMissProgressView()
