@@ -78,11 +78,20 @@ func getImage(_ name: String) -> UIImage? {
     if let processedImage = UIImage(named: name, in: imageBundle, compatibleWith: nil) {
         return processedImage
     } else {
-        let assetsImageBundle = Bundle.init(for: ChUI.self)
-        return UIImage(named: name, in: assetsImageBundle, compatibleWith: nil)
+        let podBundle =  Bundle.init(for: ChUI.self)
+        if let url = podBundle.url(forResource: "ChannelizeUI", withExtension: "bundle") {
+            let bundle = Bundle(url: url)
+            if let processedImage = UIImage(named: name, in: bundle, compatibleWith: nil) {
+                return processedImage
+            } else {
+                let assetsImageBundle = Bundle.init(for: ChUI.self)
+                return UIImage(named: name, in: assetsImageBundle, compatibleWith: nil)
+            }
+        } else {
+            let assetsImageBundle = Bundle.init(for: ChUI.self)
+            return UIImage(named: name, in: assetsImageBundle, compatibleWith: nil)
+        }
     }
-//    let bundle = Bundle.init(identifier: "com.channelize.ChannelizeUI")
-//    return UIImage(named: name, in: bundle, compatibleWith: nil)
 }
 
 func getViewOriginXEnd(view: UIView) -> CGFloat {
