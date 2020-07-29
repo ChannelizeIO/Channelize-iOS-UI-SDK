@@ -84,11 +84,12 @@ func getImage(_ name: String) -> UIImage? {
             if let processedImage = UIImage(named: name, in: bundle, compatibleWith: nil) {
                 return processedImage
             } else {
-                let assetsImageBundle = Bundle.init(for: ChUI.self)
+                let assetsImageBundle = Bundle(identifier: "org.cocoapods.ChannelizeUI")
+                //let assetsImageBundle = Bundle.init(for: ChUI.self)
                 return UIImage(named: name, in: assetsImageBundle, compatibleWith: nil)
             }
         } else {
-            let assetsImageBundle = Bundle.init(for: ChUI.self)
+            let assetsImageBundle = Bundle(identifier: "org.cocoapods.ChannelizeUI")
             return UIImage(named: name, in: assetsImageBundle, compatibleWith: nil)
         }
     }

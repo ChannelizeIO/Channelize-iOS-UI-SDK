@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1811E0B424D1ADF200DE487C /* ChannelizeUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1811E0B324D1ADF200DE487C /* ChannelizeUI.bundle */; };
-		1811E0B724D1C97600DE487C /* ChannelizeActionIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1811E0B524D1C97500DE487C /* ChannelizeActionIcons.xcassets */; };
-		1811E0B824D1C97600DE487C /* ChannelizeUIIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1811E0B624D1C97600DE487C /* ChannelizeUIIcons.xcassets */; };
 		1842519124C1D74100D02A95 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1842518B24C1CA5100D02A95 /* CallKit.framework */; };
 		18B07DEC2449DCDD003D1610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEB2449DCDD003D1610 /* AppDelegate.swift */; };
 		18B07DF02449DCDD003D1610 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEF2449DCDD003D1610 /* ViewController.swift */; };
@@ -197,8 +195,6 @@
 
 /* Begin PBXFileReference section */
 		1811E0B324D1ADF200DE487C /* ChannelizeUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ChannelizeUI.bundle; sourceTree = "<group>"; };
-		1811E0B524D1C97500DE487C /* ChannelizeActionIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChannelizeActionIcons.xcassets; sourceTree = "<group>"; };
-		1811E0B624D1C97600DE487C /* ChannelizeUIIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChannelizeUIIcons.xcassets; sourceTree = "<group>"; };
 		1842518B24C1CA5100D02A95 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
 		1842518D24C1CA5800D02A95 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		18B07DE82449DCDD003D1610 /* ChannelizeUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChannelizeUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -446,7 +442,6 @@
 				EB5F6B1A2497E623004B7676 /* Enums */,
 				EB5F6B822497E625004B7676 /* Extensions */,
 				EB5F6B7C2497E625004B7676 /* Helpers */,
-				EB5F6B252497E623004B7676 /* Image_Resources */,
 				EB5F6B442497E624004B7676 /* Other Models */,
 				EB5F6B1C2497E623004B7676 /* Realm Models */,
 				EB5F6B472497E625004B7676 /* UI Screens */,
@@ -823,15 +818,6 @@
 			path = "Custom Views";
 			sourceTree = "<group>";
 		};
-		EB5F6B252497E623004B7676 /* Image_Resources */ = {
-			isa = PBXGroup;
-			children = (
-				1811E0B524D1C97500DE487C /* ChannelizeActionIcons.xcassets */,
-				1811E0B624D1C97600DE487C /* ChannelizeUIIcons.xcassets */,
-			);
-			path = Image_Resources;
-			sourceTree = "<group>";
-		};
 		EB5F6B412497E624004B7676 /* Constant Objects */ = {
 			isa = PBXGroup;
 			children = (
@@ -1086,12 +1072,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1811E0B424D1ADF200DE487C /* ChannelizeUI.bundle in Resources */,
-				1811E0B824D1C97600DE487C /* ChannelizeUIIcons.xcassets in Resources */,
 				EB76B9382471A9220002BE57 /* IHProgressHUD.bundle in Resources */,
 				18B07DF82449DCDF003D1610 /* LaunchScreen.storyboard in Resources */,
 				18B07DF52449DCDF003D1610 /* Assets.xcassets in Resources */,
 				18B07DF32449DCDD003D1610 /* Main.storyboard in Resources */,
-				1811E0B724D1C97600DE487C /* ChannelizeActionIcons.xcassets in Resources */,
 				EBF930B6247791FF0054CE1A /* CHLocalizable.strings in Resources */,
 				EBF930B42477902D0054CE1A /* Channelize-Info.plist in Resources */,
 			);
