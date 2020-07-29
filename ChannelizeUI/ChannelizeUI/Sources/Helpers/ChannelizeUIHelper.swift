@@ -68,6 +68,11 @@ func getStringFromDate(date: Date?) -> String? {
 }
 
 func getImage(_ name: String) -> UIImage? {
+    let assetsImageBundle = Bundle(identifier: "com.channelize.ChannelizeUI")
+    if let processedImage = UIImage(named: name, in: assetsImageBundle, compatibleWith: nil) {
+        return processedImage
+    }
+    
     var imageBundle = Bundle.init(for: ChUI.self)
     if let resourcePath = imageBundle.path(forResource: "ChannelizeUI", ofType: "bundle") {
         if let resourceBundle = Bundle(path: resourcePath) {
@@ -84,12 +89,12 @@ func getImage(_ name: String) -> UIImage? {
             if let processedImage = UIImage(named: name, in: bundle, compatibleWith: nil) {
                 return processedImage
             } else {
-                let assetsImageBundle = Bundle(identifier: "org.cocoapods.ChannelizeUI")
+                let assetsImageBundle = Bundle(identifier: "com.channelize.ChannelizeUI")
                 //let assetsImageBundle = Bundle.init(for: ChUI.self)
                 return UIImage(named: name, in: assetsImageBundle, compatibleWith: nil)
             }
         } else {
-            let assetsImageBundle = Bundle(identifier: "org.cocoapods.ChannelizeUI")
+            let assetsImageBundle = Bundle(identifier: "com.channelize.ChannelizeUI")
             return UIImage(named: name, in: assetsImageBundle, compatibleWith: nil)
         }
     }
