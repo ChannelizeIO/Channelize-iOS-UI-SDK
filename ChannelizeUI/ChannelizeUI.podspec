@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name          = 'ChannelizeUI'
-  spec.version       = '4.10.44'
+  spec.version       = '4.10.45'
   spec.license       = { :type => 'GPL', :file => 'LICENSE' }
   spec.homepage      = 'https://channelize.io/'
   spec.authors       = { "Channelize" => 'support@channelize.io' }
@@ -10,8 +10,8 @@ Pod::Spec.new do |spec|
   spec.platform     = :ios, '11.0'
   spec.ios.deployment_target  = '11.0'
   spec.source_files = 'ChannelizeUI/ChannelizeUI/Sources/**/*.{h,m,swift}'
-  spec.resources = 'ChannelizeUI/ChannelizeUI/Sources/ChannelizeUI.bundle'
-  #spec.resource_bundles = { "ChannelizeUI" => ['ChannelizeUI/ChannelizeUI/Sources/Image_Resources/**/*.xcassets'] }
+  spec.resources = ['ChannelizeUI/ChannelizeUI/Sources/ChannelizeUI.bundle', 'ChannelizeUI/ChannelizeUI/Sources/ChannelizeActionIcons.xcassets', 'ChannelizeUI/ChannelizeUI/Sources/ChannelizeUIIcons.xcassets']
+  spec.info_plist = { 'CFBundleIdentifier' => 'com.channelize.ChannelizeUI' }
   spec.dependency "InputBarAccessoryView", "4.2.2"
   spec.dependency "Alamofire", "4.8.2"
   spec.dependency "ObjectMapper", "~> 3.5"

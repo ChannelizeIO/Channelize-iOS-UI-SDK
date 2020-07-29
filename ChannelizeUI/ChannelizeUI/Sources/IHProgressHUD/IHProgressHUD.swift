@@ -104,9 +104,9 @@ public class IHProgressHUD : UIView {
     #endif
     private override init(frame: CGRect) {
         super.init(frame: frame)
-        infoImage = loadImageBundle(named: "info")!
-        successImage = loadImageBundle(named: "success")!
-        errorImage = loadImageBundle(named: "error")
+        infoImage = getImage("info")
+        successImage = getImage("success")
+        errorImage = getImage("error")
         isUserInteractionEnabled = false
         activityCount = 0
         getBackGroundView().alpha = 0.0

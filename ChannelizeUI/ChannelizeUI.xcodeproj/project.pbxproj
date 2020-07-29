@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1811E0B424D1ADF200DE487C /* ChannelizeUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1811E0B324D1ADF200DE487C /* ChannelizeUI.bundle */; };
+		1811E0BD24D1ED4100DE487C /* ChannelizeUIIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1811E0BB24D1ED4000DE487C /* ChannelizeUIIcons.xcassets */; };
+		1811E0BE24D1ED4100DE487C /* ChannelizeActionIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1811E0BC24D1ED4100DE487C /* ChannelizeActionIcons.xcassets */; };
 		1842519124C1D74100D02A95 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1842518B24C1CA5100D02A95 /* CallKit.framework */; };
 		18B07DEC2449DCDD003D1610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEB2449DCDD003D1610 /* AppDelegate.swift */; };
 		18B07DF02449DCDD003D1610 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEF2449DCDD003D1610 /* ViewController.swift */; };
@@ -175,7 +177,6 @@
 		EB76B9352471A9220002BE57 /* IndefiniteAnimatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB76B8892471A9210002BE57 /* IndefiniteAnimatedView.swift */; };
 		EB76B9362471A9220002BE57 /* ProgressAnimatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB76B88A2471A9210002BE57 /* ProgressAnimatedView.swift */; };
 		EB76B9372471A9220002BE57 /* IHProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB76B88B2471A9210002BE57 /* IHProgressHUD.swift */; };
-		EB76B9382471A9220002BE57 /* IHProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EB76B88C2471A9210002BE57 /* IHProgressHUD.bundle */; };
 		EBF930B42477902D0054CE1A /* Channelize-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EBF930B32477902D0054CE1A /* Channelize-Info.plist */; };
 		EBF930B6247791FF0054CE1A /* CHLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EBF930B5247791FF0054CE1A /* CHLocalizable.strings */; };
 /* End PBXBuildFile section */
@@ -195,6 +196,8 @@
 
 /* Begin PBXFileReference section */
 		1811E0B324D1ADF200DE487C /* ChannelizeUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ChannelizeUI.bundle; sourceTree = "<group>"; };
+		1811E0BB24D1ED4000DE487C /* ChannelizeUIIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChannelizeUIIcons.xcassets; sourceTree = "<group>"; };
+		1811E0BC24D1ED4100DE487C /* ChannelizeActionIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChannelizeActionIcons.xcassets; sourceTree = "<group>"; };
 		1842518B24C1CA5100D02A95 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
 		1842518D24C1CA5800D02A95 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		18B07DE82449DCDD003D1610 /* ChannelizeUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChannelizeUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -368,7 +371,6 @@
 		EB76B8892471A9210002BE57 /* IndefiniteAnimatedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndefiniteAnimatedView.swift; sourceTree = "<group>"; };
 		EB76B88A2471A9210002BE57 /* ProgressAnimatedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressAnimatedView.swift; sourceTree = "<group>"; };
 		EB76B88B2471A9210002BE57 /* IHProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IHProgressHUD.swift; sourceTree = "<group>"; };
-		EB76B88C2471A9210002BE57 /* IHProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IHProgressHUD.bundle; sourceTree = "<group>"; };
 		EBF930B32477902D0054CE1A /* Channelize-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Channelize-Info.plist"; sourceTree = "<group>"; };
 		EBF930B5247791FF0054CE1A /* CHLocalizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = CHLocalizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -433,6 +435,8 @@
 		18B07DFF2449EA40003D1610 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1811E0BC24D1ED4100DE487C /* ChannelizeActionIcons.xcassets */,
+				1811E0BB24D1ED4000DE487C /* ChannelizeUIIcons.xcassets */,
 				1811E0B324D1ADF200DE487C /* ChannelizeUI.bundle */,
 				EB76B7F32471A91C0002BE57 /* ChannelizeUI.h */,
 				EB5F6A9F2497E620004B7676 /* Common Cells */,
@@ -1004,7 +1008,6 @@
 				EB76B8892471A9210002BE57 /* IndefiniteAnimatedView.swift */,
 				EB76B88A2471A9210002BE57 /* ProgressAnimatedView.swift */,
 				EB76B88B2471A9210002BE57 /* IHProgressHUD.swift */,
-				EB76B88C2471A9210002BE57 /* IHProgressHUD.bundle */,
 			);
 			path = IHProgressHUD;
 			sourceTree = "<group>";
@@ -1072,12 +1075,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1811E0B424D1ADF200DE487C /* ChannelizeUI.bundle in Resources */,
-				EB76B9382471A9220002BE57 /* IHProgressHUD.bundle in Resources */,
 				18B07DF82449DCDF003D1610 /* LaunchScreen.storyboard in Resources */,
 				18B07DF52449DCDF003D1610 /* Assets.xcassets in Resources */,
 				18B07DF32449DCDD003D1610 /* Main.storyboard in Resources */,
 				EBF930B6247791FF0054CE1A /* CHLocalizable.strings in Resources */,
+				1811E0BE24D1ED4100DE487C /* ChannelizeActionIcons.xcassets in Resources */,
 				EBF930B42477902D0054CE1A /* Channelize-Info.plist in Resources */,
+				1811E0BD24D1ED4100DE487C /* ChannelizeUIIcons.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
