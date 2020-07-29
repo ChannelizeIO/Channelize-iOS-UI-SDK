@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name          = 'ChannelizeUI'
-  spec.version       = '4.20.11'
+  spec.version       = '4.20.12'
   spec.license       = { :type => 'GPL', :file => 'LICENSE' }
   spec.homepage      = 'https://channelize.io/'
   spec.authors       = { "Channelize" => 'support@channelize.io' }
@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
   spec.swift_version = '4.2'
   spec.platform     = :ios, '11.0'
   spec.ios.deployment_target  = '11.0'
-  spec.source_files = 'ChannelizeUI/ChannelizeUI/Sources/**/*.swift'
+  spec.source_files = 'ChannelizeUI/ChannelizeUI/Sources'
   spec.dependency "InputBarAccessoryView", "4.2.2"
   spec.dependency "Alamofire", "4.8.2"
   spec.dependency "ObjectMapper", "~> 3.5"
