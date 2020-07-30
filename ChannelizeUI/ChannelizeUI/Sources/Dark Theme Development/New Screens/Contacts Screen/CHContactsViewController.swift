@@ -414,10 +414,8 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
         }
         if unBlockedUser.id == Channelize.getCurrentUserId() {
             self.checkStatusAndAppendFriend(user: unBlockerUser)
-            self.checkAndSetNoContactView()
         } else {
             self.checkStatusAndAppendFriend(user: unBlockedUser)
-            self.checkAndSetNoContactView()
         }
     }
     
@@ -515,6 +513,7 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
                         self.allContacts.append(unwrappedUser)
                     }
                 }
+                self.checkAndSetNoContactView()
                 ChUserCache.instance.appendUsers(newUsers: [unwrappedUser])
             }
         })
