@@ -44,14 +44,8 @@ public extension UIFont {
     
     static func loadFontWith(name: String) {
         
-        var fontBundle = Bundle.init(for: ChUI.self)
-        if let resourcePath = fontBundle.path(forResource: "ChannelizeUI", ofType: "bundle") {
-            if let resourceBundle = Bundle(path: resourcePath) {
-                fontBundle = resourceBundle
-            }
-        }
-        
-        let pathForResourceString = fontBundle.path(forResource: name, ofType: "ttf")
+        let fontBundle = Bundle(identifier: "com.channelize.ChannelizeUI")
+        let pathForResourceString = fontBundle?.path(forResource: name, ofType: "ttf")
         let fontData = NSData(contentsOfFile: pathForResourceString!)
         let dataProvider = CGDataProvider(data: fontData!)
         let fontRef = CGFont(dataProvider!)
@@ -60,26 +54,6 @@ public extension UIFont {
         if (CTFontManagerRegisterGraphicsFont(fontRef!, &errorRef) == false) {
             NSLog("Failed to register font - register graphics font failed - this font may have already been registered in the main bundle.")
         }
-        
-//        var imageBundle = Bundle.init(for: IHProgressHUD.self)
-//        if let resourcePath = imageBundle.path(forResource: "IHProgressHUD", ofType: "bundle") {
-//            if let resourcesBundle = Bundle(path: resourcePath) {
-//                imageBundle = resourcesBundle
-//            }
-//        }
-//
-//
-//
-//        let frameworkBundle = Bundle(for: MyDummyClass.self)
-//        let pathForResourceString = frameworkBundle.path(forResource: name, ofType: "ttf")
-//        let fontData = NSData(contentsOfFile: pathForResourceString!)
-//        let dataProvider = CGDataProvider(data: fontData!)
-//        let fontRef = CGFont(dataProvider!)
-//        var errorRef: Unmanaged<CFError>? = nil
-//
-//        if (CTFontManagerRegisterGraphicsFont(fontRef!, &errorRef) == false) {
-//            NSLog("Failed to register font - register graphics font failed - this font may have already been registered in the main bundle.")
-//        }
     }
 
     static let loadMyFonts: () = {

@@ -71,32 +71,8 @@ func getImage(_ name: String) -> UIImage? {
     let assetsImageBundle = Bundle(identifier: "com.channelize.ChannelizeUI")
     if let processedImage = UIImage(named: name, in: assetsImageBundle, compatibleWith: nil) {
         return processedImage
-    }
-    
-    var imageBundle = Bundle.init(for: ChUI.self)
-    if let resourcePath = imageBundle.path(forResource: "ChannelizeUI", ofType: "bundle") {
-        if let resourceBundle = Bundle(path: resourcePath) {
-            resourceBundle.load()
-            imageBundle = resourceBundle
-        }
-    }
-    if let processedImage = UIImage(named: name, in: imageBundle, compatibleWith: nil) {
-        return processedImage
     } else {
-        let podBundle =  Bundle.init(for: ChUI.self)
-        if let url = podBundle.url(forResource: "ChannelizeUI", withExtension: "bundle") {
-            let bundle = Bundle(url: url)
-            if let processedImage = UIImage(named: name, in: bundle, compatibleWith: nil) {
-                return processedImage
-            } else {
-                let assetsImageBundle = Bundle(identifier: "com.channelize.ChannelizeUI")
-                //let assetsImageBundle = Bundle.init(for: ChUI.self)
-                return UIImage(named: name, in: assetsImageBundle, compatibleWith: nil)
-            }
-        } else {
-            let assetsImageBundle = Bundle(identifier: "com.channelize.ChannelizeUI")
-            return UIImage(named: name, in: assetsImageBundle, compatibleWith: nil)
-        }
+        return UIImage(named: name, in: Bundle.init(for: ChUI.self), compatibleWith: nil)
     }
 }
 
