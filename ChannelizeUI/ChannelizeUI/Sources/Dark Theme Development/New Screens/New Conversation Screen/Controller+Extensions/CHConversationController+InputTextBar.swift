@@ -125,7 +125,7 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
         }
         messageQueryBuilder.ownerId = senderId
         messageQueryBuilder.mentionedUsers = apiMentionedUsers.count > 0 ? apiMentionedUsers : nil
-        
+        messageQueryBuilder.createdAt = messageDate
         
         self.conversation?.lastReadDictionary?.updateValue(
             ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())

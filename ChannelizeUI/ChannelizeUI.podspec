@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name          = 'ChannelizeUI'
-  spec.version       = '4.20.13'
+  spec.version       = '4.20.14'
   spec.license       = { :type => 'GPL', :file => 'LICENSE' }
   spec.homepage      = 'https://channelize.io/'
   spec.authors       = { "Channelize" => 'support@channelize.io' }
@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
   spec.dependency "ObjectMapper", "~> 3.5"
   spec.dependency "SDWebImageFLPlugin"
   spec.dependency "DifferenceKit"
-  spec.dependency "ChannelizeAPI", ">= 4.20.11"
+  spec.dependency "ChannelizeAPI", ">= 4.20.13"
   spec.dependency "ReachabilitySwift"
   spec.dependency "MaterialComponents/ProgressView"
   spec.dependency "MaterialComponents/ActivityIndicator"

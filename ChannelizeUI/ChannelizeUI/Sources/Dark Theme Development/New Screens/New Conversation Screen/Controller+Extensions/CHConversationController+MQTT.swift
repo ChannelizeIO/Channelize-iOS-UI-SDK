@@ -355,6 +355,7 @@ extension CHConversationViewController: CHUserEventDelegates, CHConversationEven
                         }
                     }
                 })
+                self.markConversationRead()
             }
         }
     }

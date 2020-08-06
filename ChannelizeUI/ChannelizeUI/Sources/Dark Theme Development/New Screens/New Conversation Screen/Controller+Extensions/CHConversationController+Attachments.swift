@@ -56,7 +56,7 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
         locationMessageQueryBuilder.messageType = .normal
         locationMessageQueryBuilder.ownerId = senderId
         locationMessageQueryBuilder.attachments = [locationAttachmentBuilder]
-        
+        locationMessageQueryBuilder.createdAt = messageDate
         self.conversation?.lastReadDictionary?.updateValue(ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
         self.conversation?.updateLastMessageOldestRead()
         
@@ -166,7 +166,7 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
             videoMessageQueryBuilder.ownerId = senderId
             videoMessageQueryBuilder.attachments = [videoAttachmentQueryBuilder]
             videoMessageQueryBuilder.isEncrypted = ChVirgilE3Kit.isEndToEndEncryptionEnabled
-            
+            videoMessageQueryBuilder.createdAt = messageDate
             self.noMessageContentView.removeFromSuperview()
             
             self.conversation?.lastReadDictionary?.updateValue(
@@ -289,7 +289,7 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                 messageQueryBuilder.ownerId = Channelize.getCurrentUserId()
                 messageQueryBuilder.attachments = [docAttachment]
                 messageQueryBuilder.isEncrypted = ChVirgilE3Kit.isEndToEndEncryptionEnabled
-                
+                messageQueryBuilder.createdAt = messageDate
                 self.noMessageContentView.removeFromSuperview()
                 
                 self.conversation?.lastReadDictionary?.updateValue(
@@ -677,6 +677,7 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
             audioMessageQueryBuilder.ownerId = senderId
             audioMessageQueryBuilder.attachments = [audioAttachmentQueryBuilder]
             audioMessageQueryBuilder.isEncrypted = ChVirgilE3Kit.isEndToEndEncryptionEnabled
+            audioMessageQueryBuilder.createdAt = messageDate
             self.noMessageContentView.removeFromSuperview()
             
             self.conversation?.lastReadDictionary?.updateValue(
@@ -856,7 +857,7 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
         imageMessageQueryBuilder.messageType = .normal
         imageMessageQueryBuilder.ownerId = senderId
         imageMessageQueryBuilder.attachments = [imageAttachmentQueryBuilder]
-        
+        imageMessageQueryBuilder.createdAt = messageDate
         self.conversation?.lastReadDictionary?.updateValue(
             ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
         self.conversation?.updateLastMessageOldestRead()
@@ -945,7 +946,7 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
         }
         gifStickerMessageQueryBuilder.messageType = .normal
         gifStickerMessageQueryBuilder.ownerId = senderId
-        
+        gifStickerMessageQueryBuilder.createdAt = messageDate
         if type == .gif {
             let gifAttachmentQueryBuilder = CHGifAttachmentQueryBuilder()
             gifAttachmentQueryBuilder.gifStillUrl = model.stillUrl
