@@ -367,14 +367,9 @@ public class IHProgressHUD : UIView {
         var orientation = UIInterfaceOrientation.portrait
         if IHProgressHUD.isNotAppExtension {
             if #available(iOS 13.0, *) {
-                var rootVC:UIViewController? = nil
-                for scene in UIApplication.shared.connectedScenes {
-                    if scene.activationState == .foregroundActive {
-                        if let vc = ((scene as? UIWindowScene)?.delegate as? UIWindowSceneDelegate)?.window??.rootViewController {
-                            rootVC = vc
-                            break
-                        }
-                    }
+                var rootVC: UIViewController? = nil
+                if let keyWindow = getKeyWindow() {
+                    rootVC = keyWindow.rootViewController
                 }
                 frame = rootVC?.view.window?.bounds ?? UIScreen.main.bounds
                 if let or = rootVC?.view.window?.windowScene?.interfaceOrientation {
@@ -395,7 +390,6 @@ public class IHProgressHUD : UIView {
                 orientation = UIApplication.shared.statusBarOrientation
                 statusBarFrame = UIApplication.shared.statusBarFrame
             }
-            
             
             if frame.width > frame.height {
                 orientation = .landscapeLeft
@@ -531,7 +525,8 @@ public class IHProgressHUD : UIView {
                     strongSelf.getImageView().image = image.withRenderingMode(.alwaysTemplate)
                     strongSelf.getImageView().tintColor = strongSelf.foreGroundColorForStyle()
                 } else {
-                    strongSelf.getImageView().image = image
+                    strongSelf.getImageView().image = image.withRenderingMode(.alwaysTemplate)
+                    strongSelf.getImageView().tintColor = strongSelf.foreGroundColorForStyle()
                 }
             }
             strongSelf.getImageView().isHidden = false
@@ -1206,16 +1201,7 @@ extension IHProgressHUD {
 //MARK: - Instance Getter Methods
 extension IHProgressHUD {
     private func foreGroundColorForStyle() -> UIColor {
-        guard let color = foregroundColor else {
-            if defaultStyle == .light {
-                return .black
-            } else if defaultStyle == .dark {
-                return .white
-            } else {
-                return .black
-            }
-        }
-        return color
+        return CHAppConstant.themeStyle == .dark ? .white : CHLightThemeColors.tintColor
     }
     
     private func getHudView() -> UIVisualEffectView {

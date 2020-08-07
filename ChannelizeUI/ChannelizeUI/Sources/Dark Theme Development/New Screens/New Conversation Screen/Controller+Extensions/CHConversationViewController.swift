@@ -206,6 +206,7 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
                             if let checkRelationModel = relationModel {
                                 self.blockStatusView.updateBlockStatusView(conversation: nil, relationModel: checkRelationModel)
                             }
+                            self.checkAndSetNoContentView()
                         })
                     }
                 })

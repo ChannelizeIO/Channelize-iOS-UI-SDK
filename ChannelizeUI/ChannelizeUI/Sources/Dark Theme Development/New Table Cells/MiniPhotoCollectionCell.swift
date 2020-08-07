@@ -31,13 +31,17 @@ class MiniPhotoCollectionCell : UICollectionViewCell{
     
     func assignData() {
         if let object = imageObject{
-            self.photoImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            self.photoImageView.sd_imageTransition = .fade
-            if let imageUrlString = object.imageUrl{
-                if let imageUrl = URL(string: imageUrlString){
-                    self.photoImageView.sd_setImage(with: imageUrl, completed: nil)
+            if let image = SDImageCache.shared.imageFromCache(forKey: object.messageId) {
+                self.photoImageView.image = image
+            } else {
+                self.photoImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+                self.photoImageView.sd_imageTransition = .fade
+                if let imageUrlString = object.imageUrl{
+                    if let imageUrl = URL(string: imageUrlString){
+                        self.photoImageView.sd_setImage(with: imageUrl, completed: nil)
+                    }
+                    
                 }
-                
             }
         }
     }
