@@ -228,6 +228,13 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
                 } else {
                     self.headerView.updateBlockStatus(conversation: self.conversation)
                     self.blockStatusView.updateBlockStatusView(conversation: self.conversation, relationModel: nil)
+                    if ChVirgilE3Kit.isEndToEndEncryptionEnabled {
+                        self.findUsersPublicKeys(completion: { completed in
+                            self.getMessages()
+                        })
+                    } else {
+                        self.getMessages()
+                    }
                 }
             }
         }

@@ -151,6 +151,7 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
         })
         self.topStackContainerHeightConstraint.constant = 0
         self.view.layoutIfNeeded()
+        self.checkAndSetNoContentView()
         ChannelizeAPIService.sendMessage(queryBuilder: messageQueryBuilder, uploadProgress: { _,_ in }, completion: {(message,errorString) in
             guard errorString == nil else {
                 return
@@ -165,6 +166,7 @@ extension CHConversationViewController: InputBarAccessoryViewDelegate, Autocompl
                 if self.conversation?.id == nil {
                     self.getConversationWithId(conversationId: message?.conversationId ?? "")
                 }
+                self.checkAndSetNoContentView()
             }
         })
     }
