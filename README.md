@@ -1,2 +1,2 @@
 # Channelize-iOS-UI-SDK
-Channelize iOS UI SDK built using Channelize iOS API SDK
+Build an easy to customize with fast integration Chat with Channelize iOS UI SDK built using Channelize iOS API SDK
