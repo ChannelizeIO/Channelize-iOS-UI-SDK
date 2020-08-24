@@ -8,6 +8,18 @@
 
 import Foundation
 
+struct GoogleTranslationError: LocalizedError {
+    var errorDescription: String? { return errorMessage}
+    var failureReason: String? { return errorMessage }
+    var recoverySuggestion: String? { return nil }
+    var helpAnchor: String? { return nil }
+    
+    private var errorMessage: String?
+    
+    init(message: String?) {
+        self.errorMessage = message
+    }
+}
 
 enum MessageSource {
     case local

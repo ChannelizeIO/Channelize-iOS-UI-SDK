@@ -409,6 +409,38 @@ extension CHConversationViewController: ReactionPopOverControllerDelegate, UIPop
             controller.messageIds = [messageId]
             self.navigationController?.pushViewController(controller, animated: true)
         })
+        
+        let transalateAction = CHActionSheetAction(title: "Translate", image: nil, actionType: .default, handler: {(action) in
+            
+            var originalText = ""
+            if (chatItem is TextMessageItem) {
+                originalText = (chatItem as? TextMessageItem)?.attributedString?.string ?? ""
+            } else if chatItem is QuotedMessageItem {
+                originalText = (chatItem as? QuotedMessageItem)?.attributedString?.string ?? ""
+            }
+            
+            showProgressView(superView: self.navigationController?.view, string: nil)
+            CHGoogleTranslation.shared.translateRequestedText(string: originalText, completion: {(translatedText,error) in
+                guard error == nil else {
+                    showProgressErrorView(superView: self.navigationController?.view, errorString: error?.localizedDescription)
+                    return
+                }
+                disMissProgressView()
+                if let translatedChatItem = self.chatItems.first(where: {
+                    $0.messageId == chatItem?.messageId
+                }) as? TextMessageItem {
+                    translatedChatItem.isTranslated = true
+                    translatedChatItem.translatedString = translatedText
+                    self.collectionView.reloadData()
+                } else if let translatedChatItem = self.chatItems.first(where: {
+                    $0.messageId == chatItem?.messageId
+                }) as? QuotedMessageItem {
+                    translatedChatItem.isTranslated = true
+                    translatedChatItem.translatedString = translatedText
+                    self.collectionView.reloadData()
+                }
+            })
+        })
        
         let moreAction = CHActionSheetAction(title: CHLocalized(key: "pmMore"), image: nil, actionType: .default, handler: {(action) in
             self.setMessageSelectorOn(with: messageId)
@@ -437,6 +469,21 @@ extension CHConversationViewController: ReactionPopOverControllerDelegate, UIPop
             actionsList.append(forwardAction)
         }
         actionsList.append(deleteAction)
+        
+        if CHGoogleTranslation.isGoogleTranslationModuleEnabled {
+            if chatItem is TextMessageItem || chatItem is QuotedMessageItem {
+                if (chatItem as? TextMessageItem)?.isTranslated == false {
+                    if isDeleted == false {
+                        actionsList.append(transalateAction)
+                    }
+                } else if (chatItem as? QuotedMessageItem)?.isTranslated == false {
+                    if isDeleted == false {
+                        actionsList.append(transalateAction)
+                    }
+                }
+            }
+        }
+        
         actionsList.append(moreAction)
         let controller = CHActionSheetController()
         controller.modalPresentationStyle = .overFullScreen

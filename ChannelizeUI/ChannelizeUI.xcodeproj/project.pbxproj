@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1811E0BD24D1ED4100DE487C /* ChannelizeUIIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1811E0BB24D1ED4000DE487C /* ChannelizeUIIcons.xcassets */; };
 		1811E0BE24D1ED4100DE487C /* ChannelizeActionIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1811E0BC24D1ED4100DE487C /* ChannelizeActionIcons.xcassets */; };
+		18297DD024F3FB4F00C0AFD4 /* CHGoogleTranslation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18297DCF24F3FB4F00C0AFD4 /* CHGoogleTranslation.swift */; };
 		1842519124C1D74100D02A95 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1842518B24C1CA5100D02A95 /* CallKit.framework */; };
 		18B07DEC2449DCDD003D1610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEB2449DCDD003D1610 /* AppDelegate.swift */; };
 		18B07DF02449DCDD003D1610 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEF2449DCDD003D1610 /* ViewController.swift */; };
@@ -217,6 +218,7 @@
 /* Begin PBXFileReference section */
 		1811E0BB24D1ED4000DE487C /* ChannelizeUIIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChannelizeUIIcons.xcassets; sourceTree = "<group>"; };
 		1811E0BC24D1ED4100DE487C /* ChannelizeActionIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChannelizeActionIcons.xcassets; sourceTree = "<group>"; };
+		18297DCF24F3FB4F00C0AFD4 /* CHGoogleTranslation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHGoogleTranslation.swift; sourceTree = "<group>"; };
 		1842518B24C1CA5100D02A95 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
 		1842518D24C1CA5800D02A95 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		18B07DE82449DCDD003D1610 /* ChannelizeUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChannelizeUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -438,6 +440,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		18297DCE24F3FB3100C0AFD4 /* Google Translation */ = {
+			isa = PBXGroup;
+			children = (
+				18297DCF24F3FB4F00C0AFD4 /* CHGoogleTranslation.swift */,
+			);
+			path = "Google Translation";
+			sourceTree = "<group>";
+		};
 		18B07DDF2449DCDD003D1610 = {
 			isa = PBXGroup;
 			children = (
@@ -475,6 +485,7 @@
 		18B07DFF2449EA40003D1610 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				18297DCE24F3FB3100C0AFD4 /* Google Translation */,
 				18C3B50A24D2E98E00C7ABF6 /* Image_Resources */,
 				18C3B4E924D2D6CD00C7ABF6 /* Fonts */,
 				1811E0BC24D1ED4100DE487C /* ChannelizeActionIcons.xcassets */,
@@ -1385,6 +1396,7 @@
 				EB5F6BAE2497E626004B7676 /* CHConversationBlockStatusView.swift in Sources */,
 				EB5F6C352497E626004B7676 /* ImageGeneratorFromString.swift in Sources */,
 				EB5F6C1D2497E626004B7676 /* AttachmentModel.swift in Sources */,
+				18297DD024F3FB4F00C0AFD4 /* CHGoogleTranslation.swift in Sources */,
 				EB5F6BB62497E626004B7676 /* CHQuotedMessageModel.swift in Sources */,
 				EB5F6C0F2497E626004B7676 /* RecentConversationShimmeringCell.swift in Sources */,
 				EB5F6BD22497E626004B7676 /* CHNewGroupViewController.swift in Sources */,

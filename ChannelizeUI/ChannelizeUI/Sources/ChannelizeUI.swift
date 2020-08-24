@@ -59,11 +59,11 @@ public class ChUI {
                 Channelize.setUserOnline()
             }
             if(!instance.isCHOpen) {
-//                ChannelizeAPIService.getEnabledModules(completion: {(modules,errorString) in
-//                    if let enabledModules = modules {
-//                       // self.instance.processModulesKeys(modulesArray: enabledModules)
-//                    }
-//                })
+                ChannelizeAPIService.getEnabledModules(completion: {(modules,errorString) in
+                    if let enabledModules = modules {
+                       self.instance.processModulesKeys(modulesArray: enabledModules)
+                    }
+                })
                 
                 self.instance.checkIsAllUserSearchIsEnabled()
                 instance.isCHOpen = true
@@ -113,7 +113,7 @@ public class ChUI {
                             }
                         })
                     }
-                    
+                    /*
                     ChVirgilE3Kit.initializeEthree(completion: { (successfull,error) in
                         if successfull {
                             ChVirgilE3Kit.checkAndRegisterUser(completion: {(status,error) in
@@ -122,6 +122,18 @@ public class ChUI {
                         }
                     })
                     ChVirgilE3Kit.isEndToEndEncryptionEnabled = true
+                     */
+                } else if moduleInfo.value(forKey: "identifier") as? String == "real-time-language-translate" {
+                    if let settingsArray = moduleInfo.value(forKey: "settings") as? NSArray {
+                        settingsArray.forEach({
+                            if let singleSettingInfo = $0 as? [String:String] {
+                                if let apiKey = singleSettingInfo["value"], apiKey != "" {
+                                    CHGoogleTranslation.isGoogleTranslationModuleEnabled = true
+                                    CHGoogleTranslation.googleTranslateApiKey = apiKey
+                                }
+                            }
+                        })
+                    }
                 }
             }
         })

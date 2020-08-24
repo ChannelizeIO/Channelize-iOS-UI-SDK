@@ -40,6 +40,27 @@ class UITextMessageCell: CHBaseMessageCell {
         return textView
     }()
     
+    private var translatedTextContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
+    private var translatedTextContainerDividerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.tintColor : CHLightThemeColors.tintColor
+        view.layer.cornerRadius = 1.25
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    private var translatedTextLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
     var messageStatusViewContainer: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
@@ -87,6 +108,11 @@ class UITextMessageCell: CHBaseMessageCell {
         self.bubbleContainerView.addSubview(self.messageStatusViewContainer)
         self.bubbleContainerView.addSubview(self.reactionButton)
         self.textContainerView.addSubview(self.textView)
+        
+        self.textContainerView.addSubview(self.translatedTextContainerView)
+        self.translatedTextContainerView.addSubview(self.translatedTextContainerDividerView)
+        self.translatedTextContainerView.addSubview(self.translatedTextLabel)
+        
         self.messageStatusViewContainer.addSubview(self.messageStatusView)
         self.messageStatusViewContainer.addSubview(self.messageTimeLabel)
         
@@ -170,6 +196,31 @@ class UITextMessageCell: CHBaseMessageCell {
         }
         containerHeight = containerHeight + (nonZeroCountReactions?.count ?? 0 > 0 ? 5 : 0)
         
+        if textMessageModel.isTranslated == true {
+            //let labelHeight = getAttributedLabelHeight(attributedString: textMessageModel.translatedAttributedString ?? NSAttributedString(), maximumWidth: containerWidth - 27.5, numberOfLines: 0)
+            //containerHeight += labelHeight + 15 //(nonZeroCountReactions?.count ?? 0 > 0 ? 12 : 0)
+            
+            let translatedFrameSizeInfo = getTextMessageSizeInfo(maxWidth: 250, withText: textMessageModel.translatedAttributedString ?? NSAttributedString())
+            let labelHeight = translatedFrameSizeInfo.frameSize.height
+            let labelWidth = translatedFrameSizeInfo.frameSize.width
+            
+            if labelWidth + 27.5 > containerWidth {
+                containerWidth = labelWidth + 27.5
+            }
+            
+            containerHeight += (labelHeight + 15)
+            
+            
+            self.translatedTextContainerDividerView.isHidden = false
+            self.translatedTextContainerView.isHidden = false
+            self.translatedTextLabel.isHidden = false
+        } else {
+            self.translatedTextContainerDividerView.isHidden = true
+            self.translatedTextContainerView.isHidden = true
+            self.translatedTextLabel.isHidden = true
+        }
+        
+        
         self.textContainerView.backgroundColor = textMessageModel.isIncoming ? CHUIConstant.incomingTextMessageBackGroundColor : CHUIConstant.outGoingTextMessageBackGroundColor
         
         self.textContainerView.frame.origin.x = textMessageModel.isIncoming ? 15 : self.bubbleContainerView.frame.width - containerWidth - 15
@@ -177,7 +228,19 @@ class UITextMessageCell: CHBaseMessageCell {
         self.textContainerView.frame.size = CGSize(width: containerWidth, height: containerHeight)
         
         self.textView.frame.origin = .zero
-        self.textView.frame.size = CGSize(width: frameSize.width + 26, height: frameSize.height + 24)
+        self.textView.frame.size = CGSize(width: containerWidth, height: frameSize.height + 24)
+        
+        self.translatedTextContainerView.frame.origin = CGPoint(x: 0, y: getViewOriginYEnd(view: self.textView))
+        self.translatedTextContainerView.frame.size = CGSize(width: containerWidth, height: self.textContainerView.frame.height - self.textView.frame.height)
+        
+        self.translatedTextContainerDividerView.frame.origin = CGPoint(x: 13, y: 0)
+        self.translatedTextContainerDividerView.frame.size.width = 2.5
+        
+        self.translatedTextLabel.frame.origin = CGPoint(x: getViewOriginXEnd(view: self.translatedTextContainerDividerView) + 4.5, y: 0)
+        self.translatedTextLabel.frame.size.width = self.translatedTextContainerView.frame.width - self.translatedTextLabel.frame.origin.x - 7.5
+        self.translatedTextLabel.frame.size.height = self.translatedTextContainerView.frame.height - 15// - (nonZeroCountReactions?.count ?? 0 > 0 ? 12 : 0)
+        self.translatedTextContainerDividerView.frame.size.height = self.translatedTextLabel.frame.height
+        
         
         if chatItem.isIncoming {
             if textMessageModel.isDeletedMessage == true {
@@ -221,6 +284,12 @@ class UITextMessageCell: CHBaseMessageCell {
         self.textView.attributedText = textMessageModel.attributedString
         self.reactionsContainerView.assignReactions(reactions: textMessageModel.reactions)
         
+        
+        //self.translatedTextLabel.text = textMessageModel.translatedString
+        self.translatedTextLabel.attributedText = NSAttributedString(string: textMessageModel.translatedString ?? "", attributes: [NSAttributedString.Key.foregroundColor: textMessageModel.isIncoming == true ? CHUIConstant.incomingTextMessageColor : CHUIConstant.outGoingTextMessageColor, NSAttributedString.Key.font: CHCustomStyles.textMessageFont! ])
+        //self.translatedTextLabel.textColor = textMessageModel.isIncoming == true ? CHUIConstant.incomingTextMessageColor : CHUIConstant.outGoingTextMessageColor
+        
+        
         if chatItem.showMessageStatusView {
             self.messageStatusViewContainer.isHidden = false
         } else {
@@ -252,6 +321,7 @@ class UITextMessageCell: CHBaseMessageCell {
             self.messageStatusView.image = getImage("chDoubleTickIcon")
             break
         }
+        self.translatedTextContainerDividerView.backgroundColor = textMessageModel.isIncoming ? (CHAppConstant.themeStyle == .dark ? CHDarkThemeColors.tintColor : CHLightThemeColors.tintColor) : UIColor.white
     }
     
     func calculateReactionViewSize(chatItem: ChannelizeChatItem) -> CGSize{

@@ -425,6 +425,7 @@ extension CHConversationViewController: UICollectionViewDelegate, UICollectionVi
         
         let frameSize = frameSizeInfo.frameSize
         let containerHeight = frameSize.height + 24
+        
         var totalHeight: CGFloat = 0
         let textViewHeight: CGFloat = containerHeight
         totalHeight = totalHeight + textViewHeight
@@ -444,6 +445,15 @@ extension CHConversationViewController: UICollectionViewDelegate, UICollectionVi
         }
         let reactionsViewHeight = self.calculateReactionViewHeight(chatItem: chatItem, maxWidth: 250)
         totalHeight = totalHeight + ( reactionsViewHeight > 0 ? reactionsViewHeight - 10 : 0)
+        
+        if textMessageItem?.isTranslated == true {
+            
+            let translatedFrameSizeInfo = getTextMessageSizeInfo(maxWidth: 250, withText: textMessageItem?.translatedAttributedString ?? NSAttributedString())
+            let labelHeight = translatedFrameSizeInfo.frameSize.height
+            
+            totalHeight += (labelHeight + 15)
+        }
+        
         return CGSize(width: self.view.frame.width, height: totalHeight)
     }
     
@@ -614,7 +624,14 @@ extension CHConversationViewController: UICollectionViewDelegate, UICollectionVi
         }
         
         let reactionsViewHeight = self.calculateReactionViewHeight(chatItem: chatItem, maxWidth: 250)
-        totalHeight = totalHeight + ( reactionsViewHeight > 0 ? reactionsViewHeight : 0)
+        totalHeight = totalHeight + ( reactionsViewHeight > 0 ? reactionsViewHeight - 10 : 0)
+        
+        if textMessageItem?.isTranslated == true {
+            
+            let labelHeight = getAttributedLabelHeight(attributedString: textMessageItem?.translatedAttributedString ?? NSAttributedString(), maximumWidth: 250 - 27.5, numberOfLines: 0)
+            totalHeight += (labelHeight + 15)//+ (reactionsViewHeight > 0 ? 12 : 0)
+        }
+        
         return CGSize(width: self.view.frame.width, height: totalHeight + 48)
     }
     

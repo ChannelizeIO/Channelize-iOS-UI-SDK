@@ -43,6 +43,20 @@ class QuotedMessageItem: ChannelizeChatItem {
     var quotedMessageData: QuotedMessageData?
     var parentMessage: CHMessage?
     var isDeletedMessage: Bool?
+    
+    var isTranslated: Bool? = false
+    var translatedAttributedString: NSAttributedString?
+    var translatedString: String? {
+        didSet {
+            let attributes = [NSAttributedString.Key.font: CHCustomStyles.textMessageFont!, NSAttributedString.Key.foregroundColor: CHUIConstant.outGoingTextMessageColor]
+            if self.translatedString != nil || self.translatedString != "" {
+                self.translatedAttributedString = NSAttributedString(string: self.translatedString ?? "", attributes: attributes)
+            } else {
+                self.translatedAttributedString = nil
+            }
+        }
+    }
+    
     init(baseMessageModel: BaseMessageModel, parentMessage: CHMessage?, isDeletedMessage: Bool?, quotedMessageData: QuotedMessageData?) {
         super.init(baseMessageModel: baseMessageModel, messageType: isDeletedMessage == true ? .deletedMessage : .quotedMessage)
         self.isDeletedMessage = isDeletedMessage
