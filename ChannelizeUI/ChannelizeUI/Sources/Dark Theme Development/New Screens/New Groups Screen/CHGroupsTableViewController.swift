@@ -315,8 +315,12 @@ class CHGroupsTableViewController: NewCHTableViewController, CHConversationEvent
                     return
                 }
                 if let recievedConversation = conversation {
+                    guard recievedConversation.isGroup == false else {
+                        return
+                    }
                     self.groupConversations.insert(recievedConversation, at: 0)
                 }
+                
                 self.checkAndSetNoContentView()
             })
         }

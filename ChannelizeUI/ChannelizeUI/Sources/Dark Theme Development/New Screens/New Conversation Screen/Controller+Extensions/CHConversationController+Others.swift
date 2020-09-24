@@ -1046,12 +1046,22 @@ extension CHConversationViewController: ReactionPopOverControllerDelegate, UIPop
         textItems.forEach({
             if let textModel = $0 as? TextMessageItem {
                 self.detectAndAddLinkMessages(with: textModel)
+            } else if let quotedMessage = $0 as? QuotedMessageItem {
+                self.detectAndAddLinkMessages(with: nil, quotedMessage: quotedMessage)
             }
         })
     }
     
-    func detectAndAddLinkMessages(with message: TextMessageItem){
-        let textString = message.textMessageData?.messageBody ?? ""
+    func detectAndAddLinkMessages(with textMessage: TextMessageItem?, quotedMessage: QuotedMessageItem? = nil){
+        var textString = ""
+        var message: ChannelizeChatItem!
+        if let textMessage = textMessage {
+            textString = textMessage.textMessageData?.messageBody ?? ""
+            message = textMessage
+        } else if let quotedMessage = quotedMessage {
+            textString = quotedMessage.quotedMessageData?.messageBody ?? ""
+            message = quotedMessage
+        }
         
         var shouldAddLinkModel = true
         

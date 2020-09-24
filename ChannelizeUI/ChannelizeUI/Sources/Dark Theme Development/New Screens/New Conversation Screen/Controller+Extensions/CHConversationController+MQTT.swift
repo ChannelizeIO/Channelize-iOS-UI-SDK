@@ -335,7 +335,11 @@ extension CHConversationViewController: CHUserEventDelegates, CHConversationEven
                 self.collectionView.reload(using: changeSet, interrupt: { $0.changeCount > 500 }, setData: { data in
                     self.chatItems = data
                 }, completion: {
-                    
+                    if recievedChatItem.messageType == .text {
+                        self.detectAndAddLinkMessages(with: recievedChatItem as? TextMessageItem)
+                    } else if recievedChatItem.messageType == .quotedMessage {
+                        self.detectAndAddLinkMessages(with: nil, quotedMessage: recievedChatItem as? QuotedMessageItem)
+                    }
                 })
             }
         } else {
@@ -353,6 +357,11 @@ extension CHConversationViewController: CHUserEventDelegates, CHConversationEven
                         if self.moveToBottomButton.isHidden == false {
                             self.moveToBottomButton.updateBadgeCount()
                         }
+                    }
+                    if chatItem.messageType == .text {
+                        self.detectAndAddLinkMessages(with: chatItem as? TextMessageItem)
+                    } else if chatItem.messageType == .quotedMessage {
+                        self.detectAndAddLinkMessages(with: nil, quotedMessage: chatItem as? QuotedMessageItem)
                     }
                 })
                 self.markConversationRead()
