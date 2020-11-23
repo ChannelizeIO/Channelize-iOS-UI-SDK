@@ -236,16 +236,16 @@ extension CHConversationViewController: CHUserEventDelegates, CHConversationEven
         
         let oldChatItems = self.chatItems.copy()
         let deletedMessageIds = deletedMessages.compactMap({ $0.id ?? ""})
-        self.chatItems.removeAll(where: {
-            deletedMessageIds.contains($0.messageId)
-        })
+        
         deletedMessageIds.forEach({
             let messageId = $0
+            self.chatItems.removeAll(where: {
+                $0.messageType == .linkPreview && ($0 as? LinkMessageItem)?.linkMetaData?.parentMessageId == messageId
+            })
             self.chatItems.removeAll(where: {
                 $0.messageId.contains(messageId)
             })
         })
-        
         self.reprepareChatItems()
         let changeSet = StagedChangeset(source: oldChatItems, target: self.chatItems)
         self.collectionView.reload(using: changeSet, interrupt: { $0.changeCount < 500 }, setData: { data in

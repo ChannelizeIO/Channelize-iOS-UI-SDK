@@ -84,9 +84,14 @@ class CHNewMessageController: NewCHTableViewController, UISearchBarDelegate {
         super.viewWillAppear(animated)
         self.navigationItem.titleView = self.searchBar
         self.navigationItem.titleView?.clipsToBounds = true
+        self.hidesBottomBarWhenPushed = true
         self.searchBar.delegate = self
         self.searchBar.becomeFirstResponder()
         self.tableView.contentInset.top = 10
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {

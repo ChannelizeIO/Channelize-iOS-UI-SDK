@@ -314,13 +314,12 @@ class CHGroupsTableViewController: NewCHTableViewController, CHConversationEvent
                 guard errorString == nil else {
                     return
                 }
+                guard conversation?.isGroup == true else {
+                    return
+                }
                 if let recievedConversation = conversation {
-                    guard recievedConversation.isGroup == false else {
-                        return
-                    }
                     self.groupConversations.insert(recievedConversation, at: 0)
                 }
-                
                 self.checkAndSetNoContentView()
             })
         }

@@ -37,13 +37,16 @@ func getViewEndOriginY(view: UIView) -> CGFloat {
 
 func getKeyWindow() -> UIWindow?{
     if #available(iOS 13.0, *) {
-        let keyWindow = UIApplication.shared.connectedScenes
+        if let keyWindow = UIApplication.shared.connectedScenes
         .filter({$0.activationState == .foregroundActive})
         .map({$0 as? UIWindowScene})
         .compactMap({$0})
         .first?.windows
-        .filter({$0.isKeyWindow}).first
-        return keyWindow
+            .filter({$0.isKeyWindow}).first {
+            return keyWindow
+        } else {
+            return UIApplication.shared.delegate?.window ?? nil
+        }
     } else {
         return UIApplication.shared.delegate?.window ?? nil
     }
@@ -68,12 +71,8 @@ func getStringFromDate(date: Date?) -> String? {
 }
 
 func getImage(_ name: String) -> UIImage? {
-    let assetsImageBundle = Bundle(identifier: "com.channelize.ChannelizeUI")
-    if let processedImage = UIImage(named: name, in: assetsImageBundle, compatibleWith: nil) {
-        return processedImage
-    } else {
-        return UIImage(named: name, in: Bundle.init(for: ChUI.self), compatibleWith: nil)
-    }
+    let bundle = Bundle.init(identifier: "com.channelize.ChannelizeUI")
+    return UIImage(named: name, in: bundle, compatibleWith: nil)
 }
 
 func getViewOriginXEnd(view: UIView) -> CGFloat {

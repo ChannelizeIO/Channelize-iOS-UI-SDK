@@ -114,7 +114,7 @@ class SimpleFloatingActionButton: UIButton {
         rippleBackgroundView.alpha = 0
         
         self.setImage(getImage("ic_expand_more")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        self.tintColor = CHAppConstant.themeStyle == CHLightThemeColors.tintColor
+        self.tintColor = CHLightThemeColors.tintColor
         
         setupBadge()
     }
@@ -273,7 +273,6 @@ class SimpleFloatingActionButton: UIButton {
             self.layer.add(groupAnim, forKey:"shadowBack")
         }, completion: nil)
     }
-    
 }
 
 

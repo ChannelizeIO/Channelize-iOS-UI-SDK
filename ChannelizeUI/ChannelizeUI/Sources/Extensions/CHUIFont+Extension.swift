@@ -43,9 +43,8 @@ public extension UIFont {
     private class MyDummyClass {}
     
     static func loadFontWith(name: String) {
-        
-        let fontBundle = Bundle(identifier: "com.channelize.ChannelizeUI")
-        let pathForResourceString = fontBundle?.path(forResource: name, ofType: "ttf")
+        let frameworkBundle = Bundle(for: MyDummyClass.self)
+        let pathForResourceString = frameworkBundle.path(forResource: name, ofType: "ttf")
         let fontData = NSData(contentsOfFile: pathForResourceString!)
         let dataProvider = CGDataProvider(data: fontData!)
         let fontRef = CGFont(dataProvider!)

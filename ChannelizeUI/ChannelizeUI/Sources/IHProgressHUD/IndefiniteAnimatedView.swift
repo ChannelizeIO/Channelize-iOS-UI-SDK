@@ -84,7 +84,7 @@ extension IndefiniteAnimatedView {
             indefinteAnimatedLayer?.path = smoothedPath.cgPath
             
             let maskLayer = CALayer()
-            let image = getImage("angle-mask")!
+            let image = loadImageBundle(named: "angle-mask")!
             maskLayer.contents = image.cgImage
             maskLayer.frame = indefinteAnimatedLayer!.bounds
             indefinteAnimatedLayer?.mask = maskLayer
@@ -194,4 +194,6 @@ extension IndefiniteAnimatedView {
         return (UIImage(named: imageName, in: imageBundle, compatibleWith: nil))
     }
 }
+
+
 

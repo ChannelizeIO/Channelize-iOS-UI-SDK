@@ -125,13 +125,13 @@ class CHGroupProfileViewController: UITableViewController, CHConversationEventDe
                 self.groupImageView.sd_imageIndicator = CHAppConstant.themeStyle == .dark ? SDWebImageActivityIndicator.white :  SDWebImageActivityIndicator.gray
                 self.groupImageView.sd_setImage(with: url, placeholderImage: nil, options: [.continueInBackground], completed: nil)
             } else {
-                let thumbnailSize = CGSize(width: self.view.frame.width * 2, height: 600)
+                let thumbnailSize = CGSize(width: UIScreen.main.bounds.width * 2, height: 600)
                 let imageGenerator = ImageFromStringProvider(name: self.conversation?.title?.capitalized ?? "", imageSize: thumbnailSize)
                 let image = imageGenerator.generateImage(with: 35.0 * 2)
                 self.groupImageView.image = image
             }
         } else {
-            let thumbnailSize = CGSize(width: self.view.frame.width * 2, height: 600)
+            let thumbnailSize = CGSize(width: UIScreen.main.bounds.width * 2, height: 600)
             let imageGenerator = ImageFromStringProvider(name: self.conversation?.title?.capitalized ?? "", imageSize: thumbnailSize)
             let image = imageGenerator.generateImage(with: 35.0 * 2)
             self.groupImageView.image = image
@@ -602,6 +602,7 @@ class CHGroupProfileViewController: UITableViewController, CHConversationEventDe
             }
             if addedAdmin.id == Channelize.getCurrentUserId() {
                 self.galleryButton.isHidden = false
+                self.conversation?.isCurrentUserAdmin = true
             }
         }
         self.tableView.reloadData()

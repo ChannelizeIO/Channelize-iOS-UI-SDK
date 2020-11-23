@@ -134,10 +134,10 @@ class CHUserProfileViewController: UITableViewController, CHConversationEventDel
         })
         self.userProfileImageView.frame.size = CGSize(width: 120, height: 120)
         self.userProfileImageView.frame.origin.y = 25
-        self.userProfileImageView.center.x = self.tableView.frame.width/2
+        self.userProfileImageView.center.x = UIScreen.main.bounds.width/2
         self.userProfileImageView.setViewCircular()
         
-        self.userNameLabel.frame.size = CGSize(width: self.tableView.frame.width - 30, height: 30)
+        self.userNameLabel.frame.size = CGSize(width: UIScreen.main.bounds.width - 30, height: 30)
         self.userNameLabel.frame.origin.x = 15
         self.userNameLabel.frame.origin.y = getViewEndOriginY(view: self.userProfileImageView) + 25
         
@@ -259,6 +259,10 @@ class CHUserProfileViewController: UITableViewController, CHConversationEventDel
                 controller.userId = self.user?.id ?? ""
                 self.navigationController?.pushViewController(controller, animated: true)
             }
+        } else if indexPath.row == 2 {
+            let controller = CHCommonGroupsViewController()
+            controller.userId = self.user?.id ?? ""
+            self.navigationController?.pushViewController(controller, animated: true)
         }
     }
     

@@ -11,6 +11,8 @@
 		1811E0BE24D1ED4100DE487C /* ChannelizeActionIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1811E0BC24D1ED4100DE487C /* ChannelizeActionIcons.xcassets */; };
 		18297DD024F3FB4F00C0AFD4 /* CHGoogleTranslation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18297DCF24F3FB4F00C0AFD4 /* CHGoogleTranslation.swift */; };
 		1842519124C1D74100D02A95 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1842518B24C1CA5100D02A95 /* CallKit.framework */; };
+		1865EEAA2567962700E4B970 /* CHCallMetaMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1865EEA92567962700E4B970 /* CHCallMetaMessageCell.swift */; };
+		1865EEAC2567967300E4B970 /* CHCallMetaMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1865EEAB2567967300E4B970 /* CHCallMetaMessageModel.swift */; };
 		18B07DEC2449DCDD003D1610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEB2449DCDD003D1610 /* AppDelegate.swift */; };
 		18B07DF02449DCDD003D1610 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B07DEF2449DCDD003D1610 /* ViewController.swift */; };
 		18B07DF32449DCDD003D1610 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18B07DF12449DCDD003D1610 /* Main.storyboard */; };
@@ -221,6 +223,8 @@
 		18297DCF24F3FB4F00C0AFD4 /* CHGoogleTranslation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHGoogleTranslation.swift; sourceTree = "<group>"; };
 		1842518B24C1CA5100D02A95 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
 		1842518D24C1CA5800D02A95 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
+		1865EEA92567962700E4B970 /* CHCallMetaMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHCallMetaMessageCell.swift; sourceTree = "<group>"; };
+		1865EEAB2567967300E4B970 /* CHCallMetaMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHCallMetaMessageModel.swift; sourceTree = "<group>"; };
 		18B07DE82449DCDD003D1610 /* ChannelizeUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChannelizeUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18B07DEB2449DCDD003D1610 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18B07DEF2449DCDD003D1610 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -669,6 +673,7 @@
 				EB5F6ABE2497E622004B7676 /* UIAudioMessageCell.swift */,
 				EB5F6ABF2497E622004B7676 /* UILocationMessageCell.swift */,
 				EB5F6AC02497E622004B7676 /* UIQuotedMessageCell.swift */,
+				1865EEA92567962700E4B970 /* CHCallMetaMessageCell.swift */,
 			);
 			path = "Messages Cells";
 			sourceTree = "<group>";
@@ -715,6 +720,7 @@
 				EB5F6ADA2497E622004B7676 /* CHMetaMessageModel.swift */,
 				EB5F6ADB2497E622004B7676 /* CHLinkMessageItem.swift */,
 				EB5F6ADC2497E622004B7676 /* CHTextMessageItem.swift */,
+				1865EEAB2567967300E4B970 /* CHCallMetaMessageModel.swift */,
 			);
 			path = "Messages Model";
 			sourceTree = "<group>";
@@ -1299,6 +1305,7 @@
 				EB5F6BBD2497E626004B7676 /* CHLinkMessageItem.swift in Sources */,
 				EB5F6C102497E626004B7676 /* NoConversationMessageCell.swift in Sources */,
 				EB5F6BE12497E626004B7676 /* CHActionSheetController.swift in Sources */,
+				1865EEAA2567962700E4B970 /* CHCallMetaMessageCell.swift in Sources */,
 				EB5F6B942497E626004B7676 /* CHNewMessageController.swift in Sources */,
 				EB5F6BE02497E626004B7676 /* PhotoCollectionCell.swift in Sources */,
 				EB5F6C222497E626004B7676 /* CHGifyService.swift in Sources */,
@@ -1346,6 +1353,7 @@
 				EB5F6BDF2497E626004B7676 /* MiniPhotoCollectionCell.swift in Sources */,
 				EB76B9372471A9220002BE57 /* IHProgressHUD.swift in Sources */,
 				EB5F6C1F2497E626004B7676 /* MissCallMessageModel.swift in Sources */,
+				1865EEAC2567967300E4B970 /* CHCallMetaMessageModel.swift in Sources */,
 				EB5F6C0C2497E626004B7676 /* ChannelizeImages.swift in Sources */,
 				EB5F6C302497E626004B7676 /* UnReadMessageHeaderCell.swift in Sources */,
 				EB5F6C372497E626004B7676 /* ImageResizer.swift in Sources */,
@@ -1566,7 +1574,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 99PBDFLT63;
+				DEVELOPMENT_TEAM = W84Y3AR95Z;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1590,7 +1598,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 99PBDFLT63;
+				DEVELOPMENT_TEAM = W84Y3AR95Z;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

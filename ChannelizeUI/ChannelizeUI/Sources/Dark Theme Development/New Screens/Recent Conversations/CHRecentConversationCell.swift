@@ -125,6 +125,8 @@ class CHRecentConversationCell: UITableViewCell {
         self.titleLabel.textColor = CHUIConstant.recentConversationTitleColor
         self.messageLabel.textColor = CHUIConstant.recentConversationMessageColor
         self.lastMessageTimeLabel.textColor = CHUIConstant.recentConversationLastUpdatedColor
+        self.unreadMessageCountLabel.backgroundColor = CHAppConstant.themeStyle == .dark ? .white : CHLightThemeColors.tintColor
+        self.unreadMessageCountLabel.textColor = CHAppConstant.themeStyle == .dark ?    CHLightThemeColors.primaryColor : .white
     }
     
     func assignData() {
@@ -339,7 +341,63 @@ class CHRecentConversationCell: UITableViewCell {
     //                } else {
     //                    return String(format: CHLocalized(key: "pmUserMissedVoiceCall"),CHLocalized(key: "pmYou"))
     //                }
+            /**
+            case .callCompleted:
+                let imageName = metaData.callType == .voice ? "chVoiceCallIcon" : "chVideoCallIcon" // chVoiceCallIcon
+                let callDurationString = ((Double(metaData.callDuration ?? 0))).asString(style: .abbreviated)
                 
+                let iconsSize = CGRect(x: 0, y: -2.5, width: 15, height: 15)
+                let fullString = NSMutableAttributedString()
+                let attchment = NSTextAttachment()
+                attchment.image = getImage(imageName)?.imageWithColor(tintColor: CHUIConstant.recentConversationMessageColor)
+                attchment.bounds = iconsSize
+                let attachedImage = NSAttributedString(attachment: attchment)
+                fullString.append(attachedImage)
+                
+                let secondString = NSAttributedString(string: " Call Ended - \(callDurationString)", attributes: [NSAttributedString.Key.font: CHCustomStyles.mediumSizeRegularFont!, NSAttributedString.Key.foregroundColor: CHUIConstant.recentConversationMessageColor])
+                fullString.append(secondString)
+                return fullString
+            case .callNotAnswered:
+                let imageName = metaData.callType == .voice ? "chVoiceCallIcon" : "chVideoCallIcon"
+                let iconsSize = CGRect(x: 0, y: -2.5, width: 15, height: 15)
+                let fullString = NSMutableAttributedString()
+                let attchment = NSTextAttachment()
+                attchment.image = getImage(imageName)?.imageWithColor(tintColor: CHUIConstant.recentConversationMessageColor)
+                attchment.bounds = iconsSize
+                let attachedImage = NSAttributedString(attachment: attchment)
+                fullString.append(attachedImage)
+                
+                let secondString = NSAttributedString(string: " No Answer", attributes: [NSAttributedString.Key.font: CHCustomStyles.mediumSizeRegularFont!, NSAttributedString.Key.foregroundColor: CHUIConstant.recentConversationMessageColor])
+                fullString.append(secondString)
+                return fullString
+            case .callMissed:
+                let imageName = metaData.callType == .voice ? "miss_call" : "missed_video_call"
+                let callTypeStringName = metaData.callType == .voice ? "Missed Voice Call" : "Missed Video Call"
+                let iconsSize = CGRect(x: 0, y: -2.5, width: 15, height: 15)
+                let fullString = NSMutableAttributedString()
+                let attchment = NSTextAttachment()
+                attchment.image = getImage(imageName)?.imageWithColor(tintColor: UIColor.customSystemRed)
+                attchment.bounds = iconsSize
+                let attachedImage = NSAttributedString(attachment: attchment)
+                fullString.append(attachedImage)
+                
+                let secondString = NSAttributedString(string: " \(callTypeStringName)", attributes: [NSAttributedString.Key.font: CHCustomStyles.mediumSizeRegularFont!, NSAttributedString.Key.foregroundColor: CHUIConstant.recentConversationMessageColor])
+                fullString.append(secondString)
+                return fullString
+            case .callDeclined:
+                let imageName = metaData.callType == .voice ? "chVoiceCallIcon" : "chVideoCallIcon"
+                let iconsSize = CGRect(x: 0, y: -2.5, width: 15, height: 15)
+                let fullString = NSMutableAttributedString()
+                let attchment = NSTextAttachment()
+                attchment.image = getImage(imageName)?.imageWithColor(tintColor: CHUIConstant.recentConversationMessageColor)
+                attchment.bounds = iconsSize
+                let attachedImage = NSAttributedString(attachment: attchment)
+                fullString.append(attachedImage)
+                
+                let secondString = NSAttributedString(string: " Call Declined", attributes: [NSAttributedString.Key.font: CHCustomStyles.mediumSizeRegularFont!, NSAttributedString.Key.foregroundColor: CHUIConstant.recentConversationMessageColor])
+                fullString.append(secondString)
+                return fullString
+            */
             default:
                 messageString = ""
             }

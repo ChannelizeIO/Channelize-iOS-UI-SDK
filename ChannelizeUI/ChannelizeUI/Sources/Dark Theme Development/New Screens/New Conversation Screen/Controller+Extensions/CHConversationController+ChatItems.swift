@@ -86,15 +86,19 @@ extension CHConversationViewController {
             
             /// Set Properties Related to Next Item
             if let nextItem = next {
-                // Check for Message Status View
-                if item.senderId == nextItem.senderId {
-                    if !calendar.isDate(item.messageDate, inSameDayAs: nextItem.messageDate) {
-                        item.showMessageStatusView = true
-                    } else {
-                        item.showMessageStatusView = false
-                    }
-                } else {
+                if nextItem.messageType == .callMetaMessage {
                     item.showMessageStatusView = true
+                } else {
+                    // Check for Message Status View
+                    if item.senderId == nextItem.senderId {
+                        if !calendar.isDate(item.messageDate, inSameDayAs: nextItem.messageDate) {
+                            item.showMessageStatusView = true
+                        } else {
+                            item.showMessageStatusView = false
+                        }
+                    } else {
+                        item.showMessageStatusView = true
+                    }
                 }
             } else {
                 item.showMessageStatusView = true
@@ -260,6 +264,16 @@ extension CHConversationViewController {
                 quotedMessageItem.reactions = createMessageReactionModels(chatItem: quotedMessageItem)
             }
             return quotedMessageItem
+//        case .callMetaMessage:
+//            let messageType = message.attachments?.first?.adminMessageType
+//            let callType = CHCallType.voice
+//            let callDuration = message.attachments?.first?.metaData?.callDuration
+//            let subjectId = message.attachments?.first?.metaData?.subjectId
+//            let subjectUser = message.attachments?.first?.metaData?.subjectUser
+//            let subjectType = message.attachments?.first?.metaData?.subjectType
+//            let callMetaData = CHCallMetaData(messageType: messageType, callType: callType, callDuration: callDuration, subjectId: subjectId, subjectType: subjectType, subjectUser: subjectUser, callCreatedAt: nil)
+//            let messageItem = CHCallMetaMessageModel(baseMessageModel: baseMessageData, metaMessageData: callMetaData)
+//            return messageItem
         default:
             return nil
         }
@@ -338,14 +352,16 @@ extension CHConversationViewController {
                 guard firstAttachment.metaData != nil else {
                     return .undefined
                 }
-                if messageType == .missedVideoCall {
+                switch messageType {
+                case .missedVideoCall:
                     return .missedVideoCall
-                } else if messageType == .missedVoiceCall {
+                case .missedVoiceCall:
                     return .missedVoiceCall
-                } else {
+//                case .callMissed, .callCompleted, .callDeclined, .callNotAnswered:
+//                    return .callMetaMessage
+                default:
                     return .metaMessage
                 }
-                
             }
         default:
             return .quotedMessage

@@ -336,3 +336,4 @@ class UIVideoMessageCell: CHBaseMessageCell {
 }
 
 
+

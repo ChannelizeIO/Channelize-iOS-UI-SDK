@@ -410,7 +410,7 @@ extension CHConversationViewController: ReactionPopOverControllerDelegate, UIPop
             self.navigationController?.pushViewController(controller, animated: true)
         })
         
-        let transalateAction = CHActionSheetAction(title: "Translate", image: nil, actionType: .default, handler: {(action) in
+        let transalateAction = CHActionSheetAction(title: CHLocalized(key: "pmTranslate"), image: nil, actionType: .default, handler: {(action) in
             
             var originalText = ""
             if (chatItem is TextMessageItem) {
@@ -1161,4 +1161,5 @@ extension CHConversationViewController: ReactionPopOverControllerDelegate, UIPop
         return String((0..<length).map{ _ in letters.randomElement()! })
     }
 }
+
 

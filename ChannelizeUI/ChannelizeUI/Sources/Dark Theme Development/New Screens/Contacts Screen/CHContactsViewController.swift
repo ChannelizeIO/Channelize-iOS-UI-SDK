@@ -414,8 +414,10 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
         }
         if unBlockedUser.id == Channelize.getCurrentUserId() {
             self.checkStatusAndAppendFriend(user: unBlockerUser)
+            //self.checkAndSetNoContactView()
         } else {
             self.checkStatusAndAppendFriend(user: unBlockedUser)
+            //self.checkAndSetNoContactView()
         }
     }
     
@@ -433,6 +435,7 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
                 ChannelizeAPIService.getRelationshipStatus(userId: updatedUser.id ?? "", completion: {(statusModel,errorString) in
                     if statusModel?.isFollowed == true && statusModel?.hasFollowed == true {
                         self.onlineContacts.append(updatedUser)
+                        self.checkAndSetNoContactView()
                     }
                 })
                 //self.onlineContacts.append(updatedUser)
@@ -450,11 +453,11 @@ class CHContactViewController: NewCHTableViewController, CHUserEventDelegates {
                 ChannelizeAPIService.getRelationshipStatus(userId: updatedUser.id ?? "", completion: {(statusModel,errorString) in
                     if statusModel?.isFollowed == true && statusModel?.hasFollowed == true {
                         self.allContacts.append(updatedUser)
+                        self.checkAndSetNoContactView()
                     }
                 })
             }
         }
-        self.checkAndSetNoContactView()
     }
     
     func didUserAddedAsFriend(model: CHUserAddedFriendModel?) {

@@ -65,6 +65,10 @@ extension CHConversationViewController: UICollectionViewDelegate, UICollectionVi
             return self.configureQuotedMessageCell(collectionView: collectionView, indexPath: indexPath, chatItem: chatItem)
         case .linkPreview:
             return self.configureLinkPreviewMessageCell(collectionView: collectionView, indexPath: indexPath, chatItem: chatItem)
+        case .callMetaMessage:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "callMetaMessageCell", for: indexPath) as! CHCallMetaMessageCell
+            cell.metaMessageModel = chatItem as? CHCallMetaMessageModel
+            return cell
         default:
             return collectionView.dequeueReusableCell(withReuseIdentifier: "undefinedCell", for: indexPath)
         }
@@ -93,6 +97,8 @@ extension CHConversationViewController: UICollectionViewDelegate, UICollectionVi
             return self.getQuotedMessageItemHeight(chatItem: chatItem)
         case .linkPreview:
             return self.getLinkPreviewMessageHeight(chatItem: chatItem)
+        case .callMetaMessage:
+            return CGSize(width: self.collectionView.frame.width, height: 45)
         default:
             return .zero
         }
@@ -452,6 +458,13 @@ extension CHConversationViewController: UICollectionViewDelegate, UICollectionVi
             let labelHeight = translatedFrameSizeInfo.frameSize.height
             
             totalHeight += (labelHeight + 15)
+            
+            
+            //let frameSizeInfo = getTextMessageSizeInfo(maxWidth: 250, withText: attributedString)
+            
+            
+            //let labelHeight = getAttributedLabelHeight(attributedString: textMessageItem?.translatedAttributedString ?? NSAttributedString(), maximumWidth: frameSize.width + 26 - 27.5, numberOfLines: 0)
+            //totalHeight += labelHeight + 15//+ (reactionsViewHeight > 0 ? 12 : 0)
         }
         
         return CGSize(width: self.view.frame.width, height: totalHeight)
@@ -656,4 +669,5 @@ extension CHConversationViewController: UICollectionViewDelegate, UICollectionVi
     }
     
 }
+
 

@@ -273,12 +273,20 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
             self.audioModel = nil
             self.audioRecorder?.stop()
             self.audioRecorder = nil
-            self.tabBarController?.tabBar.isHidden = false
+            //self.tabBarController?.tabBar.isHidden = false
             Channelize.removeUserEventDelegate(identifier: self.screenIdentifier)
             Channelize.removeConversationDelegate(identifier: self.screenIdentifier)
             ChannelizeAPIService.leaveReactionsSubscribers(conversationId: self.conversation?.id ?? "")
         }
         self.navigationController?.setToolbarHidden(true, animated: true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if self.isMovingFromParent {
+            self.tabBarController?.tabBar.isHidden = false
+        }
+        
     }
     
     func findUsersPublicKeys(completion: @escaping(Bool) -> Void) {
@@ -330,32 +338,31 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
             self.navigationController?.popViewController(animated: true)
         }
         
-        // When Voice Call Button is Pressed in Header View
-        self.headerView.voiceCallButtonPressed = {
-            let bundleUrl = Bundle.url(forResource: "ChannelizeCall", withExtension: "framework", subdirectory: "Frameworks", in: Bundle.main.bundleURL)
-            let bundle = Bundle(url: bundleUrl!)
-            bundle?.load()
-            let aClass : AnyClass? = NSClassFromString("ChannelizeCall.CHCall")
-            if let callMainClass = aClass as? CallSDKDelegates.Type{
-                if let unwrappedUser = self.conversation?.conversationPartner {
-                    callMainClass.launchCallViewController(navigationController: self.navigationController, user: unwrappedUser, type: CHCallScreen.voice.rawValue)
-                }
-            }
-        }
-        
-        // When Video Call Button is Pressed in Header View
-        self.headerView.videoCallButtonPressed = {
-            let bundleUrl = Bundle.url(forResource: "ChannelizeCall", withExtension: "framework", subdirectory: "Frameworks", in: Bundle.main.bundleURL)
-            let bundle = Bundle(url: bundleUrl!)
-            bundle?.load()
-            let aClass : AnyClass? = NSClassFromString("ChannelizeCall.CHCall")
-            if let callMainClass = aClass as? CallSDKDelegates.Type{
-                if let unwrappedUser = self.conversation?.conversationPartner {
-                    callMainClass.launchCallViewController(navigationController: self.navigationController, user: unwrappedUser, type: CHCallScreen.video.rawValue)
-                }
-            }
-        }
-        
+         // When Voice Call Button is Pressed in Header View
+       self.headerView.voiceCallButtonPressed = {
+           let bundleUrl = Bundle.url(forResource: "ChannelizeCall", withExtension: "framework", subdirectory: "Frameworks", in: Bundle.main.bundleURL)
+           let bundle = Bundle(url: bundleUrl!)
+           bundle?.load()
+           let aClass : AnyClass? = NSClassFromString("ChannelizeCall.CHCall")
+           if let callMainClass = aClass as? CallSDKDelegates.Type{
+               if let unwrappedUser = self.conversation?.conversationPartner {
+                   callMainClass.launchCallViewController(navigationController: self.navigationController, user: unwrappedUser, type: CHCallScreen.voice.rawValue)
+               }
+           }
+       }
+       
+       // When Video Call Button is Pressed in Header View
+       self.headerView.videoCallButtonPressed = {
+           let bundleUrl = Bundle.url(forResource: "ChannelizeCall", withExtension: "framework", subdirectory: "Frameworks", in: Bundle.main.bundleURL)
+           let bundle = Bundle(url: bundleUrl!)
+           bundle?.load()
+           let aClass : AnyClass? = NSClassFromString("ChannelizeCall.CHCall")
+           if let callMainClass = aClass as? CallSDKDelegates.Type{
+               if let unwrappedUser = self.conversation?.conversationPartner {
+                   callMainClass.launchCallViewController(navigationController: self.navigationController, user: unwrappedUser, type: CHCallScreen.video.rawValue)
+               }
+           }
+       }
         // When Menu Button Is pressed
         self.headerView.menuButtonPressed = {
             self.view.endEditing(true)
@@ -504,6 +511,7 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
         self.collectionView.register(CHMetaMessageCell.self, forCellWithReuseIdentifier: "metaMessageCell")
         self.collectionView.register(UIQuotedMessageCell.self, forCellWithReuseIdentifier: "quotedMessageCell")
         self.collectionView.register(UILinkPreviewMessageCell.self, forCellWithReuseIdentifier: "linkPreviewMessageCell")
+        self.collectionView.register(CHCallMetaMessageCell.self, forCellWithReuseIdentifier: "callMetaMessageCell")
         
         
         self.view.addSubview(self.collectionView)
@@ -582,7 +590,7 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
         self.keyBoardManager?.on(event: .willShow, do: {[weak self] notification in
             if let strongSelf = self {
                 print("KeyBoard height is -> \(notification.endFrame.height)")
-                guard notification.endFrame.height != 0.0 else {
+                guard notification.endFrame.height != 0.0, strongSelf.isShowingKeyboard == false else {
                     return
                 }
                 strongSelf.isShowingKeyboard = true
@@ -661,4 +669,5 @@ class CHConversationViewController: UIViewController, UIGestureRecognizerDelegat
     */
 
 }
+
 

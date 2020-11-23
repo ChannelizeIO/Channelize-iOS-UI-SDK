@@ -140,14 +140,14 @@ class ListTransform<T:Object> : TransformType where T:Mappable {
 
 
 //public struct ListTransform<T: RealmSwift.Object>: TransformType where T: BaseMappable {
-//    
+//
 //    public typealias Serialize = (List<T>) -> ()
 //    private let onSerialize: Serialize
-//    
+//
 //    public init(onSerialize: @escaping Serialize = { _ in }) {
 //        self.onSerialize = onSerialize
 //    }
-//    
+//
 //    public typealias Object = List<T>
 //    public typealias JSON = Array<Any>
 //    let mapper = Mapper<T>()
@@ -159,7 +159,7 @@ class ListTransform<T:Object> : TransformType where T:Mappable {
 //        self.onSerialize(list)
 //        return list
 //    }
-//    
+//
 //    public func transformToJSON(_ value: Object?) -> JSON? {
 //        var results = [[String:Any]]()
 //        if let _value = value {
@@ -170,7 +170,7 @@ class ListTransform<T:Object> : TransformType where T:Mappable {
 //        }
 //        return results
 //    }
-//    
+//
 //}
 
 class CHRealmUserModel: Object, Mappable {
@@ -434,3 +434,4 @@ class CHRealmAttachmentMetaData: Object, Mappable {
 }
 
 */
+

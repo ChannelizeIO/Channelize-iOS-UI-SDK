@@ -121,6 +121,8 @@ class AssetListController: UICollectionViewController {
                 }
             })
             break
+        default:
+            break
         }
     }
     

@@ -51,6 +51,9 @@ enum BaseMessageType {
     case unReadMessage
     case quotedMessage
     case doc
+    case callMetaMessage
+    case callCompleted
+    case callDeclined
 }
 
 enum VideoCallQuality : String{
@@ -74,4 +77,5 @@ enum AudioPermission{
     case denied
     case unknown
 }
+
 

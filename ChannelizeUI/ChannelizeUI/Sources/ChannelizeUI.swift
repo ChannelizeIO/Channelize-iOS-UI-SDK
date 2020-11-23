@@ -151,9 +151,8 @@ public class ChUI {
     func getVirgilAppId() -> String {
         return self.virgilAppId ?? ""
     }
-    
-    
-    
 }
+
+
 
 

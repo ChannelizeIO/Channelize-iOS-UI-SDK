@@ -13,6 +13,10 @@ import DifferenceKit
 import AVFoundation
 import Photos
 import SDWebImage
+import MobileCoreServices
+#if swift(>=5.3)
+import PhotosUI
+#endif
 
 protocol LocationSharingControllerDelegates: class {
     func didSelectLocation(coordinates: CLLocationCoordinate2D, name: String, address: String)
@@ -56,7 +60,7 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
         locationMessageQueryBuilder.messageType = .normal
         locationMessageQueryBuilder.ownerId = senderId
         locationMessageQueryBuilder.attachments = [locationAttachmentBuilder]
-        locationMessageQueryBuilder.createdAt = messageDate
+        
         self.conversation?.lastReadDictionary?.updateValue(ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
         self.conversation?.updateLastMessageOldestRead()
         
@@ -166,7 +170,7 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
             videoMessageQueryBuilder.ownerId = senderId
             videoMessageQueryBuilder.attachments = [videoAttachmentQueryBuilder]
             videoMessageQueryBuilder.isEncrypted = ChVirgilE3Kit.isEndToEndEncryptionEnabled
-            videoMessageQueryBuilder.createdAt = messageDate
+            
             self.noMessageContentView.removeFromSuperview()
             
             self.conversation?.lastReadDictionary?.updateValue(
@@ -289,7 +293,7 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                 messageQueryBuilder.ownerId = Channelize.getCurrentUserId()
                 messageQueryBuilder.attachments = [docAttachment]
                 messageQueryBuilder.isEncrypted = ChVirgilE3Kit.isEndToEndEncryptionEnabled
-                messageQueryBuilder.createdAt = messageDate
+                
                 self.noMessageContentView.removeFromSuperview()
                 
                 self.conversation?.lastReadDictionary?.updateValue(
@@ -427,6 +431,8 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
                     }
                 }
             }
+            break
+        @unknown default:
             break
         }
     }
@@ -677,7 +683,6 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
             audioMessageQueryBuilder.ownerId = senderId
             audioMessageQueryBuilder.attachments = [audioAttachmentQueryBuilder]
             audioMessageQueryBuilder.isEncrypted = ChVirgilE3Kit.isEndToEndEncryptionEnabled
-            audioMessageQueryBuilder.createdAt = messageDate
             self.noMessageContentView.removeFromSuperview()
             
             self.conversation?.lastReadDictionary?.updateValue(
@@ -718,10 +723,29 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
     
     // MARK: - Image Attachment Functions
     func openImageSelector() {
-        let layout = UICollectionViewFlowLayout()
-        let controller = AssetListController(collectionViewLayout: layout)
-        controller.delegate = self
-        self.navigationController?.pushViewController(controller, animated: true)
+        #if swift(>=5.3)
+        if #available(iOS 14, *) {
+            var pickerConfiguration = PHPickerConfiguration()
+            pickerConfiguration.selectionLimit = 10
+            pickerConfiguration.filter = .images
+            let controller = PHPickerViewController(configuration: pickerConfiguration)
+            controller.delegate = self
+            controller.modalTransitionStyle = .crossDissolve
+            controller.modalPresentationStyle = .overFullScreen
+            //self.navigationController?.pushViewController(controller, animated: true)
+            self.present(controller, animated: true, completion: nil)
+        } else {
+            let layout = UICollectionViewFlowLayout()
+            let controller = AssetListController(collectionViewLayout: layout)
+            controller.delegate = self
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+        #else
+            let layout = UICollectionViewFlowLayout()
+            let controller = AssetListController(collectionViewLayout: layout)
+            controller.delegate = self
+            self.navigationController?.pushViewController(controller, animated: true)
+        #endif
     }
     
     func accessAssetImages(assetImages: [UIImage]) {
@@ -857,7 +881,7 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
         imageMessageQueryBuilder.messageType = .normal
         imageMessageQueryBuilder.ownerId = senderId
         imageMessageQueryBuilder.attachments = [imageAttachmentQueryBuilder]
-        imageMessageQueryBuilder.createdAt = messageDate
+        
         self.conversation?.lastReadDictionary?.updateValue(
             ISODateTransform().transformToJSON(messageDate) ?? "", forKey: Channelize.getCurrentUserId())
         self.conversation?.updateLastMessageOldestRead()
@@ -946,7 +970,7 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
         }
         gifStickerMessageQueryBuilder.messageType = .normal
         gifStickerMessageQueryBuilder.ownerId = senderId
-        gifStickerMessageQueryBuilder.createdAt = messageDate
+        
         if type == .gif {
             let gifAttachmentQueryBuilder = CHGifAttachmentQueryBuilder()
             gifAttachmentQueryBuilder.gifStillUrl = model.stillUrl
@@ -1008,6 +1032,55 @@ extension CHConversationViewController: LocationSharingControllerDelegates, UIIm
     }
     
 }
+
+#if swift(>=5.3)
+@available(iOS 14, *)
+extension CHConversationViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        dismiss(animated: true, completion: nil)
+        guard !results.isEmpty else { return }
+        
+        for result in results {
+            let provider = result.itemProvider
+            if provider.canLoadObject(ofClass: UIImage.self) {
+                provider.loadDataRepresentation(forTypeIdentifier: kUTTypeImage as String, completionHandler: {(data,error) in
+                    DispatchQueue.main.async {
+                        if let imageData = data {
+                            let imageExtension : ImageFormat = ImageFormat.get(from: imageData)
+                            let messageId = UUID()
+                            let imageName = provider.suggestedName ?? "\(messageId.uuidString.lowercased()).\(imageExtension.rawValue)"
+                            let fileName = self.getDocumentsDirectory().appendingPathComponent(imageName)
+                            do {
+                                try imageData.write(to: fileName)
+                            } catch {
+                                print(error.localizedDescription)
+                            }
+                            let originalImage = UIImage(contentsOfFile: fileName.path)
+                            let resourceFileName = "\(UUID().uuidString).\(imageExtension.rawValue)"
+                            let storageUrl = self.getDocumentsDirectory().appendingPathComponent(resourceFileName)
+                            let imageFormat = ImageEncoder().get(from: imageData)
+                            
+                            let isImageEncoded = ImageEncoder().encodeImage(storageUrl: storageUrl, image: originalImage, format: imageFormat, maxPixelSize: CGSize(width: 1500, height: 1500))
+                            
+                            if isImageEncoded {
+                                if let encodedImage = UIImage(contentsOfFile: storageUrl.path) {
+                                    do {
+                                        try FileManager.default.removeItem(atPath: fileName.path)
+                                        //try FileManager.default.removeItem(atPath: storageUrl.path)
+                                    } catch {
+                                        print(error.localizedDescription)
+                                    }
+                                    self.createImageUploadRequest(with: encodedImage, messageId: messageId)
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+        }
+    }
+}
+#endif
 
 enum CoreGraphics {
     static func resizedImage(at url: URL, for size: CGSize) -> UIImage? {

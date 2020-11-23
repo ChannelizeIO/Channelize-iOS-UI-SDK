@@ -118,7 +118,7 @@ class CHMissCallMessageCell: BaseChatItemCollectionCell {
         self.missCallIcon.center.y = self.typeOfCallLabel.center.y
         
         self.dividerLine.frame.origin.x = 0
-        self.dividerLine.frame.origin.y = getViewOriginYEnd(view: self.typeOfCallLabel) 
+        self.dividerLine.frame.origin.y = getViewOriginYEnd(view: self.typeOfCallLabel)
         self.dividerLine.frame.size.height = 1.0
         self.dividerLine.frame.size.width = self.containerView.frame.width
         
@@ -168,3 +168,4 @@ class CHMissCallMessageCell: BaseChatItemCollectionCell {
     }
 }
 */
+
